@@ -1,0 +1,32 @@
+﻿.brand-logo {
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+.brand-logo-zerotrace {
+  width: 150px;
+  height: 58px;
+}
+
+.brand-logo-trasy {
+  width: 100px;
+  height: 70px;
+}
+
+.brand-logo-zerotrace,
+.brand-logo-trasy {
+  border-radius: 10px;
+}
+
+@media (max-width: 700px) {
+  .brand-logo-zerotrace {
+    width: 125px;
+    height: 48px;
+  }
+
+  .brand-logo-trasy {
+    width: 82px;
+    height: 58px;
+  }
+}

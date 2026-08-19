@@ -1,0 +1,56 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --zt-bg: #090d20;
+  --zt-surface: rgba(17, 24, 50, .78);
+  --zt-surface-2: #151d3b;
+  --zt-text: #F5F2FB;
+  --zt-muted: #929cba;
+  --zt-cyan: #22d3ee;
+  --zt-purple: #9b6cff;
+  --zt-violet: var(--zt-purple);
+  --zt-pink: #FF3CAC;
+  --zt-mint: #2DD4BF;
+  --zt-border: rgba(255, 255, 255, .09);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+
+  background: #101528;
+  color: var(--zt-text);
+
+  font-family: "Inter", sans-serif;
+
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(255,60,172,.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

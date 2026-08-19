@@ -1,0 +1,490 @@
+﻿.trasy-page {
+  min-height: 100vh;
+  color: #f5f4ff;
+  background:
+    radial-gradient(circle at 75% 15%, rgba(139,92,246,.14), transparent 28%),
+    radial-gradient(circle at 15% 45%, rgba(34,211,238,.05), transparent 25%),
+    #090d20;
+}
+
+.trasy-hero {
+  width: min(1250px, calc(100% - 48px));
+  min-height: 760px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.trasy-kicker,
+.trasy-intro > span,
+.trasy-features > .trasy-section-heading > span,
+.trasy-pipeline > span,
+.trasy-cta > div > span {
+  color: #22d3ee;
+  font: 10px monospace;
+  letter-spacing: 2px;
+}
+
+.trasy-hero h1 {
+  margin: 25px 0;
+  font-size: clamp(58px, 7vw, 100px);
+  line-height: .88;
+  letter-spacing: -5px;
+}
+
+.trasy-hero h1 em,
+.trasy-intro h2 em,
+.trasy-pipeline h2 em,
+.trasy-cta h2 em {
+  color: #a56cff;
+  font-style: normal;
+}
+
+.trasy-hero h1 strong {
+  color: #22d3ee;
+  font-weight: inherit;
+}
+
+.trasy-hero-copy > p {
+  max-width: 650px;
+  color: #8d97b7;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.trasy-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+.trasy-actions a,
+.trasy-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.trasy-primary,
+.trasy-cta a {
+  color: white;
+  background: linear-gradient(100deg,#8b5cf6,#ec3ca8);
+}
+
+.trasy-secondary {
+  color: #aeb7d2;
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+/* AI CORE */
+
+.trasy-core {
+  position: relative;
+  width: min(540px,100%);
+  height: 570px;
+  margin: auto;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(139,92,246,.25);
+  border-radius: 30px;
+  background: linear-gradient(145deg,#171e3c,#0d1229);
+  box-shadow:
+    0 0 100px rgba(139,92,246,.12),
+    inset 0 0 80px rgba(34,211,238,.025);
+}
+
+.trasy-core-grid {
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(34,211,238,.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.trasy-scan{position:absolute;z-index:2;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,#22d3ee,transparent);box-shadow:0 0 18px #22d3ee;animation:trasyScan 4s ease-in-out infinite}
+@keyframes trasyScan{0%,100%{transform:translateY(-190px);opacity:0}15%,85%{opacity:.8}50%{transform:translateY(190px)}}
+
+.trasy-orbit {
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  border: 1px solid rgba(34,211,238,.3);
+  border-radius: 50%;
+  animation: trasyOrbit 8s linear infinite;
+}
+
+.orbit-two {
+  width: 390px;
+  height: 180px;
+  transform: rotate(35deg);
+  border-color: rgba(165,108,255,.3);
+  animation-duration: 10s;
+}
+
+.orbit-three {
+  width: 230px;
+  height: 410px;
+  transform: rotate(-35deg);
+  border-color: rgba(236,60,168,.22);
+  animation-duration: 12s;
+}
+
+.trasy-ai-node {
+  position: relative;
+  z-index: 4;
+  width: 125px;
+  height: 125px;
+  display: grid;
+  place-items: center;
+  color: #67e8f9;
+  border: 1px solid rgba(34,211,238,.5);
+  border-radius: 35px;
+  background: rgba(11,20,45,.9);
+  box-shadow:
+    0 0 35px rgba(34,211,238,.25),
+    inset 0 0 30px rgba(139,92,246,.1);
+  animation: trasyPulse 3s ease-in-out infinite;
+}
+
+.trasy-status {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  color: #6d7898;
+  font: 9px monospace;
+  letter-spacing: 2px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 12px #22d3ee;
+}
+
+.trasy-floating {
+  position: absolute;
+  z-index: 5;
+  padding: 15px 18px;
+  min-width: 110px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  background: rgba(8,13,32,.9);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 40px rgba(0,0,0,.3);
+}
+
+.trasy-floating small {
+  display: block;
+  color: #59627e;
+  font: 8px monospace;
+  letter-spacing: 1px;
+}
+
+.trasy-floating strong {
+  display: block;
+  margin-top: 7px;
+  color: #22d3ee;
+  font-size: 14px;
+}
+
+.floating-threat {
+  top: 120px;
+  right: 30px;
+}
+
+.floating-threat strong {
+  color: #ec3ca8;
+}
+
+.floating-analysis {
+  bottom: 125px;
+  left: 25px;
+}
+
+.floating-score {
+  bottom: 55px;
+  right: 35px;
+}
+
+.trasy-core-label {
+  position: absolute;
+  bottom: 35px;
+  text-align: center;
+}
+
+.trasy-core-label strong {
+  display: block;
+  font-size: 32px;
+  letter-spacing: 4px;
+}
+
+.trasy-core-label span {
+  color: #626d8b;
+  font: 8px monospace;
+  letter-spacing: 2px;
+}
+
+@keyframes trasyOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes trasyPulse {
+  0%,100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 60px rgba(34,211,238,.35);
+  }
+}
+
+/* CONTENT */
+
+.trasy-intro,
+.trasy-features,
+.trasy-dimensions,
+.trasy-pipeline {
+  width: min(1180px, calc(100% - 48px));
+  margin: auto;
+  padding: 110px 0;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.dimension-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:40px}.dimension-grid article{padding:20px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(17,24,50,.72)}.dimension-grid article>div:first-child{display:flex;justify-content:space-between;gap:15px;font-size:12px}.dimension-grid span{color:#22d3ee;font:11px monospace}.dimension-track{height:5px;margin-top:17px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.07)}.dimension-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#22d3ee,#a56cff,#ec3ca8);animation:dimensionGrow 1.5s ease both}@keyframes dimensionGrow{from{width:0}}.trasy-evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:45px}.trasy-evidence-grid article{padding:25px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:#111832}.trasy-evidence-grid span{color:#22d3ee;font:9px monospace;letter-spacing:1px}.trasy-evidence-grid h3{margin:24px 0 10px}.trasy-evidence-grid p{color:#7f89a8;font-size:13px;line-height:1.6}
+
+.trasy-intro {
+  display: grid;
+  grid-template-columns: .5fr 1.5fr;
+  gap: 70px;
+}
+
+.trasy-intro h2,
+.trasy-section-heading h2,
+.trasy-pipeline h2 {
+  margin: 20px 0;
+  font-size: clamp(45px,6vw,75px);
+  line-height: .95;
+  letter-spacing: -4px;
+}
+
+.trasy-intro p {
+  max-width: 700px;
+  color: #8994b5;
+  line-height: 1.8;
+}
+
+.trasy-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+  margin-top: 45px;
+}
+
+.trasy-feature-card {
+  min-height: 220px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 16px;
+  background: rgba(19,26,50,.65);
+  transition: .25s;
+}
+
+.trasy-feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(34,211,238,.3);
+}
+
+.feature-top {
+  display: flex;
+  justify-content: space-between;
+  color: #22d3ee;
+}
+
+.feature-top span {
+  color: #59627f;
+  font: 10px monospace;
+}
+
+.trasy-feature-card h3 {
+  margin-top: 55px;
+}
+
+.trasy-feature-card p {
+  color: #7f89a8;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.pipeline-line {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  margin-top: 55px;
+  border-top: 1px solid rgba(34,211,238,.25);
+}
+
+.pipeline-line > div {
+  padding: 25px 15px;
+  border-right: 1px solid rgba(255,255,255,.07);
+}
+
+.pipeline-line b,
+.pipeline-line span {
+  display: block;
+  color: #59627f;
+  font: 9px monospace;
+}
+
+.pipeline-line strong {
+  display: block;
+  margin: 20px 0 8px;
+  color: #f4f3ff;
+  font-size: 12px;
+}
+
+.trasy-cta {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto 100px;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border: 1px solid rgba(139,92,246,.25);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(139,92,246,.15),transparent 35%),
+    #111832;
+}
+
+.trasy-cta h2 {
+  margin: 20px 0 10px;
+  font-size: clamp(42px,5vw,70px);
+  line-height: .9;
+  letter-spacing: -3px;
+}
+
+.trasy-cta p {
+  max-width: 600px;
+  color: #8994b5;
+  line-height: 1.7;
+}
+
+@media(max-width:950px) {
+  .trasy-hero {
+    grid-template-columns: 1fr;
+    padding: 80px 0;
+  }
+
+  .trasy-core {
+    width: 100%;
+  }
+
+  .trasy-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .trasy-feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pipeline-line {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width:600px) {
+  .trasy-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trasy-cta {
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .trasy-hero h1 {
+    letter-spacing: -3px;
+  }
+}
+.trasy-core-radar {
+  position: absolute;
+  inset: -35px;
+  border-radius: 50%;
+  border: 1px solid rgba(34,211,238,.18);
+  animation: trasyRadar 8s linear infinite;
+}
+
+.trasy-core-radar span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 14px #22d3ee;
+}
+
+.trasy-core-radar span:nth-child(1) {
+  top: 15%;
+  left: 50%;
+}
+
+.trasy-core-radar span:nth-child(2) {
+  right: 12%;
+  top: 55%;
+  background: #ec3ca8;
+  box-shadow: 0 0 14px #ec3ca8;
+}
+
+.trasy-core-radar span:nth-child(3) {
+  bottom: 12%;
+  left: 25%;
+  background: #a56cff;
+  box-shadow: 0 0 14px #a56cff;
+}
+
+.trasy-ai-symbol {
+  position: relative;
+  z-index: 5;
+  font-family: monospace;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: #67e8f9;
+  text-shadow:
+    0 0 15px rgba(34,211,238,.8),
+    0 0 40px rgba(139,92,246,.5);
+  animation: trasySymbolPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes trasyRadar {
+  to {
+    transform: rotate(360deg);
+  }
+  .dimension-grid,.trasy-evidence-grid{grid-template-columns:1fr}.trasy-core{height:480px}.trasy-floating{transform:scale(.85)}
+}
+
+@keyframes trasySymbolPulse {
+  0%,100% {
+    transform: scale(1);
+    opacity: .85;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,105 @@
+﻿.zt-navbar {
+  width: min(1280px, calc(100% - 48px));
+  min-height: 86px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: relative;
+  z-index: 20;
+}
+
+.zt-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.zt-brand .brand-logo-zerotrace {
+  width: 145px;
+  height: 62px;
+  mix-blend-mode: screen;
+}
+
+.zt-nav {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.zt-nav a {
+  color: #b8b5c9;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: .25s ease;
+}
+
+.zt-nav a:hover,
+.zt-nav a.active {
+  color: #f7f5fa;
+}
+
+.zt-break-button {
+  min-width: 170px;
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(139,92,246,.35);
+  border-radius: 14px;
+  color: #f7f5fa;
+  background: linear-gradient(
+    135deg,
+    rgba(139,92,246,.16),
+    rgba(255,60,172,.10)
+  );
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  transition: .3s ease;
+}
+
+.zt-break-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,60,172,.7);
+  box-shadow: 0 12px 35px rgba(139,92,246,.18);
+}
+
+.zt-break-button .brand-logo-trasy {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+
+.zt-arrow {
+  color: #ff3cac;
+  font-size: 16px;
+}
+
+@media (max-width: 850px) {
+  .zt-navbar {
+    width: calc(100% - 28px);
+    min-height: 74px;
+  }
+
+  .zt-nav {
+    display: none;
+  }
+
+  .zt-brand .brand-logo-zerotrace {
+    width: 120px;
+    height: 52px;
+  }
+
+  .zt-break-button {
+    min-width: 130px;
+    height: 42px;
+    font-size: 9px;
+  }
+}

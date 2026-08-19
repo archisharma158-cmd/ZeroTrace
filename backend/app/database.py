@@ -7,6 +7,9 @@ db = client[DATABASE_NAME]
 tasks_collection = db["tasks"]
 traces_collection = db["traces"]
 evaluations_collection = db["evaluations"]
+scenarios_collection = db["scenarios"]
+full_evaluations_collection = db["full_evaluations"]
+
 
 
 async def ping_db() -> bool:

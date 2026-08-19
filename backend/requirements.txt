@@ -1,6 +1,9 @@
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
 pydantic==2.9.2
-motor==3.6.0
 python-dotenv==1.0.1
-openai==1.51.0
+openai==3.3.1
+httpx==0.28.1
+pymongo==4.17.0
+google-genai==2.18.1
+requests==2.34.2

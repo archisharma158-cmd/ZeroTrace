@@ -1,10 +1,14 @@
 import json
+import logging
 from typing import Any, Dict
 
-import httpx
+from google import genai
+from google.genai import types
 
 from app.config import GEMINI_API_KEY, GEMINI_MODEL
+from app.services.scenario_generator import robust_json_parse
 
+logger = logging.getLogger(__name__)
 
 _EVALUATOR_PROMPT = """You are a strict AI evaluator for an AI agent reliability engine called ZeroTrace.
 
@@ -37,7 +41,6 @@ Return ONLY valid JSON in exactly this structure:
 }
 """
 
-
 _DEFAULT_EVALUATION: Dict[str, Any] = {
     "correctness": 50,
     "relevance": 50,
@@ -47,6 +50,17 @@ _DEFAULT_EVALUATION: Dict[str, Any] = {
     "failures": ["Gemini evaluator failed; default scores were applied."],
     "recommendations": ["Re-run the evaluation."],
 }
+
+_gemini_client = None
+
+def _get_gemini_client() -> genai.Client:
+    """Lazily load genai Client to prevent startup errors if key is missing."""
+    global _gemini_client
+    if _gemini_client is None:
+        if not GEMINI_API_KEY or not GEMINI_API_KEY.strip():
+            raise ValueError("GEMINI_API_KEY is not configured or is empty.")
+        _gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+    return _gemini_client
 
 
 async def evaluate_agent(
@@ -73,71 +87,33 @@ async def evaluate_agent(
         f"AGENT OUTPUT:\n{agent_output}"
     )
 
-    url = (
-        "https://generativelanguage.googleapis.com/v1beta/"
-        f"models/{GEMINI_MODEL}:generateContent"
-    )
-
-    payload = {
-        "contents": [
-            {
-                "role": "user",
-                "parts": [
-                    {
-                        "text": prompt
-                    }
-                ]
-            }
-        ],
-        "generationConfig": {
-            "temperature": 0,
-            "responseMimeType": "application/json"
-        }
-    }
-
-    headers = {
-        "x-goog-api-key": GEMINI_API_KEY,
-        "Content-Type": "application/json",
-    }
-
     try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                url,
-                headers=headers,
-                json=payload,
+        client = _get_gemini_client()
+        response = await client.aio.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.0,
+                response_mime_type="application/json"
             )
-
-        response.raise_for_status()
-
-        data = response.json()
-
-        raw = (
-            data["candidates"][0]["content"]["parts"][0]["text"]
         )
-
+        raw = response.text
+        if not raw:
+            raise ValueError("Empty content response text from Gemini.")
+            
         return _parse_evaluation(raw)
 
-    except Exception:
+    except Exception as e:
+        logger.error("Gemini evaluation failed safely: %s", repr(e))
         return dict(_DEFAULT_EVALUATION)
 
 
+
 def _parse_evaluation(raw: str) -> Dict[str, Any]:
-
-    cleaned = raw.strip()
-
-    if cleaned.startswith("```"):
-        cleaned = cleaned.split("\n", 1)[-1]
-
-    if cleaned.endswith("```"):
-        cleaned = cleaned.rsplit("```", 1)[0]
-
-    cleaned = cleaned.strip()
-
     try:
-        data = json.loads(cleaned)
-
-    except json.JSONDecodeError:
+        data = robust_json_parse(raw)
+    except Exception as e:
+        logger.error("Malformed JSON returned by Gemini. Error: %s", e)
         return dict(_DEFAULT_EVALUATION)
 
     result: Dict[str, Any] = {}

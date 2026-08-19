@@ -4,7 +4,7 @@ Deterministic reliability scoring — no LLM involved.
 Weighted formula + risk-level classification.
 """
 
-from typing import Dict
+from typing import Dict, Optional
 
 # ── Weight configuration (easy to tweak) ──────────────────────────────
 WEIGHTS: Dict[str, float] = {
@@ -48,3 +48,30 @@ def classify_risk(reliability_score: float) -> str:
         if reliability_score >= threshold:
             return level
     return DEFAULT_RISK_LEVEL
+
+
+def aggregate_metrics(
+    gemini_metrics: Dict[str, int],
+    mistral_metrics: Optional[Dict[str, int]] = None,
+) -> Dict[str, int]:
+    """
+    Average Gemini and Mistral scores for each reliability metric when both are available.
+    Use Gemini alone if Mistral is None or failed.
+    """
+    if not mistral_metrics:
+        return dict(gemini_metrics)
+
+    aggregated: Dict[str, int] = {}
+    for key in [
+        "correctness",
+        "relevance",
+        "completeness",
+        "consistency",
+        "hallucination_risk",
+    ]:
+        gemini_val = gemini_metrics.get(key, 50)
+        mistral_val = mistral_metrics.get(key, 50)
+        # Round the averaged value to the nearest integer
+        aggregated[key] = int(round((gemini_val + mistral_val) / 2))
+    return aggregated
+

@@ -1,0 +1,131 @@
+﻿.zt-history-page {
+  min-height: calc(100vh - 118px);
+  padding: 90px 7%;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(139,92,246,.14), transparent 35%),
+    #080c1e;
+  color: #fff;
+}
+
+.zt-history-header {
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 30px;
+}
+
+.zt-history-header span {
+  color: #22d3ee;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.zt-history-header h1 {
+  margin: 14px 0;
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: .95;
+}
+
+.zt-history-header h1 strong {
+  color: #a855f7;
+}
+
+.zt-history-header p {
+  color: #9299b7;
+  font-size: 17px;
+}
+
+.zt-history-clear {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(236,72,153,.4);
+  background: rgba(236,72,153,.08);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.zt-history-list {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.zt-history-card {
+  display: grid;
+  grid-template-columns: 1fr 150px 60px;
+  align-items: center;
+  gap: 25px;
+  padding: 25px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(139,92,246,.18);
+  border-radius: 16px;
+  background: rgba(20,25,52,.72);
+}
+
+.zt-history-card span,
+.zt-history-score small {
+  color: #737b9d;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.zt-history-card h3 {
+  margin: 8px 0;
+  font-size: 21px;
+}
+
+.zt-history-card p {
+  color: #8e96b4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zt-history-score strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 30px;
+  color: #22d3ee;
+}
+
+.zt-delete-history {
+  border: 0;
+  background: rgba(239,68,68,.1);
+  color: #fb7185;
+  padding: 10px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.zt-history-empty {
+  text-align: center;
+  padding: 100px 30px;
+  border: 1px dashed rgba(139,92,246,.3);
+  border-radius: 20px;
+  color: #8e96b4;
+}
+
+.zt-history-empty h2 {
+  color: #fff;
+  margin: 20px 0 10px;
+}
+
+@media (max-width: 700px) {
+  .zt-history-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .zt-history-card {
+    grid-template-columns: 1fr auto;
+  }
+
+  .zt-history-score {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}

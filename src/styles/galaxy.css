@@ -1,0 +1,104 @@
+﻿/* =========================================================
+   ZEROTRACE — GLOBAL GALAXY BACKGROUND
+   ========================================================= */
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: #050816;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Animated galaxy layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -25%;
+  z-index: -10;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(83, 220, 255, 0.16) 0, transparent 22%),
+    radial-gradient(circle at 82% 18%, rgba(166, 92, 255, 0.20) 0, transparent 25%),
+    radial-gradient(circle at 70% 75%, rgba(238, 65, 174, 0.12) 0, transparent 23%),
+    radial-gradient(circle at 25% 80%, rgba(58, 120, 255, 0.10) 0, transparent 25%),
+    radial-gradient(ellipse at center,
+      rgba(70, 80, 180, 0.12) 0%,
+      rgba(20, 25, 70, 0.08) 30%,
+      rgba(5, 8, 22, 0.95) 72%,
+      #050816 100%
+    );
+
+  animation: zerotraceGalaxyMove 22s ease-in-out infinite alternate;
+}
+
+/* Stars / particles */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+
+  opacity: 0.7;
+
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.85) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(80,220,255,.65) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(180,100,255,.6) 1px, transparent 1.5px);
+
+  background-size:
+    140px 140px,
+    210px 210px,
+    280px 280px;
+
+  background-position:
+    20px 30px,
+    80px 120px,
+    150px 50px;
+
+  animation: zerotraceStars 35s linear infinite;
+}
+
+@keyframes zerotraceGalaxyMove {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.06) rotate(1deg);
+  }
+
+  100% {
+    transform: scale(1.12) rotate(-1deg);
+  }
+}
+
+@keyframes zerotraceStars {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-80px, -50px, 0);
+  }
+}
+
+/* Keep major page shells transparent so galaxy remains visible */
+main,
+.page,
+.page-container {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}

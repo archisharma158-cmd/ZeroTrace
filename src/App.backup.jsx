@@ -15,7 +15,6 @@ import Report from "./pages/Report/Report";
 import FullReport from "./pages/FullReport/FullReport";
 import Auth from "./pages/Auth/Auth";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Profile from "./pages/Profile/Profile";
 import "./App.css";
 import "./styles/evaluation.css";
 import "./styles/investigation.css";
@@ -43,7 +42,6 @@ function App() {
           <Route path="/full-report" element={<FullReport />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>
@@ -52,8 +50,6 @@ function App() {
 }
 
 export default App;
-
-
 
 
 

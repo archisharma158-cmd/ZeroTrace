@@ -49,6 +49,14 @@ function Evaluation() {
           setTimeout(() => {
             const result = createDemoEvaluation();
             sessionStorage.setItem("zerotrace_evaluation", JSON.stringify(result));
+            const history = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
+            history.unshift({
+              id: result.evaluationId || Date.now().toString(),
+              agent: result.agent || "AI Agent",
+              score: result.score ?? 0,
+              date: new Date().toLocaleString(),
+            });
+            localStorage.setItem("zerotrace_history", JSON.stringify(history));
             setEvaluation(result);
           }, 500);
         }
@@ -401,5 +409,6 @@ function Evaluation() {
 }
 
 export default Evaluation;
+
 
 

@@ -1,16 +1,19 @@
 from typing import Any, Dict, Optional
 
 def calculate_agreement(
-    gemini_metrics: Optional[Dict[str, int]],
-    mistral_metrics: Optional[Dict[str, int]],
+    gemini_metrics: Optional[Dict[str, Any]],
+    mistral_metrics: Optional[Dict[str, Any]],
 ) -> Optional[Dict[str, Any]]:
     """
     Compare Gemini and Mistral evaluation scores and compute agreement.
     Returns:
         A dictionary containing agreement_score, agreement_level, and metric_differences,
-        or None if one of the evaluations is missing.
+        or None if one of the evaluations is missing or in fallback state.
     """
     if not gemini_metrics or not mistral_metrics:
+        return None
+
+    if gemini_metrics.get("is_fallback") or mistral_metrics.get("is_fallback"):
         return None
 
     metrics_to_compare = [
@@ -20,6 +23,7 @@ def calculate_agreement(
         "consistency",
         "hallucination_risk",
     ]
+
 
     # Verify that all required metrics exist in both dictionaries
     for metric in metrics_to_compare:

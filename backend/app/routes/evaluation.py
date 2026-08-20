@@ -87,20 +87,32 @@ async def evaluate_task(task_id: str):
 
     gemini_scores, mistral_scores = await asyncio.gather(gemini_task, mistral_task)
 
-    # Verify if Gemini failed (indicated by failure text)
-    if gemini_scores.get("failures") and any("failed" in f.lower() for f in gemini_scores["failures"]):
+    # Verify if Gemini failed (indicated by is_fallback)
+    if gemini_scores.get("is_fallback"):
         provider_status["gemini"] = "unavailable"
+    else:
+        provider_status["gemini"] = "available"
         
-    if mistral_scores is None:
+    if mistral_scores is None or mistral_scores.get("is_fallback"):
         provider_status["mistral"] = "unavailable"
+    else:
+        provider_status["mistral"] = "available"
 
     # ── 5. Evaluator Agreement ──────────────────────────────────────
     agreement_data = None
-    if mistral_scores is not None:
+    if provider_status["gemini"] == "available" and provider_status["mistral"] == "available":
         agreement_data = calculate_agreement(gemini_scores, mistral_scores)
 
     # ── 6. Deterministic Reliability Score ────────────────────────────
-    aggregated_metrics = aggregate_metrics(gemini_scores, mistral_scores)
+    # Only aggregate using Mistral if it was actually available
+    if provider_status["gemini"] == "available" and provider_status["mistral"] == "available":
+        aggregated_metrics = aggregate_metrics(gemini_scores, mistral_scores)
+    elif provider_status["gemini"] == "available":
+        aggregated_metrics = {k: v for k, v in gemini_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
+    elif provider_status["mistral"] == "available":
+        aggregated_metrics = {k: v for k, v in mistral_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
+    else:
+        aggregated_metrics = {k: v for k, v in gemini_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
 
     metrics = EvaluationMetrics(
         correctness=aggregated_metrics["correctness"],
@@ -124,7 +136,7 @@ async def evaluate_task(task_id: str):
     # Combine failures and recommendations from both evaluators
     failures = list(gemini_scores.get("failures", []))
     recommendations = list(gemini_scores.get("recommendations", []))
-    if mistral_scores:
+    if mistral_scores and not mistral_scores.get("is_fallback"):
         failures.extend(mistral_scores.get("failures", []))
         recommendations.extend(mistral_scores.get("recommendations", []))
 
@@ -199,15 +211,11 @@ async def evaluate_task_full(task_id: str):
     # ── 1. Scenario Generation ────────────────────────────────────────
     scenarios, source = await generate_scenarios(task["description"])
     
-    provider_status = {
-        "groq": "available",
-        "gemini": "available",
-        "mistral": "available",
-        "nvidia": "available" if source == "nvidia" else "fallback"
-    }
-
     # ── 2. Sequential Scenario Evaluation ──────────────────────────────
     scenario_evals = []
+    
+    gemini_succeeded_at_least_once = False
+    mistral_succeeded_at_least_once = False
     
     for scenario in scenarios:
         scenario_prompt = scenario["prompt"]
@@ -218,7 +226,6 @@ async def evaluate_task_full(task_id: str):
         # Run Trasey against the scenario prompt
         agent_result = await run_trasey(scenario_prompt)
         if agent_result.get("error"):
-            provider_status["groq"] = "unavailable"
             scenario_evals.append({
                 "scenario_id": scenario["id"],
                 "type": scenario_type,
@@ -239,20 +246,34 @@ async def evaluate_task_full(task_id: str):
 
         # Evaluate Trasey's output
         gemini_scores = await evaluate_agent(scenario_prompt, out)
-        if gemini_scores.get("failures") and any("failed" in f.lower() for f in gemini_scores["failures"]):
-            provider_status["gemini"] = "unavailable"
+        gemini_ok = not gemini_scores.get("is_fallback")
+        if gemini_ok:
+            gemini_succeeded_at_least_once = True
             
         mistral_scores = await evaluate_agent_mistral(scenario_prompt, out)
-        if mistral_scores is None:
-            provider_status["mistral"] = "unavailable"
+        mistral_ok = mistral_scores is not None and not mistral_scores.get("is_fallback")
+        if mistral_ok:
+            mistral_succeeded_at_least_once = True
 
         # Evaluator Agreement
         agreement_data = None
-        if mistral_scores is not None:
+        if gemini_ok and mistral_ok:
             agreement_data = calculate_agreement(gemini_scores, mistral_scores)
 
-        # Aggregate Metrics & Reliability Score
-        scen_metrics = aggregate_metrics(gemini_scores, mistral_scores)
+        # Aggregate Metrics:
+        # - If both succeeded: average
+        # - If only Gemini: use Gemini
+        # - If only Mistral: use Mistral
+        # - If both failed: use default fallback
+        if gemini_ok and mistral_ok:
+            scen_metrics = aggregate_metrics(gemini_scores, mistral_scores)
+        elif gemini_ok:
+            scen_metrics = {k: v for k, v in gemini_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
+        elif mistral_ok:
+            scen_metrics = {k: v for k, v in mistral_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
+        else:
+            scen_metrics = {k: v for k, v in gemini_scores.items() if k not in ["is_fallback", "failures", "recommendations"]}
+
         scen_reliability = calculate_reliability_score(
             correctness=scen_metrics["correctness"],
             relevance=scen_metrics["relevance"],
@@ -263,7 +284,7 @@ async def evaluate_task_full(task_id: str):
 
         failures = list(gemini_scores.get("failures", []))
         recommendations = list(gemini_scores.get("recommendations", []))
-        if mistral_scores:
+        if mistral_ok and mistral_scores:
             failures.extend(mistral_scores.get("failures", []))
             recommendations.extend(mistral_scores.get("recommendations", []))
 
@@ -280,7 +301,7 @@ async def evaluate_task_full(task_id: str):
             "metrics": scen_metrics,
             "evaluators": {
                 "gemini": gemini_scores,
-                "mistral": mistral_scores if mistral_scores else {"status": "unavailable"}
+                "mistral": mistral_scores if mistral_scores else {"status": "unavailable", "is_fallback": True}
             },
             "evaluator_agreement": agreement_data,
             "failures": failures,
@@ -296,9 +317,12 @@ async def evaluate_task_full(task_id: str):
             detail="All scenario executions failed during agent run."
         )
 
-    # Average reliability score
-    reliability_score = round(sum(e["reliability_score"] for e in successful_evals) / len(successful_evals), 2)
-    risk_level = classify_risk(reliability_score)
+    provider_status = {
+        "groq": "available" if len(successful_evals) > 0 else "unavailable",
+        "gemini": "available" if gemini_succeeded_at_least_once else "unavailable",
+        "mistral": "available" if mistral_succeeded_at_least_once else "unavailable",
+        "nvidia": "available" if source == "nvidia" else "fallback"
+    }
 
     # Average metrics
     aggregated_metrics = {}
@@ -313,6 +337,15 @@ async def evaluate_task_full(task_id: str):
         consistency=aggregated_metrics["consistency"],
         hallucination_risk=aggregated_metrics["hallucination_risk"],
     )
+
+    reliability_score = calculate_reliability_score(
+        correctness=metrics.correctness,
+        relevance=metrics.relevance,
+        completeness=metrics.completeness,
+        consistency=metrics.consistency,
+        hallucination_risk=metrics.hallucination_risk,
+    )
+    risk_level = classify_risk(reliability_score)
 
     # Consolidate unique failures and recommendations
     failures_set = set()
@@ -337,13 +370,21 @@ async def evaluate_task_full(task_id: str):
 
     # Average agreement score
     agreements = [e["evaluator_agreement"]["agreement_score"] for e in successful_evals if e["evaluator_agreement"]]
-    avg_agreement_score = round(sum(agreements) / len(agreements), 1) if agreements else 100.0
-    
-    evaluator_agreement_payload = {
-        "agreement_score": avg_agreement_score,
-        "agreement_level": "VERY_HIGH" if avg_agreement_score >= 90 else ("HIGH" if avg_agreement_score >= 75 else ("MODERATE" if avg_agreement_score >= 50 else "LOW")),
-        "metric_differences": {}
-    }
+    if agreements:
+        avg_agreement_score = round(sum(agreements) / len(agreements), 1)
+        evaluator_agreement_payload = {
+            "agreement_score": avg_agreement_score,
+            "agreement_level": "VERY_HIGH" if avg_agreement_score >= 90 else ("HIGH" if avg_agreement_score >= 75 else ("MODERATE" if avg_agreement_score >= 50 else "LOW")),
+            "metric_differences": {}
+        }
+        evaluator_agreement_model = EvaluatorAgreement(
+            agreement_score=evaluator_agreement_payload["agreement_score"],
+            agreement_level=evaluator_agreement_payload["agreement_level"],
+            metric_differences={}
+        )
+    else:
+        evaluator_agreement_payload = None
+        evaluator_agreement_model = None
 
     consolidated_output = (
         f"Scenario-based evaluation completed successfully. "
@@ -364,6 +405,7 @@ async def evaluate_task_full(task_id: str):
         "scenario_results": scenario_evals,
         "trace": all_steps,
         "output": consolidated_output,
+        "evaluator_agreement": evaluator_agreement_payload,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     
@@ -383,11 +425,7 @@ async def evaluate_task_full(task_id: str):
             "gemini": {"status": "aggregated"},
             "mistral": {"status": "aggregated"}
         },
-        evaluator_agreement=EvaluatorAgreement(
-            agreement_score=evaluator_agreement_payload["agreement_score"],
-            agreement_level=evaluator_agreement_payload["agreement_level"],
-            metric_differences={}
-        ),
+        evaluator_agreement=evaluator_agreement_model,
         scenarios=scenarios,
         scenario_source=source,
         provider_status=provider_status,

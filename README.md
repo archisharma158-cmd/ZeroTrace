@@ -1,164 +1,184 @@
 <p align="center">
-  <img src="./assets/zerotrace-logo.png" alt="ZeroTrace Logo" width="150" />
-</p>
-
-<h1 align="center">ZeroTrace</h1>
-
-<p align="center">
-  <strong>Making Autonomous AI Agents Reliable, Explainable & Predictable</strong>
-</p>
-
-<p align="center">
-  ZeroTrace evaluates how autonomous agents reason, use tools, recover from errors, and complete tasks—not merely what they say at the end.
+  <img
+    src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&text=ZeroTrace&fontColor=FFFFFF&fontSize=66&fontAlignY=38&desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&descAlignY=59&descSize=17&animation=fadeIn"
+    width="100%"
+    alt="ZeroTrace"
+  />
 </p>
 
 <p align="center">
-  <a href="<LIVE_DEMO_URL>">Live Demo</a>
-  ·
-  <a href="#-how-zerotrace-works">Architecture</a>
-  ·
-  <a href="#-getting-started">Getting Started</a>
-  ·
-  <a href="#-api-overview">API</a>
-  ·
-  <a href="#-meet-the-team">Team</a>
+  <a href="<LIVE_DEMO_URL>">
+    <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&logo=lightning&logoColor=white" alt="Live Demo" />
+  </a>
+  <a href="#-how-zerotrace-works">
+    <img src="https://img.shields.io/badge/VIEW_ARCHITECTURE-8B5CF6?style=for-the-badge&logo=diagramsdotnet&logoColor=white" alt="Architecture" />
+  </a>
+  <a href="#-getting-started">
+    <img src="https://img.shields.io/badge/RUN_LOCALLY-22D3EE?style=for-the-badge&logo=github&logoColor=070B1F" alt="Run Locally" />
+  </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/ZeroTrace-Agent_Reliability-FF6A00?style=for-the-badge&labelColor=080706" alt="ZeroTrace" />
-  <img src="https://img.shields.io/badge/Python-Backend-E85D04?style=for-the-badge&logo=python&logoColor=white&labelColor=080706" alt="Python" />
-  <img src="https://img.shields.io/badge/FastAPI-API-FF6A00?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=080706" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/React-Frontend-E85D04?style=for-the-badge&logo=react&logoColor=white&labelColor=080706" alt="React" />
-  <img src="https://img.shields.io/badge/Hackathon-2026-FF8C32?style=for-the-badge&labelColor=080706" alt="Hackathon 2026" />
+  <img src="https://img.shields.io/badge/TRASEY-AUTONOMOUS_AI_RELIABILITY_ENGINE-22D3EE?style=flat-square&labelColor=070B1F" alt="Trasey AI Core" />
+  <img src="https://img.shields.io/badge/STATUS-ONLINE-2DD4BF?style=flat-square&labelColor=070B1F" alt="Status Online" />
+  <img src="https://img.shields.io/badge/MODE-ADVERSARIAL-A855F7?style=flat-square&labelColor=070B1F" alt="Adversarial Mode" />
 </p>
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=19&pause=900&color=FF6A00&center=true&vCenter=true&width=650&lines=Tracing+agent+execution...;Generating+adversarial+scenarios...;Detecting+failure+modes...;Calculating+reliability...;Predicting+failure+risk...;Meet+Trasey."
-    alt="ZeroTrace evaluation process"
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=19&duration=2300&pause=650&color=22D3EE&center=true&vCenter=true&repeat=true&width=720&height=45&lines=Connecting+autonomous+agent...;Generating+adversarial+missions...;Observing+complete+execution+trace...;Detecting+agent+failure+modes...;Converting+behavior+into+evidence...;Calculating+reliability+signals...;TRASEY+AI+CORE+%E2%80%A2+ONLINE"
+    alt="ZeroTrace animated evaluation sequence"
   />
 </p>
 
-> **Agents should fail inside the test environment—not for the first time in front of users.**
+<h3 align="center">
+  Break your AI <span>before it breaks.</span>
+</h3>
 
 <p align="center">
-  <img src="./assets/dashboard.png" alt="ZeroTrace Dashboard Preview" width="900" />
+  ZeroTrace stress-tests autonomous AI agents through adversarial missions,<br/>
+  behavioral analysis, and failure simulation—turning every trace into measurable reliability evidence.
 </p>
 
-> [!NOTE]
-> Replace image, deployment, repository, technology, and developer placeholders before submission. The metrics and terminal output below are illustrative unless connected to actual evaluation results.
+<p align="center">
+  <strong>TRACE&nbsp;&nbsp;→&nbsp;&nbsp;TEST&nbsp;&nbsp;→&nbsp;&nbsp;EVALUATE&nbsp;&nbsp;→&nbsp;&nbsp;DIAGNOSE&nbsp;&nbsp;→&nbsp;&nbsp;PREDICT&nbsp;&nbsp;→&nbsp;&nbsp;IMPROVE</strong>
+</p>
 
 ---
 
-## Quick Navigation
-
-- [The Problem](#-the-problem)
-- [Introducing ZeroTrace](#-introducing-zerotrace)
-- [Meet Trasey](#-meet-trasey)
-- [How It Works](#-how-zerotrace-works)
-- [Key Features](#-key-features)
-- [Failure Modes](#-failure-modes)
-- [Reliability Report](#-reliability-report)
-- [Technology Stack](#-technology-stack)
-- [Getting Started](#-getting-started)
-- [API Overview](#-api-overview)
-- [Roadmap](#-roadmap)
-- [Meet the Team](#-meet-the-team)
+<p align="center">
+  <a href="#-the-problem">Problem</a>
+  &nbsp;•&nbsp;
+  <a href="#-introducing-zerotrace">Solution</a>
+  &nbsp;•&nbsp;
+  <a href="#-meet-trasey">Trasey</a>
+  &nbsp;•&nbsp;
+  <a href="#-how-zerotrace-works">Workflow</a>
+  &nbsp;•&nbsp;
+  <a href="#-failure-modes">Failure Modes</a>
+  &nbsp;•&nbsp;
+  <a href="#-reliability-report">Report</a>
+  &nbsp;•&nbsp;
+  <a href="#-getting-started">Setup</a>
+  &nbsp;•&nbsp;
+  <a href="#-meet-the-team">Team</a>
+</p>
 
 ---
 
-## ◈ The Problem
+## 01 / The Problem
 
-Autonomous AI agents do more than generate text. They plan multi-step tasks, select tools, call external APIs, modify systems, and make decisions with real consequences.
+### Autonomous does not automatically mean reliable.
 
-Traditional tests often inspect only the final answer:
+AI agents no longer produce only text. They plan tasks, call tools, interact with APIs, access external systems, and make multi-step decisions.
 
-```text
-Prompt → Agent → Final Answer → Pass / Fail
-````
-
-A convincing answer can still hide a broken execution journey:
-
-* The wrong tool may have been selected.
-* A destructive operation may have been attempted.
-* The agent may have looped before reaching the result.
-* Claims may be unsupported despite confident wording.
-* Only part of the requested task may have been completed.
-* The original goal may have silently changed.
-
-ZeroTrace inspects what happens between the prompt and the final response:
+Traditional testing commonly inspects only the final response:
 
 ```text
-Scenario
-   ↓
-Agent Execution
-   ↓
-Complete Trace
-   ↓
-Trasey
-   ↓
-Failure Analysis
-   ↓
-Reliability Intelligence
+PROMPT  →  AGENT  →  FINAL ANSWER  →  PASS / FAIL
 ```
 
-It brings the philosophy of **continuous integration** to autonomous AI agents.
+A convincing final answer can still hide a broken execution journey:
+
+| Hidden failure | What may happen |
+|---|---|
+| Incorrect tool selection | The agent reaches an answer using the wrong source or operation |
+| Tool-call loop | The same action repeats without meaningful progress |
+| Goal drift | The execution silently moves away from the original objective |
+| Hallucinated confidence | Unsupported claims are presented with high certainty |
+| Unsafe action | A destructive or unauthorized operation is attempted |
+| Partial completion | The agent stops before completing the full objective |
+| Silent failure | An error occurs but the run is reported as successful |
+| Excessive execution | The agent wastes tools, tokens, time, or API calls |
+
+ZeroTrace examines the complete path:
+
+```text
+SCENARIO
+   ↓
+AGENT EXECUTION
+   ↓
+BEHAVIORAL TRACE
+   ↓
+TRASEY ANALYSIS
+   ↓
+FAILURE EVIDENCE
+   ↓
+RELIABILITY INTELLIGENCE
+```
+
+> **ZeroTrace brings continuous integration thinking to autonomous AI agents.**
 
 ---
 
-## ◆ Introducing ZeroTrace
+## 02 / Introducing ZeroTrace
 
-**ZeroTrace** is an AI-powered evaluation and reliability platform designed to test autonomous agents before deployment.
+**ZeroTrace** is an AI-powered evaluation and reliability platform for autonomous AI agents.
 
-It generates realistic and adversarial scenarios, evaluates agent behavior in a controlled environment, analyzes execution traces, classifies failure modes, calculates reliability metrics, and turns detected weaknesses into developer-focused recommendations.
+It generates realistic and adversarial scenarios, runs agents inside a controlled evaluation flow, observes their actions and tool interactions, detects failure modes, identifies root causes, calculates reliability signals, and generates developer-focused recommendations.
+
+ZeroTrace asks more useful questions than “Was the final answer correct?”
+
+- Did the agent complete the actual objective?
+- Did it follow instructions throughout the run?
+- Did it select and use the correct tools?
+- Did it behave safely under pressure?
+- Where did the execution begin to fail?
+- Can the behavior be reproduced?
+- What should the developer improve before deployment?
+
+<table>
+  <tr>
+    <td align="center"><strong>CONNECT</strong><br/><sub>Provide the agent configuration or endpoint</sub></td>
+    <td align="center"><strong>ATTACK</strong><br/><sub>Generate adversarial missions and edge cases</sub></td>
+    <td align="center"><strong>OBSERVE</strong><br/><sub>Capture actions, decisions, failures, and traces</sub></td>
+    <td align="center"><strong>SCORE</strong><br/><sub>Convert behavioral evidence into reliability signals</sub></td>
+  </tr>
+</table>
+
+---
+
+## 03 / Meet Trasey
 
 <p align="center">
-  <strong>Trace → Test → Evaluate → Diagnose → Predict → Improve</strong>
+  <img src="./assets/trasey.png" width="170" alt="Trasey AI Evaluator" />
 </p>
 
-ZeroTrace moves agent testing beyond “Did it produce the correct answer?” toward deeper engineering questions:
-
-* Did the agent complete the actual objective?
-* Did it use the correct tools safely?
-* Where did the execution begin to fail?
-* Is the behavior repeatable across similar scenarios?
-* What should the developer change before deployment?
-
----
-
-## ⚡ Meet Trasey
+<h3 align="center">TRASEY — Autonomous AI Reliability Engine</h3>
 
 <p align="center">
-  <img src="./assets/trasey.png" alt="Trasey — ZeroTrace AI Evaluator" width="180" />
+  <code>AI CORE STATUS: ONLINE</code>
+  &nbsp;&nbsp;
+  <code>EVALUATION MODE: ADVERSARIAL</code>
 </p>
 
-**Trasey** is the evaluation intelligence at the center of ZeroTrace—an AI reliability engineer for autonomous agents.
+**Trasey** is the evaluation intelligence at the center of ZeroTrace.
 
-Trasey examines the complete execution trajectory and transforms raw traces into understandable reliability intelligence.
+Trasey does not simply ask an agent questions. It observes how the agent behaves under pressure and converts that behavior into evidence.
 
-| Trasey’s responsibility     | What it produces                                                    |
-| --------------------------- | ------------------------------------------------------------------- |
-| Execution analysis          | A structured view of decisions, steps, and tool interactions        |
-| Task-completion evaluation  | Evidence of full, partial, or failed completion                     |
-| Abnormal-behavior detection | Loops, drift, unsafe actions, inefficiency, and inconsistencies     |
-| Failure classification      | Failure type, severity, location, and supporting evidence           |
-| Root-cause diagnosis        | An explanation of where and why the execution failed                |
-| Reliability measurement     | Interpretable scores across success, safety, consistency, and tools |
-| Risk-pattern analysis       | Potential weaknesses and recurring failure patterns                 |
-| Recommendations             | Concrete improvements for prompts, tools, policies, and workflows   |
+| Trasey observes | Trasey produces |
+|---|---|
+| Execution steps | Structured behavioral timeline |
+| Tool calls and parameters | Tool-selection and tool-usage analysis |
+| Task progress | Full, partial, or failed completion assessment |
+| Errors and recovery attempts | Failure-recovery evaluation |
+| Agent claims and available evidence | Hallucination and confidence analysis |
+| Repeated behavior | Loop and inefficiency detection |
+| Safety-sensitive actions | Safety findings and severity |
+| Cross-scenario patterns | Reliability weaknesses and recommendations |
 
-> Trasey does not merely declare that an agent failed. It explains the execution path that produced the failure and what can be improved.
+> Trasey does not stop at **“the agent failed.”** It identifies where the failure began, why it happened, how severe it was, and what the developer should change.
 
 ---
 
-## ◈ How ZeroTrace Works
+## 04 / How ZeroTrace Works
 
 ```mermaid
 flowchart TD
-    A["Agent Configuration"] --> B["Scenario Generation"]
-    B --> C["Controlled Execution"]
-    C --> D["Trace Collection"]
-    D --> E["Trasey Analysis"]
+    A["CONNECT<br/>Agent Configuration"] --> B["ATTACK<br/>Scenario Generator"]
+    B --> C["EXECUTE<br/>Controlled Runner"]
+    C --> D["OBSERVE<br/>Trace Collector"]
+    D --> E["TRASEY<br/>Reliability Engine"]
 
     E --> F["Failure Detection"]
     E --> G["Reliability Scoring"]
@@ -168,188 +188,191 @@ flowchart TD
     G --> I
     H --> I
 
-    I --> J["Actionable Recommendations"]
+    I --> J["Developer Recommendations"]
+
+    style A fill:#11162B,stroke:#22D3EE,color:#FFFFFF,stroke-width:2px
+    style B fill:#1B1238,stroke:#A855F7,color:#FFFFFF,stroke-width:2px
+    style C fill:#21112F,stroke:#EC2B9A,color:#FFFFFF,stroke-width:2px
+    style D fill:#11162B,stroke:#22D3EE,color:#FFFFFF,stroke-width:2px
+    style E fill:#27124A,stroke:#A855F7,color:#FFFFFF,stroke-width:3px
+    style F fill:#171A32,stroke:#EC2B9A,color:#FFFFFF
+    style G fill:#171A32,stroke:#A855F7,color:#FFFFFF
+    style H fill:#171A32,stroke:#22D3EE,color:#FFFFFF
+    style I fill:#14172A,stroke:#A855F7,color:#FFFFFF,stroke-width:2px
+    style J fill:#14172A,stroke:#22D3EE,color:#FFFFFF,stroke-width:2px
 ```
 
-### Evaluation lifecycle
+### Evaluation Pipeline
 
-1. **Configure the agent**
-   Provide the agent instructions, available tools, task domain, and evaluation settings.
+1. **Connect**  
+   Provide the agent’s configuration, instructions, available tools, task domain, and evaluation settings.
 
-2. **Generate scenarios**
-   Produce realistic, edge-case, and adversarial tasks relevant to the agent.
+2. **Attack**  
+   Generate realistic, ambiguous, edge-case, and adversarial missions.
 
-3. **Run controlled evaluations**
-   Execute each scenario within the configured evaluation environment.
+3. **Execute**  
+   Run each scenario through the configured controlled evaluation layer.
 
-4. **Capture the trajectory**
-   Record agent actions, tool calls, outcomes, errors, timing, and task progress.
+4. **Observe**  
+   Capture actions, decisions, tool interactions, errors, timing, and task progress.
 
-5. **Analyze with Trasey**
-   Inspect the trace for success signals, failure modes, unsafe behavior, and inconsistencies.
+5. **Analyze**  
+   Trasey examines the complete execution trajectory for reliability signals.
 
-6. **Calculate reliability**
-   Convert evaluation evidence into understandable reliability and risk metrics.
+6. **Diagnose**  
+   Classify failures, identify the affected execution step, and determine severity.
 
-7. **Generate recommendations**
-   Provide practical guidance for improving prompts, tools, policies, and execution logic.
+7. **Score**  
+   Convert behavioral evidence into interpretable reliability metrics.
 
----
-
-## ◆ Key Features
-
-> **Implementation status:** Replace each `<STATUS>` value with `Implemented`, `Experimental`, or `Roadmap` based on the current repository.
-
-| Capability                     | Description                                                                                                         | Status     |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------- |
-| **Scenario Generation Engine** | Generates realistic, edge-case, and adversarial scenarios based on an agent’s tools, instructions, and task domain. | `<STATUS>` |
-| **Controlled Execution**       | Runs evaluation scenarios within an isolated or controlled execution layer.                                         | `<STATUS>` |
-| **Execution Tracing**          | Captures agent actions, decisions, tool interactions, outputs, failures, and timing data.                           | `<STATUS>` |
-| **Failure Detection**          | Detects problematic behavior across the complete execution trajectory.                                              | `<STATUS>` |
-| **Root-Cause Analysis**        | Identifies the step where failure emerged and explains the contributing behavior.                                   | `<STATUS>` |
-| **Reliability Scoring**        | Converts evaluation results into understandable success, safety, consistency, and tool-use metrics.                 | `<STATUS>` |
-| **Failure-Risk Analysis**      | Identifies recurring weaknesses and estimates potential failure patterns.                                           | `<STATUS>` |
-| **Actionable Recommendations** | Suggests concrete changes to prompts, tool constraints, policies, or agent workflows.                               | `<STATUS>` |
+8. **Improve**  
+   Generate recommendations for prompts, tools, policies, and agent logic.
 
 ---
 
-## ⚠ Failure Modes
+## 05 / Reliability Intelligence
 
-| Failure mode                | What ZeroTrace looks for                                           |
-| --------------------------- | ------------------------------------------------------------------ |
-| **Tool Misuse**             | Incorrect, unnecessary, or poorly parameterized tool calls         |
-| **Tool Loop**               | Repeated tool execution without meaningful progress                |
-| **Goal Drift**              | Deviation from the user’s original objective                       |
-| **Hallucination**           | Unsupported, fabricated, or unverifiable claims                    |
-| **Unsafe Action**           | Potentially harmful, destructive, or unauthorized operations       |
-| **Partial Completion**      | Termination before every required objective is completed           |
-| **Overconfidence**          | Strong certainty despite weak or contradictory evidence            |
-| **Inefficiency**            | Excessive steps, tokens, latency, retries, or tool calls           |
-| **Reasoning Inconsistency** | Actions that conflict with earlier decisions or available evidence |
-| **Silent Failure**          | Errors or missing results presented as successful completion       |
-| **Recovery Failure**        | Inability to adapt after a tool, API, or reasoning error           |
-| **Policy Violation**        | Behavior outside configured safety or evaluation constraints       |
+> Replace `<STATUS>` with `Implemented`, `Experimental`, or `Roadmap` according to the current project state.
+
+| Capability | What it does | Status |
+|---|---|---|
+| **Scenario Generation Engine** | Creates realistic, edge-case, and adversarial missions | `<STATUS>` |
+| **Controlled Execution** | Runs evaluation scenarios through a controlled execution layer | `<STATUS>` |
+| **Behavioral Tracing** | Captures agent actions, decisions, tool calls, errors, and timing | `<STATUS>` |
+| **Failure Detection** | Detects abnormal or unreliable behavior across an execution trace | `<STATUS>` |
+| **Root-Cause Analysis** | Locates the failure and explains the contributing behavior | `<STATUS>` |
+| **Reliability Scoring** | Measures success, alignment, safety, consistency, and tool usage | `<STATUS>` |
+| **Failure-Risk Analysis** | Identifies recurring weaknesses and possible failure patterns | `<STATUS>` |
+| **Recommendations** | Suggests concrete changes to improve agent reliability | `<STATUS>` |
 
 ---
 
-## ◈ Reliability Report
+## 06 / Failure Modes
 
-ZeroTrace converts complex execution data into a report developers can quickly inspect and act upon.
+| Failure mode | Detection focus | Example severity |
+|---|---|---|
+| **Tool Misuse** | Incorrect, unnecessary, or poorly configured tool calls | Medium–High |
+| **Tool Loop** | Repeated execution without progress | Medium |
+| **Goal Drift** | Deviation from the original objective | High |
+| **Hallucination** | Fabricated or unsupported claims | High |
+| **Unsafe Action** | Harmful, destructive, or unauthorized operations | Critical |
+| **Partial Completion** | Agent stops before finishing every requirement | Medium |
+| **Overconfidence** | Strong certainty without sufficient evidence | Medium–High |
+| **Inefficiency** | Excessive steps, tokens, latency, or tool usage | Low–Medium |
+| **Reasoning Inconsistency** | Later actions contradict earlier decisions or evidence | Medium |
+| **Silent Failure** | Errors are hidden behind an apparent success response | High |
+| **Recovery Failure** | The agent cannot adapt after an execution error | Medium–High |
+| **Policy Violation** | Behavior exceeds defined safety or access constraints | Critical |
+
+---
+
+## 07 / Reliability Report
+
+ZeroTrace converts complex agent behavior into a report that developers can understand and act upon.
 
 ```text
-ZEROTRACE RELIABILITY REPORT
-────────────────────────────────────────
-
-Agent              ResearchAgent
-Scenarios Tested   24
-
-Reliability        87 / 100
-Task Success       91%
-Tool Accuracy      94%
-Consistency        83%
-Safety             96%
-
-Risk Level         LOW
-
-Most Common Failure
-→ Tool selection under ambiguous requests
-
-Failure Location
-→ Scenario 14 · Execution Step 07
-
-Trasey's Recommendation
-→ Add explicit tool-selection constraints
-  for ambiguous information requests.
-
-────────────────────────────────────────
-Evaluation complete.
+┌────────────────────────────────────────────────────┐
+│             ZEROTRACE RELIABILITY REPORT           │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│  AGENT                ResearchAgent                │
+│  SCENARIOS TESTED     24                           │
+│  EVALUATION MODE      Adversarial                  │
+│                                                    │
+│  GOAL ALIGNMENT       83 / 100                     │
+│  INSTRUCTION FOLLOW   89 / 100                     │
+│  SAFETY               76 / 100                     │
+│  TOOL RELIABILITY     75 / 100                     │
+│  REASONING            90 / 100                     │
+│  ROBUSTNESS           86 / 100                     │
+│  FAILURE RECOVERY     92 / 100                     │
+│                                                    │
+│  RELIABILITY SCORE    84 / 100                     │
+│  RISK LEVEL           MEDIUM                       │
+│                                                    │
+├────────────────────────────────────────────────────┤
+│  FAILURE DETECTED                                  │
+│                                                    │
+│  Type       Tool Selection Error                   │
+│  Scenario   Ambiguous Research Request             │
+│  Step       07                                     │
+│  Severity   High                                   │
+│                                                    │
+├────────────────────────────────────────────────────┤
+│  TRASEY'S RECOMMENDATION                           │
+│                                                    │
+│  Add explicit tool-selection constraints for      │
+│  ambiguous information-retrieval requests.        │
+└────────────────────────────────────────────────────┘
 ```
 
-> The values above are illustrative and must not be treated as results from a real evaluation run.
+> The values shown above are illustrative. Replace them with output from an actual ZeroTrace evaluation before presenting them as project results.
 
-### Example terminal experience
+### Animated Terminal Flow
 
-```console
-$ zerotrace evaluate research-agent
-
-◈ Loading agent configuration...
-◈ Generating adversarial scenarios...
-◈ Running controlled evaluation...
-◈ Tracing tool interactions...
-◈ Analyzing execution with Trasey...
-
-⚠ Failure detected
-  Type        Tool Selection Error
-  Step        07
-  Severity    High
-
-◆ Reliability Score   82/100
-◆ Failure Risk        Medium
-
-Trasey → Evaluation complete.
-```
+<p align="center">
+  <img
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=1800&pause=450&color=A855F7&background=070B1F00&center=true&vCenter=true&multiline=false&repeat=true&width=720&height=45&lines=%24+zerotrace+evaluate+research-agent;%E2%97%88+Loading+agent+configuration...;%E2%97%88+Generating+adversarial+missions...;%E2%97%88+Tracing+tool+interactions...;%E2%9A%A0+Failure+detected+at+execution+step+07;%E2%97%86+Reliability+Score%3A+84%2F100;Trasey+%E2%86%92+Evaluation+complete."
+    alt="ZeroTrace terminal animation"
+  />
+</p>
 
 ---
 
-## ◆ Dashboard Preview
+## 08 / Dashboard Preview
 
-Add actual application screenshots to the `assets/` directory using the following names:
+<p align="center">
+  <img src="./assets/dashboard.png" width="900" alt="ZeroTrace Dashboard" />
+</p>
 
-### Evaluation Dashboard
-
-![ZeroTrace Dashboard](./assets/dashboard.png)
-
-### Evaluation Run
-
-![ZeroTrace Evaluation Run](./assets/evaluation-run.png)
-
-### Trace Visualization
-
-![ZeroTrace Trace Visualization](./assets/trace-visualization.png)
-
-### Trasey Analysis
-
-![Trasey Analysis](./assets/trasey-analysis.png)
-
-### Reliability Report
-
-![ZeroTrace Reliability Report](./assets/reliability-report.png)
+<table>
+  <tr>
+    <td width="50%">
+      <img src="./assets/evaluation-run.png" alt="ZeroTrace Evaluation Run" />
+    </td>
+    <td width="50%">
+      <img src="./assets/trace-visualization.png" alt="ZeroTrace Trace Visualization" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="./assets/trasey-analysis.png" alt="Trasey Analysis" />
+    </td>
+    <td width="50%">
+      <img src="./assets/reliability-report.png" alt="ZeroTrace Reliability Report" />
+    </td>
+  </tr>
+</table>
 
 > [!IMPORTANT]
-> These paths are screenshot placeholders. Add genuine product screenshots instead of generated or misleading UI images.
+> These are image paths—not fake screenshots. Add genuine project screenshots to the `assets` folder using the filenames shown above.
 
 ---
 
-## ◈ Technology Stack
+## 09 / Technology Stack
 
-| Layer           | Technology                                   |
-| --------------- | -------------------------------------------- |
-| Frontend        | React, Vite                                  |
-| Backend         | FastAPI, Python                              |
-| AI Layer        | `<LLM_PROVIDER_OR_MODEL>`                    |
-| API             | REST                                         |
-| Database        | `<DATABASE>`                                 |
-| Evaluation      | ZeroTrace Evaluation Engine                  |
-| AI Evaluator    | Trasey                                       |
-| Deployment      | `<FRONTEND_PLATFORM>` / `<BACKEND_PLATFORM>` |
-| Version Control | Git, GitHub                                  |
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=react,vite,python,fastapi,git,github&theme=dark" alt="ZeroTrace Technology Stack" />
+</p>
 
-<details>
-<summary><strong>Why this architecture?</strong></summary>
-
-* **React and Vite** support a fast, interactive evaluation dashboard.
-* **FastAPI** provides typed, asynchronous API development for evaluation workflows.
-* The **evaluation engine** separates scenario execution from reliability analysis.
-* **Trasey** converts trace data into diagnoses, scores, risk patterns, and recommendations.
-* A separate persistence layer can retain agents, scenarios, traces, evaluations, and reports.
-
-</details>
+| Layer | Technology |
+|---|---|
+| Frontend | React, Vite |
+| Backend | FastAPI, Python |
+| AI Layer | `<LLM_PROVIDER_OR_MODEL>` |
+| API | REST |
+| Database | `<DATABASE>` |
+| Evaluation | ZeroTrace Evaluation Engine |
+| AI Evaluator | Trasey |
+| Frontend Deployment | `<FRONTEND_PLATFORM>` |
+| Backend Deployment | `<BACKEND_PLATFORM>` |
+| Version Control | Git, GitHub |
 
 ---
 
-## ◆ Repository Structure
+## 10 / Repository Structure
 
-> Update this tree to match the final repository before submission.
+> Update this tree so it exactly matches the final repository.
 
 ```text
 ZeroTrace/
@@ -374,6 +397,7 @@ ZeroTrace/
 ├── docs/
 ├── assets/
 │   ├── zerotrace-logo.png
+│   ├── trasey.png
 │   ├── dashboard.png
 │   ├── evaluation-run.png
 │   ├── trace-visualization.png
@@ -387,25 +411,25 @@ ZeroTrace/
 
 ---
 
-## ⚡ Getting Started
+## 11 / Getting Started
 
 ### Prerequisites
 
-Ensure the following are installed:
+Install the following before running ZeroTrace:
 
-* Git
-* Python `<PYTHON_VERSION>`
-* Node.js `<NODE_VERSION>`
-* npm
+- Git
+- Python `<PYTHON_VERSION>`
+- Node.js `<NODE_VERSION>`
+- npm
 
-### 1. Clone the repository
+### Clone the Repository
 
 ```bash
 git clone <REPOSITORY_URL>
 cd ZeroTrace
 ```
 
-### 2. Start the backend
+### Backend Setup
 
 ```bash
 cd backend
@@ -438,31 +462,33 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
-Create the environment file:
+Create your environment file:
 
-```bash
-cp .env.example .env
-```
-
-On Windows Command Prompt:
+**Windows Command Prompt**
 
 ```cmd
 copy .env.example .env
 ```
 
-Start the API:
+**macOS/Linux**
+
+```bash
+cp .env.example .env
+```
+
+Start the backend:
 
 ```bash
 <BACKEND_START_COMMAND>
 ```
 
-Example only—use this if the FastAPI application is defined as `app` inside `backend/app/main.py`:
+If the FastAPI application is located at `backend/app/main.py`, the command may be:
 
 ```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-### 3. Start the frontend
+### Frontend Setup
 
 Open another terminal:
 
@@ -472,7 +498,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite, commonly:
+Open the local URL displayed by Vite, commonly:
 
 ```text
 http://localhost:5173
@@ -480,14 +506,14 @@ http://localhost:5173
 
 ---
 
-## ◆ Environment Variables
+## 12 / Environment Variables
 
-Create a `.env` file from `.env.example`.
+Create a `.env` file using `.env.example`.
 
 ```env
 # Application
-APP_ENV=development
 APP_NAME=ZeroTrace
+APP_ENV=development
 
 # AI provider
 <AI_API_KEY_NAME>=your_api_key_here
@@ -496,7 +522,7 @@ APP_NAME=ZeroTrace
 # Database
 DATABASE_URL=your_database_url_here
 
-# Frontend/API connection
+# Application URLs
 FRONTEND_URL=http://localhost:5173
 API_URL=http://localhost:8000
 
@@ -505,24 +531,24 @@ API_URL=http://localhost:8000
 ```
 
 > [!CAUTION]
-> Never commit `.env`, API keys, database credentials, access tokens, or production secrets.
+> Never commit API keys, database credentials, access tokens, `.env` files, or production secrets.
 
 ---
 
-## ◈ API Overview
+## 13 / API Overview
 
-> Replace this section with endpoints verified against the backend implementation.
+> Replace the placeholders with endpoints verified against the backend code.
 
-| Method | Endpoint                     | Purpose                       |
-| ------ | ---------------------------- | ----------------------------- |
-| `POST` | `<EVALUATE_ENDPOINT>`        | Start an agent evaluation     |
-| `GET`  | `<EVALUATION_ENDPOINT>/{id}` | Retrieve an evaluation run    |
-| `GET`  | `<TRACE_ENDPOINT>/{id}`      | Retrieve an execution trace   |
-| `GET`  | `<REPORT_ENDPOINT>/{id}`     | Retrieve a reliability report |
-| `GET`  | `<HEALTH_ENDPOINT>`          | Check API health              |
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `<EVALUATE_ENDPOINT>` | Start an agent evaluation |
+| `GET` | `<EVALUATION_ENDPOINT>/{id}` | Retrieve an evaluation run |
+| `GET` | `<TRACE_ENDPOINT>/{id}` | Retrieve an execution trace |
+| `GET` | `<REPORT_ENDPOINT>/{id}` | Retrieve a reliability report |
+| `GET` | `<HEALTH_ENDPOINT>` | Check API health |
 
 <details>
-<summary><strong>Example evaluation request</strong></summary>
+<summary><strong>Illustrative evaluation request</strong></summary>
 
 ```json
 {
@@ -532,105 +558,116 @@ API_URL=http://localhost:8000
 }
 ```
 
-The payload above is illustrative. Update it to match the actual API schema.
+Update this payload to match the real API schema.
 
 </details>
 
-API base URL:
-
 ```text
-<API_URL>
-```
-
-Interactive FastAPI documentation, if enabled:
-
-```text
-<API_URL>/docs
+API Base URL: <API_URL>
+API Documentation: <API_URL>/docs
 ```
 
 ---
 
-## ◆ Why ZeroTrace Is Different
+## 14 / Why ZeroTrace Is Different
 
-```text
-Final-output testing
-        ↓
-Execution-level reliability intelligence
-```
+<table>
+  <tr>
+    <th>Traditional Agent Testing</th>
+    <th>ZeroTrace</th>
+  </tr>
+  <tr>
+    <td>Checks the final answer</td>
+    <td>Examines the complete behavioral trace</td>
+  </tr>
+  <tr>
+    <td>Uses a few manually written prompts</td>
+    <td>Generates realistic and adversarial missions</td>
+  </tr>
+  <tr>
+    <td>Returns pass or fail</td>
+    <td>Classifies failure type, step, evidence, and severity</td>
+  </tr>
+  <tr>
+    <td>Hides where the failure began</td>
+    <td>Explains the root cause across the execution journey</td>
+  </tr>
+  <tr>
+    <td>Offers limited reliability context</td>
+    <td>Measures alignment, safety, tools, reasoning, and recovery</td>
+  </tr>
+  <tr>
+    <td>Leaves diagnosis to developers</td>
+    <td>Produces actionable improvement recommendations</td>
+  </tr>
+</table>
 
-| Conventional testing                 | ZeroTrace approach                                       |
-| ------------------------------------ | -------------------------------------------------------- |
-| Checks the final response            | Inspects the complete agent trajectory                   |
-| Uses a few manually written prompts  | Supports realistic, edge-case, and adversarial scenarios |
-| Returns pass or fail                 | Classifies failures with severity and evidence           |
-| Hides the origin of failure          | Locates the step and explains the root cause             |
-| Provides limited reliability context | Measures success, safety, consistency, and tool behavior |
-| Leaves developers to diagnose issues | Produces developer-focused recommendations               |
+<p align="center">
+  <strong>FINAL-OUTPUT TESTING&nbsp;&nbsp;→&nbsp;&nbsp;EXECUTION-LEVEL RELIABILITY INTELLIGENCE</strong>
+</p>
 
-ZeroTrace treats an agent as an executing system—not simply a text generator.
+ZeroTrace treats an autonomous agent as an executing system—not merely a text generator.
 
 ---
 
-## ◈ Roadmap
+## 15 / Roadmap
 
-Planned directions must remain clearly separated from implemented capabilities.
-
-* [ ] Expand the adversarial scenario library
-* [ ] Add multi-agent evaluation
-* [ ] Support custom evaluation policies and scoring weights
-* [ ] Introduce CI/CD pipeline integration
-* [ ] Add automated regression testing
-* [ ] Build historical reliability analytics
-* [ ] Support side-by-side agent comparison
-* [ ] Add real-time production monitoring
-* [ ] Introduce configurable reliability gates
-* [ ] Export reports in shareable formats
-* [ ] Add evaluation templates for common agent domains
-* [ ] Detect cross-run failure patterns
+- [ ] Expand the adversarial scenario library
+- [ ] Add multi-agent evaluation
+- [ ] Support custom evaluation policies and scoring weights
+- [ ] Introduce CI/CD pipeline integration
+- [ ] Add automated regression testing
+- [ ] Build historical reliability analytics
+- [ ] Support side-by-side agent comparison
+- [ ] Add real-time production monitoring
+- [ ] Introduce configurable reliability gates
+- [ ] Export reports in shareable formats
+- [ ] Add evaluation templates for common agent domains
+- [ ] Detect cross-run failure patterns
 
 ---
 
-## ◆ Meet the Team
+## 16 / Meet the Team
 
 <table>
   <tr>
     <td align="center" width="33%">
       <img src="./assets/developer-01.png" width="110" alt="Developer 01" />
-      <br />
+      <br/><br/>
       <strong>&lt;DEVELOPER_01_NAME&gt;</strong>
-      <br />
+      <br/>
       <sub>Architecture · Frontend · Integration · Repository</sub>
-      <br /><br />
+      <br/><br/>
       <a href="<DEVELOPER_01_GITHUB>">GitHub</a>
-      ·
+      &nbsp;·&nbsp;
       <a href="<DEVELOPER_01_LINKEDIN>">LinkedIn</a>
-      <br />
+      <br/>
       <a href="mailto:<DEVELOPER_01_EMAIL>">Email</a>
     </td>
     <td align="center" width="33%">
       <img src="./assets/developer-02.png" width="110" alt="Developer 02" />
-      <br />
+      <br/><br/>
       <strong>&lt;DEVELOPER_02_NAME&gt;</strong>
-      <br />
+      <br/>
       <sub>Backend · Database · Deployment · Documentation</sub>
-      <br /><br />
+      <br/><br/>
       <a href="<DEVELOPER_02_GITHUB>">GitHub</a>
-      ·
+      &nbsp;·&nbsp;
       <a href="<DEVELOPER_02_LINKEDIN>">LinkedIn</a>
-      <br />
+      <br/>
       <a href="mailto:<DEVELOPER_02_EMAIL>">Email</a>
     </td>
     <td align="center" width="33%">
       <img src="./assets/developer-03.png" width="110" alt="Developer 03" />
-      <br />
+      <br/><br/>
       <strong>&lt;DEVELOPER_03_NAME&gt;</strong>
-      <br />
+      <br/>
       <sub>Testing · Repository Supervision · Branding · MVP Validation</sub>
-      <br /><br />
+      <br/><br/>
       <a href="<DEVELOPER_03_GITHUB>">GitHub</a>
-      ·
+      &nbsp;·&nbsp;
       <a href="<DEVELOPER_03_LINKEDIN>">LinkedIn</a>
-      <br />
+      <br/>
       <a href="mailto:<DEVELOPER_03_EMAIL>">Email</a>
     </td>
   </tr>
@@ -638,67 +675,72 @@ Planned directions must remain clearly separated from implemented capabilities.
 
 ---
 
-## ◈ Contributing
+## 17 / Contributing
 
-Contributions, bug reports, and improvement ideas are welcome.
+Contributions, issue reports, and improvement ideas are welcome.
 
 1. Fork the repository.
-
-2. Create a focused feature branch:
+2. Create a feature branch:
 
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 3. Make and test your changes.
-
-4. Commit with a clear message:
+4. Commit your work:
 
    ```bash
    git commit -m "feat: add your feature"
    ```
 
-5. Push the branch:
+5. Push your branch:
 
    ```bash
    git push origin feature/your-feature-name
    ```
 
-6. Open a pull request describing:
+6. Open a pull request explaining what changed, why it was required, and how it was tested.
 
-   * What changed
-   * Why it was needed
-   * How it was tested
-
-Please avoid committing credentials, generated secrets, dependency folders, or unrelated changes.
+Do not commit secrets, `.env` files, access tokens, dependency folders, or unrelated changes.
 
 ---
 
-## ◆ License
+## 18 / License
 
 This project is distributed under the `<LICENSE_NAME>`.
 
-See [`LICENSE`](./LICENSE) for the complete terms.
+See [`LICENSE`](./LICENSE) for complete terms.
 
-> Add an actual license file and replace `<LICENSE_NAME>` before publishing the repository.
+> Add an actual license file and replace `<LICENSE_NAME>` before publishing.
 
 ---
 
-## ⚡ Final Thought
-
 <p align="center">
-  <strong>Reliable agents are engineered through evidence—not trusted through confident outputs.</strong>
+  <img
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=2800&pause=900&color=EC2B9A&center=true&vCenter=true&repeat=true&width=760&height=45&lines=Reliable+agents+are+engineered+through+evidence.;Test+the+behavior.+Trace+the+failure.+Improve+the+agent.;Don't+trust+the+demo.+Measure+what+happens+under+pressure."
+    alt="ZeroTrace final message"
+  />
 </p>
+
+<h3 align="center">Break your AI before it breaks.</h3>
 
 <p align="center">
   Built with ⚡ for safer, more reliable autonomous AI.
 </p>
 
 <p align="center">
-  <a href="<LIVE_DEMO_URL>">Explore ZeroTrace</a>
-  ·
-  <a href="<REPOSITORY_URL>/issues">Report an Issue</a>
-  ·
-  <a href="<REPOSITORY_URL>/discussions">Start a Discussion</a>
+  <a href="<LIVE_DEMO_URL>">
+    <img src="https://img.shields.io/badge/LAUNCH_ZEROTRACE-EC2B9A?style=for-the-badge&logo=rocket&logoColor=white" alt="Launch ZeroTrace" />
+  </a>
+  <a href="<REPOSITORY_URL>/issues">
+    <img src="https://img.shields.io/badge/REPORT_AN_ISSUE-A855F7?style=for-the-badge&logo=github&logoColor=white" alt="Report Issue" />
+  </a>
 </p>
-```
+
+<p align="center">
+  <img
+    src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:EC2B9A,45:7C3AED,100:070B1F"
+    width="100%"
+    alt="ZeroTrace Footer"
+  />
+</p>

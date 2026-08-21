@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import FRONTEND_URL
 from app.database import ping_db
-from app.routes import tasks, traces, evaluation, scenarios
+from app.routes import tasks, traces, evaluation, scenarios, contact, auth
 
 app = FastAPI(
     title="ZeroTrace",
@@ -38,6 +38,8 @@ app.include_router(tasks.router)
 app.include_router(traces.router)
 app.include_router(evaluation.router)
 app.include_router(scenarios.router)
+app.include_router(contact.router)
+app.include_router(auth.router)
 
 
 

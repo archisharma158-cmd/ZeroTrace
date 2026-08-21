@@ -1,4 +1,4 @@
-﻿.auth-page {
+.auth-page {
   min-height: 100vh;
   width: 100%;
   padding: 24px 32px 60px;
@@ -324,6 +324,31 @@
 .otp-actions button:hover {
   color: #c0b4d0;
 }
+
+.otp-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.otp-masked-badge {
+  display: inline-block;
+  margin: 8px 0 12px;
+  padding: 5px 12px;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 6px;
+  background: rgba(139, 92, 246, 0.08);
+  color: #c1adff;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+}
+
+.auth-success-hint {
+  margin-top: 10px;
+  color: #2dd4bf;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+}
+
 
 @media (max-width: 850px) {
   .auth-main {

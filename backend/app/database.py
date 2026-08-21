@@ -74,11 +74,39 @@ class InMemoryCollectionFallback:
                 for k, v in update_dict["$set"].items():
                     doc[k] = v
 
+    async def delete_one(self, filter_dict):
+        try:
+            return await self._real.delete_one(filter_dict)
+        except Exception:
+            logger.warning("MongoDB fallback: delete_one on '%s' failed. Deleting in-memory.", self._name)
+            doc = await self.find_one(filter_dict)
+            if doc and "_id" in doc:
+                self._store.pop(str(doc["_id"]), None)
+
+    async def delete_many(self, filter_dict):
+        try:
+            return await self._real.delete_many(filter_dict)
+        except Exception:
+            logger.warning("MongoDB fallback: delete_many on '%s' failed. Deleting in-memory.", self._name)
+            to_del = []
+            for doc_id, doc in self._store.items():
+                match = True
+                for k, v in filter_dict.items():
+                    if doc.get(k) != v:
+                        match = False
+                        break
+                if match:
+                    to_del.append(doc_id)
+            for doc_id in to_del:
+                self._store.pop(doc_id, None)
+
 tasks_collection = InMemoryCollectionFallback("tasks", db["tasks"])
 traces_collection = InMemoryCollectionFallback("traces", db["traces"])
 evaluations_collection = InMemoryCollectionFallback("evaluations", db["evaluations"])
 scenarios_collection = InMemoryCollectionFallback("scenarios", db["scenarios"])
 full_evaluations_collection = InMemoryCollectionFallback("full_evaluations", db["full_evaluations"])
+otps_collection = InMemoryCollectionFallback("otps", db["otps"])
+
 
 
 async def ping_db() -> bool:

@@ -139,18 +139,18 @@ async def evaluate_agent(
         models_to_try.append(env_model)
 
     available_models = _get_available_gemini_models()
-    fallbacks = ["gemini-3.6-flash", "gemini-3.5-flash"]
+    fallbacks = ["gemini-3.7-flash", "gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest", "gemini-3.6-flash"]
     for f in fallbacks:
         if f in available_models and f not in models_to_try:
             models_to_try.append(f)
 
     for m in available_models:
         if m.startswith("gemini-") and m not in models_to_try:
-            if "embedding" not in m and "tts" not in m and "image" not in m:
+            if "embedding" not in m and "tts" not in m and "image" not in m and "robotics" not in m and "audio" not in m:
                 models_to_try.append(m)
 
     if not models_to_try:
-        models_to_try = ["gemini-3.6-flash", "gemini-3.5-flash"]
+        models_to_try = ["gemini-3.7-flash", "gemini-3.5-flash", "gemini-flash-latest"]
 
     # 2. Iterate models sequentially
     last_error = None

@@ -110,23 +110,23 @@ async def evaluate_agent_mistral(
         models_to_try.append(env_model)
 
     available = await _get_available_mistral_models()
-    fallbacks = ["mistral-large-latest", "mistral-small-latest", "ministral-8b-latest", "codestral-latest"]
+    fallbacks = ["codestral-latest", "ministral-8b-latest", "ministral-3b-latest", "open-mistral-7b", "mistral-large-latest", "mistral-small-latest"]
     for f in fallbacks:
         if f in available and f not in models_to_try:
             models_to_try.append(f)
 
     for m in available:
-        if m not in models_to_try and (m.startswith("mistral-") or m.startswith("ministral-") or m.startswith("codestral-")):
-            if "embed" not in m and "moderation" not in m and "ocr" not in m:
+        if m not in models_to_try and (m.startswith("mistral-") or m.startswith("ministral-") or m.startswith("codestral-") or m.startswith("open-")):
+            if "embed" not in m and "moderation" not in m and "ocr" not in m and "vibe" not in m and "voxtral" not in m:
                 models_to_try.append(m)
 
     if not models_to_try and available:
-        generative_available = [m for m in available if "embed" not in m]
+        generative_available = [m for m in available if "embed" not in m and "moderation" not in m and "ocr" not in m]
         if generative_available:
             models_to_try.append(generative_available[0])
 
     if not models_to_try:
-        models_to_try = ["mistral-large-latest"]
+        models_to_try = ["codestral-latest", "ministral-8b-latest"]
 
     # 2. Iterate models sequentially
     last_error = None

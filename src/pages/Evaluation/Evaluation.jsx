@@ -1,5 +1,5 @@
-﻿import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Activity,
   AlertTriangle,
@@ -9,10 +9,12 @@ import {
   ShieldCheck,
   Terminal,
   Zap,
-  TrendingUp
+  TrendingUp,
+  RefreshCw,
+  ArrowLeft
 } from "lucide-react";
 
-import { createDemoEvaluation } from "../../data/demoEvaluation";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const stages = [
   ["Agent Intake", "Reading agent configuration", Cpu],
@@ -26,206 +28,338 @@ const stages = [
 
 function Evaluation() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const taskId = searchParams.get("taskId");
+  const agentName = searchParams.get("agent") || "AI Agent";
 
   const [activeStage, setActiveStage] = useState(0);
   const [progress, setProgress] = useState(0);
   const [evaluation, setEvaluation] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const activeTaskIdRef = useRef(null);
+  const backendResultRef = useRef(null);
+  const backendDoneRef = useRef(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((current) => {
-        const next = Math.min(current + 2, 100);
+    if (!taskId) {
+      setLoading(false);
+      return;
+    }
 
-        const stage = Math.min(
-          Math.floor(next / (100 / stages.length)),
-          stages.length - 1
-        );
+    // Prevent duplicate invocation if already evaluating this taskId
+    if (activeTaskIdRef.current === taskId) {
+      return;
+    }
+    activeTaskIdRef.current = taskId;
 
-        setActiveStage(stage);
+    let isMounted = true;
+    backendDoneRef.current = false;
+    backendResultRef.current = null;
+    setError("");
+    setProgress(0);
+    setActiveStage(0);
+    setLoading(true);
 
-        if (next === 100) {
-          clearInterval(interval);
+    // 1. Kick off real backend full evaluation
+    const runEvaluation = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/evaluate/${encodeURIComponent(taskId)}/full`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        });
 
-          setTimeout(() => {
-            const result = createDemoEvaluation();
-            sessionStorage.setItem("zerotrace_evaluation", JSON.stringify(result));
+        const data = await response.json().catch(() => ({}));
+
+        if (!isMounted) return;
+
+        if (response.ok && data.evaluation_id) {
+          backendResultRef.current = data;
+          backendDoneRef.current = true;
+
+          // Store real evaluation in sessionStorage
+          sessionStorage.setItem("zerotrace_evaluation", JSON.stringify(data));
+
+          // Save real evaluation to history
+          try {
             const history = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
             history.unshift({
-              id: result.evaluationId || Date.now().toString(),
-              agent: result.agent || "AI Agent",
-              score: result.score ?? 0,
-              date: new Date().toLocaleString(),
+              id: data.evaluation_id,
+              agent: agentName,
+              score: Math.round(data.reliability_score ?? 0),
+              threat: data.risk_level || "MEDIUM",
+              status: "PASSED",
+              date: new Date().toLocaleString()
             });
-            localStorage.setItem("zerotrace_history", JSON.stringify(history));
-            setEvaluation(result);
-          }, 500);
+            localStorage.setItem("zerotrace_history", JSON.stringify(history.slice(0, 50)));
+          } catch {
+            // Storage quota safe
+          }
+        } else {
+          const detail = data.detail || data.message || "Evaluation failed on backend. Please retry.";
+          setError(detail);
+          setLoading(false);
+        }
+      } catch {
+        if (isMounted) {
+          setError("Network error connecting to evaluation service. Please check your backend connection.");
+          setLoading(false);
+        }
+      }
+    };
+
+    runEvaluation();
+
+    // 2. Drive progress animation smoothly up to 92-95% while waiting for backend
+    const interval = setInterval(() => {
+      if (!isMounted) return;
+
+      setProgress((current) => {
+        if (backendDoneRef.current && backendResultRef.current) {
+          // Backend finished! Advance rapidly to 100%
+          const next = Math.min(current + 10, 100);
+          const stage = Math.min(
+            Math.floor(next / (100 / stages.length)),
+            stages.length - 1
+          );
+          setActiveStage(stage);
+
+          if (next === 100) {
+            clearInterval(interval);
+            setEvaluation(backendResultRef.current);
+            setLoading(false);
+          }
+          return next;
         }
 
-        return next;
+        // Backend still running: increment smoothly up to 92%
+        if (current < 92) {
+          const next = current + 2;
+          const stage = Math.min(
+            Math.floor(next / (100 / stages.length)),
+            stages.length - 1
+          );
+          setActiveStage(stage);
+          return next;
+        }
+
+        // Hold at 92-95% while waiting for backend
+        return current;
       });
-    }, 80);
+    }, 120);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [taskId, agentName]);
 
-  const complete = progress === 100 && evaluation;
+  const complete = progress === 100 && evaluation !== null;
+  const failureCount = evaluation?.failures ? evaluation.failures.length : 0;
+  const scenarioCount = evaluation?.scenario_results?.length ?? evaluation?.scenarios?.length ?? "unavailable";
 
-  const failures = evaluation
-    ? Object.values(evaluation.results).filter(
-        (item) =>
-          item.status === "FAIL" ||
-          item.status === "PARTIAL"
-      ).length
-    : 0;
+  if (!taskId && !loading && !evaluation) {
+    return (
+      <div className="evaluation-page">
+        <header className="evaluation-header">
+          <div>
+            <span className="engine-label">TRASY / AUTONOMOUS EVALUATION ENGINE</span>
+            <h1>Agent Evaluation</h1>
+          </div>
+        </header>
+
+        <section className="evaluation-main">
+          <div className="evaluation-progress-card" style={{ textAlign: "center", padding: "40px 20px" }}>
+            <h2 style={{ color: "#f1f5f9", marginBottom: "12px" }}>No Active Evaluation Task</h2>
+            <p style={{ color: "#94a3b8", maxWidth: "500px", margin: "0 auto 24px", lineHeight: "1.6" }}>
+              Please connect an AI agent endpoint to initiate adversarial scenario generation and multi-model evaluation.
+            </p>
+            <button
+              type="button"
+              className="zt-connect-button"
+              onClick={() => navigate("/test-ai")}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                background: "linear-gradient(90deg, #8b3ff0, #ed3e91)",
+                color: "white",
+                border: "none",
+                fontWeight: 700,
+                cursor: "pointer"
+              }}
+            >
+              CONNECT AGENT →
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="evaluation-page">
-
       <header className="evaluation-header">
-
         <div>
           <span className="engine-label">
             TRASY / AUTONOMOUS EVALUATION ENGINE
           </span>
-
           <h1>Agent Evaluation</h1>
         </div>
 
         <div className="evaluation-status">
-          <span className="status-dot" />
-          {complete
+          <span className="status-dot" style={error ? { backgroundColor: "#ff4caa" } : {}} />
+          {error
+            ? "EVALUATION FAILED"
+            : complete
             ? "EVALUATION COMPLETE"
             : "ENGINE RUNNING"}
         </div>
-
       </header>
 
-
       <section className="evaluation-main">
+        {error ? (
+          <div className="evaluation-progress-card" style={{ borderColor: "rgba(255, 76, 170, 0.4)", padding: "35px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "#ff6fae", marginBottom: "16px" }}>
+              <AlertTriangle size={24} />
+              <strong style={{ fontSize: "18px" }}>Backend Evaluation Encountered An Error</strong>
+            </div>
+            <p style={{ color: "#cbd5e1", lineHeight: "1.6", marginBottom: "24px" }}>
+              {error}
+            </p>
+            <div style={{ display: "flex", gap: "12px" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  activeTaskIdRef.current = null;
+                  window.location.reload();
+                }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 18px",
+                  borderRadius: "8px",
+                  background: "linear-gradient(90deg, #8b3ff0, #ed3e91)",
+                  color: "white",
+                  border: "none",
+                  fontWeight: 700,
+                  cursor: "pointer"
+                }}
+              >
+                <RefreshCw size={15} /> Retry Evaluation
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/test-ai")}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 18px",
+                  borderRadius: "8px",
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "#cbd5e1",
+                  fontWeight: 600,
+                  cursor: "pointer"
+                }}
+              >
+                <ArrowLeft size={15} /> Back to Connect
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="evaluation-progress-card">
+            <div className="progress-top">
+              <div>
+                <small>MISSION STATUS</small>
+                <strong>
+                  {complete
+                    ? "Evaluation complete"
+                    : stages[activeStage][0]}
+                </strong>
+              </div>
 
-        <div className="evaluation-progress-card">
-
-          <div className="progress-top">
-
-            <div>
-              <small>MISSION STATUS</small>
-
-              <strong>
-                {complete
-                  ? "Evaluation complete"
-                  : stages[activeStage][0]}
-              </strong>
+              <div className="percentage">
+                {progress}%
+              </div>
             </div>
 
-            <div className="percentage">
-              {progress}%
+            <div className="large-progress">
+              <div style={{ width: `${progress}%` }} />
             </div>
 
+            <div className="mission-meta">
+              <span>
+                <b>5</b> scenarios
+              </span>
+              <span>
+                <b>5</b> dimensions
+              </span>
+              <span>
+                <b>LIVE</b> trace
+              </span>
+            </div>
           </div>
-
-
-          <div className="large-progress">
-            <div style={{ width: `${progress}%` }} />
-          </div>
-
-
-          <div className="mission-meta">
-
-            <span>
-              <b>56</b> checks
-            </span>
-
-            <span>
-              <b>10</b> dimensions
-            </span>
-
-            <span>
-              <b>LIVE</b> trace
-            </span>
-
-          </div>
-
-        </div>
-
+        )}
 
         <div className="evaluation-grid">
-
           <section className="stage-card">
-
             <div className="card-heading">
               <span>EVALUATION PIPELINE</span>
               <small>TRASY CORE</small>
             </div>
 
             <div className="stage-list">
-
               {stages.map(([name, description, Icon], index) => {
-
-                const done =
-                  complete || index < activeStage;
-
-                const running =
-                  !complete && index === activeStage;
+                const done = complete || index < activeStage;
+                const running = !complete && !error && index === activeStage;
 
                 return (
                   <div
                     key={name}
-                    className={`stage ${
-                      done ? "completed" : ""
-                    } ${
-                      running ? "running" : ""
-                    }`}
+                    className={`stage ${done ? "completed" : ""} ${running ? "running" : ""}`}
                   >
-
                     <div className="stage-icon">
-
                       {done ? (
                         <CheckCircle2 size={16} />
                       ) : (
                         <Icon size={16} />
                       )}
-
                     </div>
 
                     <div className="stage-text">
-
                       <strong>{name}</strong>
-
                       <span>{description}</span>
-
                     </div>
 
                     <div className="stage-state">
-
                       {done
                         ? "DONE"
                         : running
                         ? "RUNNING"
                         : "WAITING"}
-
                     </div>
-
                   </div>
                 );
               })}
-
             </div>
-
           </section>
 
-
           <section className="trace-card">
-
             <div className="card-heading">
               <span>LIVE TRACE</span>
               <small>STREAM</small>
             </div>
 
             <div className="trace-window">
-
               <div>
                 <span className="trace-time">00:01</span>
-                <p>Agent session initialized</p>
+                <p>Agent session initialized ({agentName})</p>
               </div>
 
               <div>
@@ -235,180 +369,119 @@ function Evaluation() {
 
               <div>
                 <span className="trace-time">00:06</span>
-                <p>Adversarial scenarios generated</p>
+                <p>Adversarial scenarios generated via NVIDIA NIM</p>
               </div>
 
               <div>
                 <span className="trace-time">00:09</span>
-                <p>56 evaluation checks executed</p>
+                <p>Evaluating across Gemini & Mistral consensus</p>
               </div>
 
-              <div>
-                <span className="trace-time">00:12</span>
+              {complete && (
+                <>
+                  <div>
+                    <span className="trace-time">00:12</span>
+                    <p className="warning">
+                      Reliability scoring: {evaluation?.reliability_score}/100 ({evaluation?.risk_level} RISK)
+                    </p>
+                  </div>
 
-                <p className="warning">
-                  Reliability deviations detected
-                </p>
-              </div>
-
-              <div>
-                <span className="trace-time">00:15</span>
-
-                <p>
-                  Failure classification completed
-                </p>
-              </div>
+                  <div>
+                    <span className="trace-time">00:15</span>
+                    <p>
+                      Evaluation complete — {failureCount} failure points flagged
+                    </p>
+                  </div>
+                </>
+              )}
 
               <span className="cursor">▋</span>
-
             </div>
-
           </section>
-
         </div>
 
-
-        {complete && (
-
+        {complete && evaluation && (
           <>
-
             <section className="result-card">
-
               <div className="result-score">
-
                 <span>TRASY RELIABILITY SCORE</span>
-
                 <strong>
-                  {evaluation.scoring.overall}
+                  {evaluation.reliability_score}
                 </strong>
-
-                <small>
-                  / 100
-                </small>
-
+                <small>/ 100</small>
               </div>
 
-
               <div className="result-summary">
-
                 <div>
-                  <small>GRADE</small>
-
-                  <strong>
-                    {evaluation.scoring.overall >= 90
-                      ? "EXCELLENT"
-                      : evaluation.scoring.overall >= 80
-                      ? "STRONG"
-                      : evaluation.scoring.overall >= 70
-                      ? "MODERATE"
-                      : "NEEDS ATTENTION"}
+                  <small>RISK LEVEL</small>
+                  <strong style={{ color: evaluation.risk_level === "LOW" ? "#4fe4bd" : evaluation.risk_level === "MEDIUM" ? "#ffb74d" : "#ff4caa" }}>
+                    {evaluation.risk_level} RISK
                   </strong>
                 </div>
 
                 <div>
-                  <small>CHECKS</small>
-                  <strong>56</strong>
+                  <small>SCENARIOS</small>
+                  <strong>{scenarioCount}</strong>
                 </div>
 
                 <div>
-                  <small>DEVIATIONS</small>
-                  <strong>{failures}</strong>
+                  <small>FAILURES</small>
+                  <strong>{failureCount}</strong>
+                </div>
+              </div>
+            </section>
+
+            {evaluation.metrics && (
+              <section className="dimension-card">
+                <div className="card-heading">
+                  <span>CORE EVALUATION METRICS</span>
+                  <small>EVALUATED DIMENSIONS</small>
                 </div>
 
-              </div>
-
-            </section>
-
-
-            <section className="dimension-card">
-
-              <div className="card-heading">
-                <span>RELIABILITY DIMENSIONS</span>
-                <small>WEIGHTED ANALYSIS</small>
-              </div>
-
-              <div className="dimension-grid">
-
-                {Object.entries(
-                  evaluation.scoring.categories
-                ).map(([category, score]) => (
-
-                  <div
-                    className="dimension"
-                    key={category}
-                  >
-
-                    <div className="dimension-top">
-
-                      <span>{category}</span>
-
-                      <strong>
-                        {score}
-                      </strong>
-
+                <div className="dimension-grid">
+                  {[
+                    ["Correctness", evaluation.metrics.correctness],
+                    ["Relevance", evaluation.metrics.relevance],
+                    ["Completeness", evaluation.metrics.completeness],
+                    ["Consistency", evaluation.metrics.consistency],
+                    ["Hallucination Risk", evaluation.metrics.hallucination_risk]
+                  ].map(([label, score]) => (
+                    <div className="dimension" key={label}>
+                      <div className="dimension-top">
+                        <span>{label}</span>
+                        <strong>{score}</strong>
+                      </div>
+                      <div className="dimension-bar">
+                        <div style={{ width: `${Math.min(100, Math.max(0, score))}%` }} />
+                      </div>
                     </div>
-
-                    <div className="dimension-bar">
-
-                      <div
-                        style={{
-                          width: `${score}%`
-                        }}
-                      />
-
-                    </div>
-
-                  </div>
-
-                ))}
-
-              </div>
-
-            </section>
-
+                  ))}
+                </div>
+              </section>
+            )}
 
             <div className="evaluation-complete">
-
               <div>
-
-                <span>
-                  TRASY ANALYSIS COMPLETE
-                </span>
-
-                <h2>
-                  Reliability signal generated.
-                </h2>
-
+                <span>TRASY ANALYSIS COMPLETE</span>
+                <h2>Reliability signal generated.</h2>
                 <p>
-                  TRASY evaluated the agent across 56
-                  reliability checks and generated
-                  evidence-backed results.
+                  TRASY evaluated {agentName} across {scenarioCount} adversarial scenarios with multi-model validation.
                 </p>
-
               </div>
 
               <button
                 type="button"
-                onClick={() =>
-                  navigate("/mission-control")
-                }
+                onClick={() => navigate("/mission-control")}
               >
                 VIEW MISSION CONTROL
                 <TrendingUp size={16} />
               </button>
-
             </div>
-
           </>
         )}
-
       </section>
-
     </div>
   );
 }
 
 export default Evaluation;
-
-
-

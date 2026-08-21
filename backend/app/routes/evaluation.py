@@ -208,6 +208,37 @@ async def evaluate_task_full(task_id: str):
     if not task:
         raise HTTPException(status_code=404, detail="Task not found.")
 
+    # ── 0. Return existing evaluation if already computed ─────────────
+    existing_doc = await full_evaluations_collection.find_one({"task_id": task_id})
+    if existing_doc:
+        agreement_obj = None
+        if existing_doc.get("evaluator_agreement"):
+            agreement_obj = EvaluatorAgreement(
+                agreement_score=existing_doc["evaluator_agreement"]["agreement_score"],
+                agreement_level=existing_doc["evaluator_agreement"]["agreement_level"],
+                metric_differences=existing_doc["evaluator_agreement"].get("metric_differences", {})
+            )
+        return EvaluationResult(
+            evaluation_id=str(existing_doc["_id"]),
+            task_id=task_id,
+            output=existing_doc.get("output", ""),
+            reliability_score=existing_doc.get("reliability_score", 0.0),
+            risk_level=existing_doc.get("risk_level", "MEDIUM"),
+            failures=existing_doc.get("failures", []),
+            recommendations=existing_doc.get("recommendations", []),
+            metrics=EvaluationMetrics(**existing_doc.get("metrics", {})),
+            trace=existing_doc.get("trace", []),
+            evaluators=existing_doc.get("evaluators", {
+                "gemini": {"status": "aggregated"},
+                "mistral": {"status": "aggregated"}
+            }),
+            evaluator_agreement=agreement_obj,
+            scenarios=existing_doc.get("scenarios"),
+            scenario_source=existing_doc.get("scenario_source"),
+            provider_status=existing_doc.get("provider_status"),
+            scenario_results=existing_doc.get("scenario_results")
+        )
+
     # ── 1. Scenario Generation ────────────────────────────────────────
     scenarios, source = await generate_scenarios(task["description"])
     

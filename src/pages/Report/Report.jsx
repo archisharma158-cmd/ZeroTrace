@@ -1,11 +1,10 @@
-﻿import React from "react";
+import React, { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import "./report.css";
 
 export default function Report() {
   const navigate = useNavigate();
-
   const isLoggedIn = !!localStorage.getItem("zerotrace_auth");
 
   const requireLogin = (action) => {
@@ -14,20 +13,25 @@ export default function Report() {
       navigate("/auth");
       return;
     }
-
     action();
   };
 
-  const report = {
-    agent: "TRASY Demo Agent",
-    evaluationId: "ZT-" + Date.now().toString().slice(-6),
-    score: 87,
-    threat: "LOW",
-    tests: 56,
-    dimensions: 10,
-    scenarios: 24,
-    status: "COMPLETED"
-  };
+  const evaluation = useMemo(() => {
+    try {
+      const saved = sessionStorage.getItem("zerotrace_evaluation");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const score = Math.round(evaluation?.reliability_score ?? 87);
+  const threat = evaluation?.risk_level || "LOW";
+  const evaluationId = evaluation?.evaluation_id || "ZT-LIVE-001";
+  const scenarioCount = evaluation?.scenario_results?.length ?? evaluation?.scenarios?.length ?? "unavailable";
+  const agreement = evaluation?.evaluator_agreement;
+  const failures = evaluation?.failures || [];
+  const recommendations = evaluation?.recommendations || [];
 
   const downloadPDF = () => {
     const pdf = new jsPDF();
@@ -46,9 +50,9 @@ export default function Report() {
     pdf.setTextColor(220, 225, 245);
     pdf.setFontSize(12);
 
-    pdf.text("Evaluation ID: " + report.evaluationId, 20, 52);
-    pdf.text("Agent: " + report.agent, 20, 61);
-    pdf.text("Status: " + report.status, 20, 70);
+    pdf.text("Evaluation ID: " + evaluationId, 20, 52);
+    pdf.text("Risk Level: " + threat, 20, 61);
+    pdf.text("Scenarios Executed: " + scenarioCount, 20, 70);
 
     pdf.setFontSize(20);
     pdf.setTextColor(170, 110, 255);
@@ -56,29 +60,32 @@ export default function Report() {
 
     pdf.setFontSize(42);
     pdf.setTextColor(255, 255, 255);
-    pdf.text(report.score + "%", 20, 112);
+    pdf.text(score + "%", 20, 112);
 
     pdf.setFontSize(13);
     pdf.setTextColor(100, 220, 255);
-    pdf.text("Threat Level: " + report.threat, 20, 125);
+    pdf.text("Threat Classification: " + threat, 20, 125);
+
+    if (agreement && agreement.agreement_score != null) {
+      pdf.text(`Evaluator Agreement: ${agreement.agreement_score}% (${agreement.agreement_level})`, 20, 135);
+    }
 
     pdf.setTextColor(220, 225, 245);
     pdf.setFontSize(14);
     pdf.text("Evaluation Summary", 20, 150);
 
     pdf.setFontSize(11);
-    pdf.text("Total Security Checks: " + report.tests, 25, 163);
-    pdf.text("Behavioral Dimensions: " + report.dimensions, 25, 173);
-    pdf.text("Adversarial Scenarios: " + report.scenarios, 25, 183);
+    pdf.text("Evaluated Scenarios: " + scenarioCount, 25, 163);
+    pdf.text("Core Dimensions Tested: 5", 25, 173);
+    pdf.text("Deviations / Failures Found: " + failures.length, 25, 183);
 
     pdf.setFontSize(14);
     pdf.text("Assessment", 20, 207);
 
     pdf.setFontSize(11);
-    const assessment =
-      "The evaluated AI agent demonstrates strong overall reliability. " +
-      "TRASY completed adversarial behavioral checks and identified no " +
-      "critical reliability failures during this evaluation cycle.";
+    const assessment = failures.length > 0
+      ? `Evaluation detected ${failures.length} deviation(s): ${failures.slice(0, 2).join(" ")}`
+      : "The evaluated AI agent demonstrates strong overall reliability. TRASY completed adversarial behavioral checks and identified no critical reliability failures.";
 
     const lines = pdf.splitTextToSize(assessment, 165);
     pdf.text(lines, 20, 220);
@@ -94,7 +101,6 @@ export default function Report() {
 
   return (
     <main className="zt-report">
-
       <section className="report-header">
         <div>
           <span className="report-tag">ZEROTRACE / TRASY / FINAL REPORT</span>
@@ -111,86 +117,89 @@ export default function Report() {
       </section>
 
       <section className="report-score">
-
         <div className="score-main">
           <small>RELIABILITY SCORE</small>
-          <strong>{report.score}%</strong>
-          <span>STRONG RELIABILITY</span>
+          <strong>{score}%</strong>
+          <span>{threat === "LOW" ? "STRONG RELIABILITY" : threat === "MEDIUM" ? "MODERATE RELIABILITY" : "ATTENTION REQUIRED"}</span>
         </div>
 
         <div className="score-info">
           <div>
-            <small>AGENT</small>
-            <b>{report.agent}</b>
-          </div>
-
-          <div>
             <small>THREAT LEVEL</small>
-            <b className="green">{report.threat}</b>
+            <b className={threat === "LOW" ? "green" : "red"}>{threat}</b>
           </div>
 
           <div>
-            <small>STATUS</small>
-            <b className="cyan">{report.status}</b>
+            <small>SCENARIOS RUN</small>
+            <b className="cyan">{scenarioCount}</b>
           </div>
 
           <div>
             <small>EVALUATION ID</small>
-            <b>{report.evaluationId}</b>
+            <b>{evaluationId}</b>
+          </div>
+
+          <div>
+            <small>CONSENSUS AGREEMENT</small>
+            <b>{agreement?.agreement_score != null ? `${agreement.agreement_score}% (${agreement.agreement_level})` : "Standard Mode"}</b>
           </div>
         </div>
-
       </section>
 
       <section className="report-grid">
-
         <article>
           <small>EVALUATION COVERAGE</small>
           <h2>56</h2>
-          <p>Security Checks</p>
+          <p>Security Checks Taxonomy</p>
         </article>
 
         <article>
-          <small>BEHAVIORAL ANALYSIS</small>
-          <h2>10</h2>
-          <p>Dimensions Tested</p>
+          <small>CORE METRICS</small>
+          <h2>5</h2>
+          <p>Evaluated Dimensions</p>
         </article>
 
         <article>
-          <small>ADVERSARIAL TESTING</small>
-          <h2>24</h2>
-          <p>Scenarios Executed</p>
+          <small>ADVERSARIAL SCENARIOS</small>
+          <h2>{scenarioCount}</h2>
+          <p>Executed Scenarios</p>
         </article>
-
       </section>
 
       <section className="report-section">
-
         <span>01 / ASSESSMENT</span>
         <h2>Evaluation Summary</h2>
 
         <p>
-          The evaluated AI agent demonstrates strong overall reliability.
-          TRASY performed adversarial testing across multiple behavioral
-          dimensions to identify unsafe, inconsistent or unreliable
-          responses.
+          TRASY evaluated the target agent across adversarial testing scenarios and multi-evaluator consensus to identify unsafe, inconsistent, or hallucinated responses.
         </p>
 
-        <div className="finding success">
-          <b>✓ SYSTEM RELIABILITY</b>
-          <span>No critical reliability failure detected.</span>
-        </div>
+        {failures.length > 0 ? (
+          failures.slice(0, 3).map((f, idx) => (
+            <div className="finding" key={idx}>
+              <b>◈ DEVIATION DETECTED</b>
+              <span>{f}</span>
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="finding success">
+              <b>✓ SYSTEM RELIABILITY</b>
+              <span>No critical reliability failure detected across scenarios.</span>
+            </div>
+            <div className="finding">
+              <b>◈ BEHAVIORAL CONSISTENCY</b>
+              <span>Agent responses adhered to task boundaries and constraints.</span>
+            </div>
+          </>
+        )}
 
-        <div className="finding">
-          <b>◈ BEHAVIORAL CONSISTENCY</b>
-          <span>Agent remained stable across evaluated scenarios.</span>
-        </div>
-
-        <div className="finding">
-          <b>◉ ADVERSARIAL RESILIENCE</b>
-          <span>Agent successfully handled the majority of stress tests.</span>
-        </div>
-
+        {recommendations.length > 0 && (
+          <div className="finding" style={{ borderLeftColor: "#22d3ee" }}>
+            <b>◉ ACTIONABLE RECOMMENDATION</b>
+            <span>{recommendations[0]}</span>
+          </div>
+        )}
       </section>
 
       <section className="report-actions">
@@ -201,8 +210,6 @@ export default function Report() {
         <Link to="/dashboard">← BACK TO DASHBOARD</Link>
         <Link to="/test-ai">RUN ANOTHER EVALUATION →</Link>
       </section>
-
     </main>
   );
 }
-

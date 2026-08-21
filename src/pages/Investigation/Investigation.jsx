@@ -1,11 +1,11 @@
-﻿import { useEffect, useState } from "react";
-import { AlertTriangle, ArrowLeft, CheckCircle2, ShieldAlert } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AlertTriangle, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const fallbackFailures = [
   {
-    metricId: "TR-0042",
-    metricName: "Prompt Injection Resistance",
+    id: "TR-0042",
+    title: "Prompt Injection Resistance",
     category: "Safety",
     status: "FAIL",
     severity: "HIGH",
@@ -16,8 +16,8 @@ const fallbackFailures = [
     scenarioId: "SCN-042"
   },
   {
-    metricId: "TR-0018",
-    metricName: "Tool Error Handling",
+    id: "TR-0018",
+    title: "Tool Error Handling",
     category: "Tool Reliability",
     status: "FAIL",
     severity: "HIGH",
@@ -28,8 +28,8 @@ const fallbackFailures = [
     scenarioId: "SCN-018"
   },
   {
-    metricId: "TR-0031",
-    metricName: "Instruction Consistency",
+    id: "TR-0031",
+    title: "Instruction Consistency",
     category: "Consistency",
     status: "PARTIAL",
     severity: "MEDIUM",
@@ -40,8 +40,8 @@ const fallbackFailures = [
     scenarioId: "SCN-031"
   },
   {
-    metricId: "TR-0050",
-    metricName: "Failure Recovery",
+    id: "TR-0050",
+    title: "Failure Recovery",
     category: "Failure Recovery",
     status: "PARTIAL",
     severity: "MEDIUM",
@@ -55,11 +55,17 @@ const fallbackFailures = [
 
 function Investigation() {
   const navigate = useNavigate();
-  const [evaluation, setEvaluation] = useState(null);
+  const [evaluation, setEvaluation] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem("zerotrace_evaluation");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     const saved = sessionStorage.getItem("zerotrace_evaluation");
-
     if (saved) {
       try {
         setEvaluation(JSON.parse(saved));
@@ -69,18 +75,54 @@ function Investigation() {
     }
   }, []);
 
-  const failures = fallbackFailures;
+  const reliabilityScore = evaluation?.reliability_score ?? evaluation?.scoring?.overall ?? 83;
+  const scenarioCount = evaluation?.scenario_results?.length ?? evaluation?.scenarios?.length ?? "unavailable";
 
-  const reliabilityScore =
-    evaluation?.scoring?.overall ??
-    evaluation?.overall ??
-    83;
+  // Derive real items from backend scenario results or backend failures
+  let failureItems = fallbackFailures;
+  if (evaluation?.scenario_results && evaluation.scenario_results.length > 0) {
+    failureItems = evaluation.scenario_results.map((scen, idx) => {
+      const score = Math.round(scen.reliability_score ?? 0);
+      const isFail = scen.status === "failed" || score < 60 || (scen.failures && scen.failures.length > 0);
+      const isPartial = !isFail && score < 80;
+      return {
+        id: scen.scenario_id || `SCN-${idx + 1}`,
+        title: scen.title || `Scenario ${idx + 1}`,
+        category: (scen.type || "scenario").toUpperCase(),
+        status: isFail ? "FAIL" : isPartial ? "PARTIAL" : "PASS",
+        severity: isFail ? "HIGH" : isPartial ? "MEDIUM" : "LOW",
+        score,
+        expected: scen.expected_behavior || "Agent should complete the scenario safely and correctly.",
+        observed: (scen.failures && scen.failures.length > 0)
+          ? scen.failures.join(" ")
+          : scen.output
+          ? scen.output.slice(0, 240) + (scen.output.length > 240 ? "..." : "")
+          : "Execution trace verified without deviations.",
+        traceId: `TRC-${String(idx + 1).padStart(4, "0")}`,
+        scenarioId: scen.scenario_id || `SCN-${String(idx + 1).padStart(3, "0")}`
+      };
+    });
+  } else if (evaluation?.failures && evaluation.failures.length > 0) {
+    failureItems = evaluation.failures.map((f, idx) => ({
+      id: `F-${idx + 1}`,
+      title: `Evaluator Finding ${idx + 1}`,
+      category: "EVALUATOR DEVIATION",
+      status: "FAIL",
+      severity: "HIGH",
+      score: Math.round(reliabilityScore),
+      expected: "Agent behavior should remain within safe, truthful, and consistent boundaries.",
+      observed: f,
+      traceId: `TRC-${String(idx + 1).padStart(4, "0")}`,
+      scenarioId: `SCN-${String(idx + 1).padStart(3, "0")}`
+    }));
+  }
+
+  const deviationCount = failureItems.filter((i) => i.status === "FAIL" || i.status === "PARTIAL").length;
+  const highRiskCount = failureItems.filter((i) => i.severity === "HIGH").length;
 
   return (
     <div className="investigation-page">
-
       <header className="investigation-header">
-
         <button
           className="investigation-back"
           onClick={() => navigate("/evaluation")}
@@ -90,166 +132,89 @@ function Investigation() {
         </button>
 
         <div className="investigation-heading">
-
-          <span>
-            TRASY / FAILURE INVESTIGATION
-          </span>
-
-          <h1>
-            Where does your agent break?
-          </h1>
-
+          <span>TRASY / FAILURE INVESTIGATION</span>
+          <h1>Where does your agent break?</h1>
           <p>
-            TRASY converts evaluation traces into
-            evidence-backed failure analysis.
+            TRASY converts evaluation traces into evidence-backed failure analysis.
           </p>
-
         </div>
 
         <div className="failure-counter">
-
-          <strong>
-            {failures.length}
-          </strong>
-
-          <span>
-            DEVIATIONS
-          </span>
-
+          <strong>{deviationCount}</strong>
+          <span>DEVIATIONS</span>
         </div>
-
       </header>
 
-
       <section className="investigation-summary">
-
         <div>
           <small>RELIABILITY</small>
           <strong>{reliabilityScore}/100</strong>
         </div>
 
         <div>
-          <small>CHECKS EXECUTED</small>
-          <strong>56</strong>
+          <small>SCENARIOS RUN</small>
+          <strong>{scenarioCount}</strong>
         </div>
 
         <div>
           <small>DIMENSIONS</small>
-          <strong>10</strong>
+          <strong>5 CORE</strong>
         </div>
 
         <div>
           <small>HIGH RISK</small>
-          <strong>
-            {
-              failures.filter(
-                (item) => item.severity === "HIGH"
-              ).length
-            }
-          </strong>
+          <strong>{highRiskCount}</strong>
         </div>
-
       </section>
 
-
       <section className="failure-list">
-
         <div className="investigation-title">
-
           <div>
-            <span>OBSERVED DEVIATIONS</span>
-
-            <h2>
-              Failure Evidence
-            </h2>
+            <span>OBSERVED EVIDENCE</span>
+            <h2>Scenario & Failure Evidence</h2>
           </div>
-
-          <small>
-            ORDERED BY SEVERITY
-          </small>
-
+          <small>REAL EVALUATOR FINDINGS</small>
         </div>
 
-
-        {failures.map((failure, index) => (
-
+        {failureItems.map((failure, index) => (
           <article
-            key={failure.metricId}
-            className={
-              "failure-card severity-" +
-              failure.severity.toLowerCase()
-            }
+            key={failure.id || index}
+            className={"failure-card severity-" + failure.severity.toLowerCase()}
           >
-
             <div className="failure-index">
               {String(index + 1).padStart(2, "0")}
             </div>
 
-
             <div className="failure-main">
-
               <div className="failure-heading">
-
                 <div>
-
-                  <span>
-                    {failure.category}
-                  </span>
-
-                  <h3>
-                    {failure.metricName}
-                  </h3>
-
+                  <span>{failure.category}</span>
+                  <h3>{failure.title}</h3>
                 </div>
 
-
                 <div className="failure-status">
-
                   {failure.status === "FAIL" ? (
                     <AlertTriangle size={14} />
                   ) : (
                     <CheckCircle2 size={14} />
                   )}
-
                   {failure.status}
-
                 </div>
-
               </div>
-
 
               <div className="evidence-grid">
-
                 <div className="evidence-box">
-
-                  <small>
-                    EXPECTED BEHAVIOR
-                  </small>
-
-                  <p>
-                    {failure.expected}
-                  </p>
-
+                  <small>EXPECTED BEHAVIOR</small>
+                  <p>{failure.expected}</p>
                 </div>
-
 
                 <div className="evidence-box observed">
-
-                  <small>
-                    OBSERVED BEHAVIOR
-                  </small>
-
-                  <p>
-                    {failure.observed}
-                  </p>
-
+                  <small>OBSERVED BEHAVIOR / FINDING</small>
+                  <p>{failure.observed}</p>
                 </div>
-
               </div>
 
-
               <div className="failure-meta">
-
                 <span>
                   SEVERITY
                   <b>{failure.severity}</b>
@@ -269,51 +234,29 @@ function Investigation() {
                   SCORE
                   <b>{failure.score}/100</b>
                 </span>
-
               </div>
-
             </div>
-
           </article>
-
         ))}
-
       </section>
 
-
       <section className="investigation-footer">
-
         <div>
-
-          <span>
-            TRASY EVIDENCE ENGINE
-          </span>
-
-          <h2>
-            Every failure has a trace.
-          </h2>
-
+          <span>TRASY EVIDENCE ENGINE</span>
+          <h2>Every failure has a trace.</h2>
           <p>
-            Investigate the exact scenario, observed
-            behavior and reliability impact before
-            generating the final report.
+            Investigate the exact scenario, observed behavior and reliability impact before generating the final report.
           </p>
-
         </div>
 
-
-        <button
-          onClick={() => navigate("/report")}
-        >
+        <button onClick={() => navigate("/report")}>
           CONTINUE TO REPORT
           <ArrowLeft
             size={15}
             style={{ transform: "rotate(180deg)" }}
           />
         </button>
-
       </section>
-
     </div>
   );
 }

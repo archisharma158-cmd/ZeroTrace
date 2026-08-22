@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Activity,
@@ -158,10 +158,6 @@ function Dashboard() {
 
   return (
     <main className="zt-dashboard">
-
-      <div className="dashboard-stars" />
-      <div className="dashboard-nebula nebula-one" />
-      <div className="dashboard-nebula nebula-two" />
 
       <section className="dash-hero">
 

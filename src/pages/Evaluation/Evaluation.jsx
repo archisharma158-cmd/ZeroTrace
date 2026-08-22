@@ -41,6 +41,7 @@ function Evaluation() {
   const activeTaskIdRef = useRef(null);
   const backendResultRef = useRef(null);
   const backendDoneRef = useRef(false);
+  const fetchInProgressRef = useRef(false);
 
   useEffect(() => {
     if (!taskId) {
@@ -48,22 +49,25 @@ function Evaluation() {
       return;
     }
 
-    // Prevent duplicate invocation if already evaluating this taskId
-    if (activeTaskIdRef.current === taskId) {
-      return;
-    }
-    activeTaskIdRef.current = taskId;
-
     let isMounted = true;
-    backendDoneRef.current = false;
-    backendResultRef.current = null;
-    setError("");
-    setProgress(0);
-    setActiveStage(0);
-    setLoading(true);
 
-    // 1. Kick off real backend full evaluation
+    // Reset if it's a completely new task
+    if (activeTaskIdRef.current !== taskId) {
+      activeTaskIdRef.current = taskId;
+      backendDoneRef.current = false;
+      backendResultRef.current = null;
+      fetchInProgressRef.current = false;
+      setError("");
+      setProgress(0);
+      setActiveStage(0);
+      setLoading(true);
+    }
+
+    // 1. Kick off real backend full evaluation only once per taskId
     const runEvaluation = async () => {
+      if (fetchInProgressRef.current || backendDoneRef.current) return;
+      fetchInProgressRef.current = true;
+
       try {
         const response = await fetch(`${API_BASE}/api/evaluate/${encodeURIComponent(taskId)}/full`, {
           method: "POST",
@@ -71,8 +75,6 @@ function Evaluation() {
         });
 
         const data = await response.json().catch(() => ({}));
-
-        if (!isMounted) return;
 
         if (response.ok && data.evaluation_id) {
           backendResultRef.current = data;
@@ -98,14 +100,14 @@ function Evaluation() {
           }
         } else {
           const detail = data.detail || data.message || "Evaluation failed on backend. Please retry.";
-          setError(detail);
-          setLoading(false);
+          backendResultRef.current = { isError: true, detail };
+          backendDoneRef.current = true;
         }
       } catch {
-        if (isMounted) {
-          setError("Network error connecting to evaluation service. Please check your backend connection.");
-          setLoading(false);
-        }
+        backendResultRef.current = { isError: true, detail: "Network error connecting to evaluation service. Please check your backend connection." };
+        backendDoneRef.current = true;
+      } finally {
+        fetchInProgressRef.current = false;
       }
     };
 
@@ -117,7 +119,15 @@ function Evaluation() {
 
       setProgress((current) => {
         if (backendDoneRef.current && backendResultRef.current) {
-          // Backend finished! Advance rapidly to 100%
+          // Check if the backend result was an error
+          if (backendResultRef.current.isError) {
+            setError(backendResultRef.current.detail);
+            setLoading(false);
+            clearInterval(interval);
+            return current;
+          }
+
+          // Backend finished successfully! Advance rapidly to 100%
           const next = Math.min(current + 10, 100);
           const stage = Math.min(
             Math.floor(next / (100 / stages.length)),

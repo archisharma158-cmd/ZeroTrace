@@ -1,104 +1,321 @@
-﻿/* =========================================================
-   ZEROTRACE — GLOBAL GALAXY BACKGROUND
+/* =========================================================
+   ZEROTRACE — GLOBAL REUSABLE COSMIC BACKGROUND SYSTEM
+   Atmosphere: Deep Space Black + Violet / Purple / Magenta
+   Milky Way Nebula + Subtle Starfield + AI Agent Execution Traces
    ========================================================= */
+
+:root {
+  --zt-cosmic-bg: #050814;
+}
 
 html,
 body,
 #root {
   min-height: 100%;
-  background: #050816;
+  background: var(--zt-cosmic-bg);
 }
 
 body {
   margin: 0;
   overflow-x: hidden;
+  color: #f7f7ff;
 }
 
-/* Animated galaxy layer */
-body::before {
-  content: "";
+/* =========================================================
+   COSMIC WRAPPER & PAGE-SPECIFIC INTENSITY HIERARCHY
+   ========================================================= */
+.zt-cosmic-wrapper {
   position: fixed;
-  inset: -25%;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--zt-cosmic-bg);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Page-specific intensity levels */
+.zt-cosmic-wrapper.cosmic-home {
+  opacity: 1; /* 1.0 (Home / Hero) */
+}
+
+.zt-cosmic-wrapper.cosmic-about {
+  opacity: 0.65; /* 0.65 (About) */
+}
+
+.zt-cosmic-wrapper.cosmic-auth {
+  opacity: 0.55; /* 0.55 (Auth / Login) */
+}
+
+.zt-cosmic-wrapper.cosmic-subpage {
+  opacity: 0.50; /* 0.50 (Trasy / Team / Contact / License / Profile) */
+}
+
+.zt-cosmic-wrapper.cosmic-testai {
+  opacity: 0.45; /* 0.45 (Test Your AI) */
+}
+
+.zt-cosmic-wrapper.cosmic-dashboard {
+  opacity: 0.35; /* 0.35 (Dashboard Mission Control) */
+}
+
+.zt-cosmic-wrapper.cosmic-eval {
+  opacity: 0.20; /* 0.20 (Evaluation / Investigation / Mission Control) */
+}
+
+.zt-cosmic-wrapper.cosmic-report {
+  opacity: 0.15; /* 0.15 (Reports / Results / History / Full Report) */
+}
+
+/* =========================================================
+   LAYER 1: MILKY WAY NEBULA CLOUDS (PURPLE / PINK / VIOLET)
+   ========================================================= */
+.zt-nebula-cluster {
+  position: absolute;
+  inset: -15%;
+  width: 130%;
+  height: 130%;
   pointer-events: none;
 
   background:
-    radial-gradient(circle at 15% 20%, rgba(83, 220, 255, 0.16) 0, transparent 22%),
-    radial-gradient(circle at 82% 18%, rgba(166, 92, 255, 0.20) 0, transparent 25%),
-    radial-gradient(circle at 70% 75%, rgba(238, 65, 174, 0.12) 0, transparent 23%),
-    radial-gradient(circle at 25% 80%, rgba(58, 120, 255, 0.10) 0, transparent 25%),
-    radial-gradient(ellipse at center,
-      rgba(70, 80, 180, 0.12) 0%,
-      rgba(20, 25, 70, 0.08) 30%,
-      rgba(5, 8, 22, 0.95) 72%,
-      #050816 100%
-    );
+    /* Primary Cosmic Concentration (Upper-Right -> Center-Right) */
+    radial-gradient(circle at 82% 18%, rgba(109, 40, 217, 0.14) 0%, rgba(124, 58, 237, 0.08) 22%, transparent 40%),
+    radial-gradient(circle at 88% 25%, rgba(217, 70, 239, 0.065) 0%, rgba(236, 72, 153, 0.035) 18%, transparent 35%),
+    radial-gradient(circle at 72% 34%, rgba(139, 92, 246, 0.075) 0%, transparent 34%),
+    radial-gradient(circle at 84% 28%, rgba(34, 211, 238, 0.035) 0%, transparent 22%),
 
-  animation: zerotraceGalaxyMove 22s ease-in-out infinite alternate;
+    /* Secondary Soft Glow (Bottom-Left) */
+    radial-gradient(circle at 16% 82%, rgba(236, 72, 153, 0.045) 0%, transparent 28%),
+    radial-gradient(circle at 22% 76%, rgba(124, 58, 237, 0.06) 0%, transparent 32%),
+
+    /* Center Vignette: Darkening center for pristine text readability */
+    radial-gradient(ellipse at 50% 50%, rgba(5, 8, 20, 0.35) 0%, rgba(5, 8, 20, 0.85) 65%, #050814 100%);
+
+  animation: ztNebulaBreathe 32s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-/* Stars / particles */
-body::after {
-  content: "";
-  position: fixed;
+/* =========================================================
+   LAYER 2: COSMIC DUST & ATMOSPHERIC HAZE
+   ========================================================= */
+.zt-cosmic-dust {
+  position: absolute;
   inset: 0;
-  z-index: -9;
   pointer-events: none;
+  opacity: 0.65;
 
+  background:
+    radial-gradient(ellipse at 80% 22%, rgba(192, 132, 252, 0.045) 0%, transparent 45%),
+    radial-gradient(ellipse at 28% 72%, rgba(244, 114, 182, 0.035) 0%, transparent 38%);
+}
+
+/* =========================================================
+   LAYER 3: MULTI-TIER STARFIELD (1px, 1.5px, 2px)
+   ========================================================= */
+.zt-stars-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Deep tiny stars (1px) */
+.zt-stars-deep {
   opacity: 0.7;
-
   background-image:
-    radial-gradient(circle, rgba(255,255,255,.85) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(80,220,255,.65) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(180,100,255,.6) 1px, transparent 1.5px);
-
-  background-size:
-    140px 140px,
-    210px 210px,
-    280px 280px;
-
-  background-position:
-    20px 30px,
-    80px 120px,
-    150px 50px;
-
-  animation: zerotraceStars 35s linear infinite;
+    radial-gradient(1px 1px at 24px 38px, rgba(255, 255, 255, 0.38), transparent 1.2px),
+    radial-gradient(1px 1px at 140px 92px, rgba(192, 132, 252, 0.32), transparent 1.2px),
+    radial-gradient(1px 1px at 210px 180px, rgba(255, 255, 255, 0.28), transparent 1.2px),
+    radial-gradient(1px 1px at 70px 220px, rgba(244, 114, 182, 0.24), transparent 1.2px),
+    radial-gradient(1px 1px at 260px 40px, rgba(255, 255, 255, 0.35), transparent 1.2px);
+  background-size: 280px 280px;
+  animation: ztStarTwinkle1 9s ease-in-out infinite;
 }
 
-@keyframes zerotraceGalaxyMove {
+/* Mid stars (1.5px) */
+.zt-stars-mid {
+  opacity: 0.75;
+  background-image:
+    radial-gradient(1.5px 1.5px at 85px 45px, rgba(255, 255, 255, 0.42), transparent 1.8px),
+    radial-gradient(1.5px 1.5px at 230px 140px, rgba(192, 132, 252, 0.36), transparent 1.8px),
+    radial-gradient(1.5px 1.5px at 320px 290px, rgba(34, 211, 238, 0.30), transparent 1.8px),
+    radial-gradient(1.5px 1.5px at 150px 380px, rgba(255, 255, 255, 0.32), transparent 1.8px);
+  background-size: 420px 420px;
+  animation: ztStarTwinkle2 14s ease-in-out infinite -4s;
+}
+
+/* Sparse slightly brighter stars (2px) */
+.zt-stars-bright {
+  opacity: 0.8;
+  background-image:
+    radial-gradient(2px 2px at 160px 120px, rgba(255, 255, 255, 0.48), transparent 2.2px),
+    radial-gradient(2px 2px at 450px 310px, rgba(192, 132, 252, 0.42), transparent 2.2px),
+    radial-gradient(2px 2px at 320px 520px, rgba(236, 72, 153, 0.35), transparent 2.2px);
+  background-size: 600px 600px;
+  animation: ztStarTwinkle3 11s ease-in-out infinite -7s;
+}
+
+/* =========================================================
+   LAYER 4: AI AGENT EXECUTION TRACE & CONSTELLATION GRAPH
+   ========================================================= */
+.zt-execution-trace-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.zt-trace-pulse-path {
+  stroke-dasharray: 70 420;
+  stroke-dashoffset: 490;
+  animation: ztTraceTravel 18s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.zt-trace-node.pulse-slow {
+  animation: ztNodePulse 6s ease-in-out infinite alternate;
+}
+
+.zt-trace-node.pulse-fast {
+  animation: ztNodePulse 4s ease-in-out infinite alternate -1.5s;
+}
+
+.zt-trace-ring {
+  animation: ztRingExpand 4s ease-out infinite;
+  transform-origin: 1140px 175px;
+}
+
+/* =========================================================
+   ANIMATION KEYFRAMES
+   ========================================================= */
+@keyframes ztNebulaBreathe {
   0% {
-    transform: scale(1) rotate(0deg);
+    transform: scale(1) translate3d(0, 0, 0);
   }
-
   50% {
-    transform: scale(1.06) rotate(1deg);
+    transform: scale(1.04) translate3d(-1%, -1%, 0);
   }
-
   100% {
-    transform: scale(1.12) rotate(-1deg);
+    transform: scale(1.02) translate3d(1%, 0.5%, 0);
   }
 }
 
-@keyframes zerotraceStars {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
+@keyframes ztStarTwinkle1 {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 0.35; }
+}
 
-  to {
-    transform: translate3d(-80px, -50px, 0);
+@keyframes ztStarTwinkle2 {
+  0%, 100% { opacity: 0.40; }
+  50% { opacity: 0.80; }
+}
+
+@keyframes ztStarTwinkle3 {
+  0%, 100% { opacity: 0.70; }
+  50% { opacity: 0.30; }
+}
+
+@keyframes ztTraceTravel {
+  0% {
+    stroke-dashoffset: 490;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    stroke-dashoffset: -490;
+    opacity: 0;
   }
 }
 
-/* Keep major page shells transparent so galaxy remains visible */
+@keyframes ztNodePulse {
+  0% {
+    opacity: 0.25;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0.45;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes ztRingExpand {
+  0% {
+    r: 3px;
+    opacity: 0.35;
+  }
+  100% {
+    r: 9px;
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   GLOBAL PAGE TRANSPARENCY & LAYERING SAFETY
+   Ensures all routed pages allow the cosmic background to be visible
+   ========================================================= */
 main,
+.zt-main-content,
+.zt-home,
+.zt-about,
+.zt-test-page,
+.trasy-page,
+.zt-dashboard,
+.auth-page,
+.auth-main,
+.zt-login,
+.zt-eval-page,
+.evaluation-page,
+.zt-investigation-page,
+.zt-report,
+.full-report-page,
+.history-page,
+.zt-history,
+.team-page,
+.contact-page,
+.license-page,
+.zt-profile-page,
+.mc-page,
+.zt-subpage,
 .page,
 .page-container {
   position: relative;
+  z-index: 1;
+  background: transparent !important;
 }
 
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS FOR MOBILE & TABLETS
+   ========================================================= */
+@media (max-width: 768px) {
+  .zt-stars-deep {
+    opacity: 0.45;
+  }
+  .zt-stars-mid {
+    opacity: 0.50;
+  }
+  .zt-stars-bright {
+    opacity: 0.55;
+  }
+  .zt-execution-trace-svg {
+    opacity: 0.6;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   ========================================================= */
 @media (prefers-reduced-motion: reduce) {
-  body::before,
-  body::after {
-    animation: none;
+  .zt-nebula-cluster,
+  .zt-stars-layer,
+  .zt-trace-pulse-path,
+  .zt-trace-node,
+  .zt-trace-ring {
+    animation: none !important;
   }
 }

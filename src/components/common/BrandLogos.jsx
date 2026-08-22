@@ -1,4 +1,4 @@
-﻿import zerotraceLogo from "../../assets/branding/zerotrace-logo.jpeg";
+import zerotraceLogo from "../../../logo.jpeg";
 import trasyLogo from "../../assets/branding/trasy-logo.jpeg";
 
 export function ZeroTraceLogo({ className = "" }) {

@@ -1,131 +1,531 @@
-﻿.zt-history-page {
-  min-height: calc(100vh - 118px);
-  padding: 90px 7%;
-  background:
-    radial-gradient(circle at 80% 10%, rgba(139,92,246,.14), transparent 35%),
-    #080c1e;
-  color: #fff;
+/* =========================================================
+   ZEROTRACE — EVALUATION HISTORY PAGE STYLING
+   ========================================================= */
+
+.zt-history-page {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 105px);
+  padding: 65px 6% 90px;
+  color: #f7f7ff;
+  background: transparent !important;
 }
 
+.zt-history-container {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 .zt-history-header {
-  max-width: 1200px;
-  margin: 0 auto 50px;
+  margin-bottom: 36px;
   display: flex;
   justify-content: space-between;
-  align-items: end;
-  gap: 30px;
+  align-items: flex-end;
+  gap: 25px;
+  flex-wrap: wrap;
 }
 
-.zt-history-header span {
-  color: #22d3ee;
-  font-size: 12px;
-  letter-spacing: 3px;
+.zt-history-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #55e7ff;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.zt-history-eyebrow i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 10px #22d3ee;
 }
 
 .zt-history-header h1 {
-  margin: 14px 0;
-  font-size: clamp(42px, 6vw, 76px);
-  line-height: .95;
+  margin: 0 0 12px;
+  font-size: clamp(34px, 4.5vw, 54px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.05;
+  color: #ffffff;
 }
 
-.zt-history-header h1 strong {
+.zt-history-header h1 span {
   color: #a855f7;
 }
 
 .zt-history-header p {
-  color: #9299b7;
-  font-size: 17px;
+  margin: 0;
+  color: #94a3b8;
+  font-size: clamp(14px, 1.4vw, 16px);
+  max-width: 680px;
+  line-height: 1.5;
 }
 
-.zt-history-clear {
+/* =========================================================
+   TOOLBAR & FILTER SECTION
+   ========================================================= */
+.zt-history-toolbar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(236,72,153,.4);
-  background: rgba(236,72,153,.08);
-  color: #fff;
-  border-radius: 10px;
-  padding: 12px 16px;
-  cursor: pointer;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 16px;
+  background: rgba(16, 23, 50, 0.72);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  flex-wrap: wrap;
 }
 
+.zt-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: min(100%, 300px);
+  flex-wrap: wrap;
+}
+
+.zt-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  max-width: 380px;
+}
+
+.zt-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7180a5;
+  pointer-events: none;
+}
+
+.zt-search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px 0 40px;
+  border: 1px solid rgba(115, 135, 190, 0.22);
+  border-radius: 10px;
+  background: #0d142d;
+  color: #f8fafc;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.zt-search-input::placeholder {
+  color: #64748b;
+}
+
+.zt-search-input:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+  background: #101938;
+}
+
+/* CUSTOM DROPDOWNS */
+.zt-select-wrap {
+  position: relative;
+  min-width: 150px;
+}
+
+.zt-filter-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 34px 0 14px;
+  border: 1px solid rgba(115, 135, 190, 0.22);
+  border-radius: 10px;
+  background: #0d142d;
+  color: #e2e8f0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+}
+
+.zt-filter-select:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  background: #111a3b;
+}
+
+.zt-filter-select:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
+.zt-select-chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7180a5;
+  pointer-events: none;
+}
+
+/* TOOLBAR ACTIONS */
+.zt-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zt-clear-btn {
+  height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(244, 63, 94, 0.28);
+  border-radius: 10px;
+  background: rgba(244, 63, 94, 0.08);
+  color: #fda4af;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.zt-clear-btn:hover {
+  background: rgba(244, 63, 94, 0.18);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.zt-clear-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   SUB-BAR: COUNTS & ACTIVE FILTERS
+   ========================================================= */
+.zt-history-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px 16px;
+  color: #7180a5;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.zt-history-count strong {
+  color: #22d3ee;
+  font-weight: 700;
+}
+
+/* =========================================================
+   HISTORY CARDS LIST
+   ========================================================= */
 .zt-history-list {
-  max-width: 1200px;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .zt-history-card {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 150px 60px;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  gap: 25px;
-  padding: 25px;
-  margin-bottom: 15px;
-  border: 1px solid rgba(139,92,246,.18);
-  border-radius: 16px;
-  background: rgba(20,25,52,.72);
+  gap: 24px;
+  padding: 22px 26px;
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 18px;
+  background: rgba(18, 25, 54, 0.72);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.zt-history-card span,
-.zt-history-score small {
-  color: #737b9d;
-  font-size: 11px;
-  letter-spacing: 2px;
+.zt-history-card:hover {
+  border-color: rgba(168, 85, 247, 0.42);
+  background: rgba(22, 31, 65, 0.82);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
 }
 
-.zt-history-card h3 {
-  margin: 8px 0;
-  font-size: 21px;
-}
-
-.zt-history-card p {
-  color: #8e96b4;
+/* CARD DETAILS */
+.zt-card-main {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.zt-card-tag {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  color: #7180a5;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
-.zt-history-score strong {
-  display: block;
-  margin-top: 5px;
-  font-size: 30px;
-  color: #22d3ee;
+.zt-card-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 750;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.zt-delete-history {
-  border: 0;
-  background: rgba(239,68,68,.1);
+.zt-card-subinfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.zt-card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #8fa0c4;
+  font-size: 12px;
+}
+
+.zt-card-date svg {
+  color: #7180a5;
+}
+
+.zt-threat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* SCORE VISUALIZATION */
+.zt-card-score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 130px;
+  padding-right: 10px;
+}
+
+.zt-score-val {
+  font-size: 28px;
+  font-weight: 850;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.zt-score-label {
+  margin-top: 4px;
+  color: #7180a5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.zt-score-bar-track {
+  width: 90px;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.zt-score-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.8s ease;
+}
+
+/* CARD ACTIONS */
+.zt-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zt-delete-item-btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(244, 63, 94, 0.18);
+  border-radius: 10px;
+  background: rgba(244, 63, 94, 0.06);
   color: #fb7185;
-  padding: 10px;
-  border-radius: 9px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
+.zt-delete-item-btn:hover {
+  border-color: rgba(244, 63, 94, 0.5);
+  background: rgba(244, 63, 94, 0.2);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.zt-delete-item-btn:active {
+  transform: scale(0.96);
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
 .zt-history-empty {
   text-align: center;
-  padding: 100px 30px;
-  border: 1px dashed rgba(139,92,246,.3);
+  padding: 85px 30px;
+  border: 1px dashed rgba(139, 92, 246, 0.3);
+  border-radius: 24px;
+  background: rgba(16, 23, 50, 0.45);
+  backdrop-filter: blur(15px);
+  margin-top: 10px;
+}
+
+.zt-empty-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
   border-radius: 20px;
-  color: #8e96b4;
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  background: rgba(139, 92, 246, 0.1);
+  color: #a855f7;
 }
 
 .zt-history-empty h2 {
-  color: #fff;
-  margin: 20px 0 10px;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 750;
+  margin: 0 0 10px;
 }
 
-@media (max-width: 700px) {
-  .zt-history-header {
-    align-items: flex-start;
+.zt-history-empty p {
+  color: #94a3b8;
+  font-size: 14px;
+  max-width: 480px;
+  margin: 0 auto 26px;
+  line-height: 1.55;
+}
+
+.zt-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #883ee8, #ec3f98);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zt-empty-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(236, 63, 152, 0.35);
+}
+
+.zt-reset-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 10px;
+  background: rgba(139, 92, 246, 0.12);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zt-reset-filters-btn:hover {
+  background: rgba(139, 92, 246, 0.24);
+  border-color: #a855f7;
+  color: #ffffff;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT (TABLET & MOBILE)
+   ========================================================= */
+@media (max-width: 900px) {
+  .zt-history-page {
+    padding: 45px 5% 70px;
+  }
+
+  .zt-history-toolbar {
     flex-direction: column;
+    align-items: stretch;
   }
 
+  .zt-toolbar-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .zt-search-box {
+    max-width: 100%;
+  }
+
+  .zt-toolbar-right {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 640px) {
   .zt-history-card {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .zt-history-score {
-    grid-column: 2;
-    grid-row: 1;
+  .zt-card-score-box {
+    align-items: flex-start;
+    padding-right: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 12px;
+  }
+
+  .zt-card-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 }

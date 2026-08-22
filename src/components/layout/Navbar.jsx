@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LogIn,
@@ -12,7 +12,7 @@ import {
   Settings,
   User
 } from "lucide-react";
-import zerotraceLogo from "../../assets/branding/zerotrace-logo.jpeg";
+import zerotraceLogo from "../../../logo.jpeg";
 import "../../styles/navbar.css";
 
 function Navbar() {

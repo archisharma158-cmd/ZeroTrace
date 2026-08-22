@@ -1,4 +1,4 @@
-﻿import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import Landing from "./pages/Landing/Landing";
 import History from "./pages/History/History";
@@ -22,6 +22,7 @@ import "./styles/investigation.css";
 import "./styles/report.css";
 import "./styles/auth.css";
 import "./styles/fullReport.css";
+import "./styles/history.css";
 
 function App() {
   return (

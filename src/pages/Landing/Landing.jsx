@@ -1,5 +1,5 @@
-﻿import { ArrowUpRight, Activity, ShieldCheck, Bot, Radar, Zap, ScanSearch } from "lucide-react";
-import zerotraceLogo from "../../assets/branding/zerotrace-logo.jpeg";
+import { ArrowUpRight, Activity, ShieldCheck, Bot, Radar, Zap, ScanSearch } from "lucide-react";
+import zerotraceLogo from "../../../logo.jpeg";
 import trasyLogo from "../../assets/branding/trasy-logo.jpeg";
 import { Link } from "react-router-dom";
 import "../../styles/landing.css";

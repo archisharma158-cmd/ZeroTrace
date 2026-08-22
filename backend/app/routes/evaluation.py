@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
@@ -240,24 +241,31 @@ async def evaluate_task_full(task_id: str):
         )
 
     # ── 1. Scenario Generation ────────────────────────────────────────
+    start_gen = time.time()
     scenarios, source = await generate_scenarios(task["description"])
+    gen_time = time.time() - start_gen
+    logger.info(f"Scenario generation completed in {gen_time:.2f}s (Source: {source})")
     
-    # ── 2. Sequential Scenario Evaluation ──────────────────────────────
-    scenario_evals = []
+    # ── 2. Concurrent Scenario Evaluation (Bounded) ──────────────────
+    MAX_CONCURRENT_SCENARIOS = 2
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_SCENARIOS)
+    scenario_evals = [None] * len(scenarios)
     
-    gemini_succeeded_at_least_once = False
-    mistral_succeeded_at_least_once = False
-    
-    for scenario in scenarios:
+    async def process_scenario(idx: int, scenario: dict):
+        scenario_start = time.time()
         scenario_prompt = scenario["prompt"]
         scenario_type = scenario["type"]
         scenario_title = scenario["title"]
         expected_behavior = scenario["expected_behavior"]
 
         # Run Trasey against the scenario prompt
+        t_start = time.time()
         agent_result = await run_trasey(scenario_prompt)
+        t_time = time.time() - t_start
+        logger.info(f"Scenario {idx+1} Trasey execution completed in {t_time:.2f}s")
+
         if agent_result.get("error"):
-            scenario_evals.append({
+            scenario_evals[idx] = {
                 "scenario_id": scenario["id"],
                 "type": scenario_type,
                 "title": scenario_title,
@@ -268,23 +276,25 @@ async def evaluate_task_full(task_id: str):
                     "consistency": 0, "hallucination_risk": 100
                 },
                 "reliability_score": 0.0,
-                "trace": agent_result["steps"]
-            })
-            continue
+                "trace": agent_result.get("steps", []),
+                "gemini_ok": False,
+                "mistral_ok": False
+            }
+            return
 
         out = agent_result["output"]
         steps = agent_result["steps"]
 
         # Evaluate Trasey's output
-        gemini_scores = await evaluate_agent(scenario_prompt, out)
+        eval_start = time.time()
+        gemini_task = evaluate_agent(scenario_prompt, out)
+        mistral_task = evaluate_agent_mistral(scenario_prompt, out)
+        gemini_scores, mistral_scores = await asyncio.gather(gemini_task, mistral_task)
+        eval_time = time.time() - eval_start
+        logger.info(f"Scenario {idx+1} Gemini + Mistral evaluation completed in {eval_time:.2f}s")
+
         gemini_ok = not gemini_scores.get("is_fallback")
-        if gemini_ok:
-            gemini_succeeded_at_least_once = True
-            
-        mistral_scores = await evaluate_agent_mistral(scenario_prompt, out)
         mistral_ok = mistral_scores is not None and not mistral_scores.get("is_fallback")
-        if mistral_ok:
-            mistral_succeeded_at_least_once = True
 
         # Evaluator Agreement
         agreement_data = None
@@ -292,10 +302,6 @@ async def evaluate_task_full(task_id: str):
             agreement_data = calculate_agreement(gemini_scores, mistral_scores)
 
         # Aggregate Metrics:
-        # - If both succeeded: average
-        # - If only Gemini: use Gemini
-        # - If only Mistral: use Mistral
-        # - If both failed: use default fallback
         if gemini_ok and mistral_ok:
             scen_metrics = aggregate_metrics(gemini_scores, mistral_scores)
         elif gemini_ok:
@@ -319,7 +325,7 @@ async def evaluate_task_full(task_id: str):
             failures.extend(mistral_scores.get("failures", []))
             recommendations.extend(mistral_scores.get("recommendations", []))
 
-        scenario_evals.append({
+        scenario_evals[idx] = {
             "scenario_id": scenario["id"],
             "type": scenario_type,
             "title": scenario_title,
@@ -337,8 +343,52 @@ async def evaluate_task_full(task_id: str):
             "evaluator_agreement": agreement_data,
             "failures": failures,
             "recommendations": recommendations,
-            "trace": steps
-        })
+            "trace": steps,
+            "gemini_ok": gemini_ok,
+            "mistral_ok": mistral_ok
+        }
+        
+        scenario_time = time.time() - scenario_start
+        logger.info(f"Scenario {idx+1} completed in {scenario_time:.2f}s")
+
+    async def bounded_process(idx: int, scenario: dict):
+        async with semaphore:
+            try:
+                await process_scenario(idx, scenario)
+            except Exception as e:
+                logger.error(f"Scenario {idx+1} failed with unhandled exception: {e}")
+                scenario_evals[idx] = {
+                    "scenario_id": scenario.get("id", "unknown"),
+                    "type": scenario.get("type", "unknown"),
+                    "title": scenario.get("title", "unknown"),
+                    "status": "failed",
+                    "error": str(e),
+                    "metrics": {
+                        "correctness": 0, "relevance": 0, "completeness": 0,
+                        "consistency": 0, "hallucination_risk": 100
+                    },
+                    "reliability_score": 0.0,
+                    "trace": [],
+                    "gemini_ok": False,
+                    "mistral_ok": False
+                }
+
+    full_start = time.time()
+    
+    tasks_to_run = [bounded_process(i, s) for i, s in enumerate(scenarios)]
+    await asyncio.gather(*tasks_to_run)
+    
+    full_time = time.time() - full_start
+    logger.info(f"Full evaluation completed in {full_time + gen_time:.2f}s")
+
+    gemini_succeeded_at_least_once = any(e.get("gemini_ok", False) for e in scenario_evals if e)
+    mistral_succeeded_at_least_once = any(e.get("mistral_ok", False) for e in scenario_evals if e)
+    
+    # Remove temporary tracking keys
+    for e in scenario_evals:
+        if e:
+            e.pop("gemini_ok", None)
+            e.pop("mistral_ok", None)
 
     # ── 3. Aggregate Results ──────────────────────────────────────────
     successful_evals = [e for e in scenario_evals if e["status"] == "success"]

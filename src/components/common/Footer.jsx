@@ -1,6 +1,6 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import zerotraceLogo from "../../assets/branding/zerotrace-logo.jpeg";
+import zerotraceLogo from "../../../logo.jpeg";
 import "../../styles/footer.css";
 
 const LINKS = {

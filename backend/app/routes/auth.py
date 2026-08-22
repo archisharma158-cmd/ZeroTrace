@@ -3,7 +3,7 @@
 import logging
 import time
 from datetime import datetime, timezone
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, status
 
 from app.config import (
     OTP_EXPIRE_MINUTES,
@@ -27,14 +27,18 @@ router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
 
 @router.post("/request-otp", status_code=status.HTTP_200_OK)
-async def request_otp(payload: OTPRequest, request: Request):
+async def request_otp(
+    payload: OTPRequest,
+    request: Request,
+    background_tasks: BackgroundTasks,
+):
     """
     Request a 6-digit verification code:
     1. Check rate limits & resend cooldown.
-    2. Generate cryptographically secure 6-digit OTP.
-    3. Invalidate older OTPs for this email.
-    4. Send email via ZeroTrace email service.
-    5. Store HMAC-SHA256 hashed OTP.
+    2. Invalidate older OTPs for this email.
+    3. Generate cryptographically secure 6-digit OTP & HMAC-SHA256 hash.
+    4. Persist hashed OTP record immediately.
+    5. Dispatch email delivery non-blockingly via background task.
     """
     client_ip = request.client.host if request.client else "unknown"
     norm_email = normalize_email(payload.email)
@@ -49,8 +53,8 @@ async def request_otp(payload: OTPRequest, request: Request):
         )
 
     # Check resend cooldown on existing active record
-    existing_otp = await otps_collection.find_one({"email": norm_email})
     now = time.time()
+    existing_otp = await otps_collection.find_one({"email": norm_email})
     if existing_otp:
         last_sent = existing_otp.get("last_sent_at", 0)
         time_elapsed = now - last_sent
@@ -68,16 +72,7 @@ async def request_otp(payload: OTPRequest, request: Request):
     otp_code = generate_otp(6)
     hashed = hash_otp(norm_email, otp_code)
 
-    # Send email
-    email_sent = await send_otp_verification_email(norm_email, otp_code)
-    if not email_sent:
-        logger.error("Failed to send OTP verification email.")
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Unable to send verification code. Please check your email configuration and try again.",
-        )
-
-    # Persist hashed OTP record
+    # Persist hashed OTP record immediately
     doc = {
         "email": norm_email,
         "otp_hash": hashed,
@@ -87,6 +82,9 @@ async def request_otp(payload: OTPRequest, request: Request):
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await otps_collection.insert_one(doc)
+
+    # Non-blocking async background email delivery
+    background_tasks.add_task(send_otp_verification_email, norm_email, otp_code)
 
     return {
         "success": True,

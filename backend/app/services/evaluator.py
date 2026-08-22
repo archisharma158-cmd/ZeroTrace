@@ -74,24 +74,34 @@ def _get_gemini_client() -> genai.Client:
         _gemini_client = genai.Client(api_key=GEMINI_API_KEY)
     return _gemini_client
 
+_DEFAULT_GEMINI_MODELS = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash", "gemini-flash-latest"]
+
 def _get_available_gemini_models() -> List[str]:
-    """Lazily query and cache available Gemini model names."""
+    """Return cached available Gemini model names without blocking evaluation."""
     global _available_gemini_models
     if _available_gemini_models is not None:
         return _available_gemini_models
 
-    _available_gemini_models = []
+    _available_gemini_models = list(_DEFAULT_GEMINI_MODELS)
+    return _available_gemini_models
+
+async def prewarm_gemini_models():
+    """Optional safe background prewarming of Gemini client and model list."""
+    global _available_gemini_models
+    if not GEMINI_API_KEY or not GEMINI_API_KEY.strip():
+        return
     try:
         client = _get_gemini_client()
+        discovered = []
         for m in client.models.list():
             name = m.name
             if name.startswith("models/"):
                 name = name[len("models/"):]
-            _available_gemini_models.append(name)
+            discovered.append(name)
+        if discovered:
+            _available_gemini_models = discovered
     except Exception as e:
-        logger.warning("Failed to dynamically query Gemini models: %s. Using default fallback list.", type(e).__name__)
-        _available_gemini_models = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-2.5-flash"]
-    return _available_gemini_models
+        logger.debug("Background Gemini prewarm skipped: %s", type(e).__name__)
 
 def _extract_response_text(response: Any) -> str:
     """Extract text from the response object safely."""

@@ -37,10 +37,10 @@ def is_mistral_configured() -> bool:
     """Check if Mistral API key is properly configured."""
     return bool(MISTRAL_API_KEY and MISTRAL_API_KEY.strip())
 
-_available_mistral_models = None
+_DEFAULT_MISTRAL_MODELS = ["codestral-latest", "ministral-8b-latest", "ministral-3b-latest", "open-mistral-7b", "mistral-small-latest"]
 
 async def _get_available_mistral_models() -> list:
-    """Lazily query and cache available Mistral models using the configured API key."""
+    """Return cached available Mistral models without blocking evaluation."""
     global _available_mistral_models
     if _available_mistral_models is not None:
         return _available_mistral_models
@@ -49,23 +49,28 @@ async def _get_available_mistral_models() -> list:
         _available_mistral_models = []
         return _available_mistral_models
 
-    _available_mistral_models = []
+    _available_mistral_models = list(_DEFAULT_MISTRAL_MODELS)
+    return _available_mistral_models
+
+async def prewarm_mistral_models():
+    """Optional safe background prewarming of Mistral model list."""
+    global _available_mistral_models
+    if not MISTRAL_API_KEY or not MISTRAL_API_KEY.strip():
+        return
     url = "https://api.mistral.ai/v1/models"
     headers = {
         "Authorization": f"Bearer {MISTRAL_API_KEY}",
     }
     try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        async with httpx.AsyncClient(timeout=6.0) as client:
             response = await client.get(url, headers=headers)
             if response.status_code == 200:
                 data = response.json()
-                _available_mistral_models = [m["id"] for m in data.get("data", [])]
-            else:
-                logger.warning("Mistral models listing returned status %s: %s", response.status_code, response.text[:200])
+                discovered = [m["id"] for m in data.get("data", [])]
+                if discovered:
+                    _available_mistral_models = discovered
     except Exception as e:
-        logger.warning("Failed to query Mistral models dynamically: %s", type(e).__name__)
-
-    return _available_mistral_models
+        logger.debug("Background Mistral prewarm skipped: %s", type(e).__name__)
 
 async def evaluate_agent_mistral(
     task_description: str,

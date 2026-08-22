@@ -13,7 +13,7 @@ GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
 # Gemini - independent evaluator
 GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
 # NVIDIA NIM - adversarial scenario generation
 NVIDIA_API_KEY: str = os.getenv("NVIDIA_API_KEY", "")

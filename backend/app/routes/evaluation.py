@@ -247,7 +247,7 @@ async def evaluate_task_full(task_id: str):
     logger.info(f"Scenario generation completed in {gen_time:.2f}s (Source: {source})")
     
     # ── 2. Concurrent Scenario Evaluation (Bounded) ──────────────────
-    MAX_CONCURRENT_SCENARIOS = 2
+    MAX_CONCURRENT_SCENARIOS = 3
     semaphore = asyncio.Semaphore(MAX_CONCURRENT_SCENARIOS)
     scenario_evals = [None] * len(scenarios)
     
@@ -390,7 +390,8 @@ async def evaluate_task_full(task_id: str):
             e.pop("gemini_ok", None)
             e.pop("mistral_ok", None)
 
-    # ── 3. Aggregate Results ──────────────────────────────────────────
+    # ── 3. Aggregate Results (Pure Local Deterministic Scoring) ───────
+    t_agg_start = time.perf_counter()
     successful_evals = [e for e in scenario_evals if e["status"] == "success"]
     if not successful_evals:
         raise HTTPException(
@@ -471,6 +472,9 @@ async def evaluate_task_full(task_id: str):
         f"Scenario-based evaluation completed successfully. "
         f"Evaluated {len(successful_evals)} scenarios."
     )
+
+    t_agg_total = (time.perf_counter() - t_agg_start) * 1000
+    logger.info(f"PERF RELIABILITY: Local aggregation completed in {t_agg_total:.3f}ms (Score: {reliability_score}, Risk: {risk_level})")
 
     # ── 4. Save Results to MongoDB ─────────────────────────────────────
     doc = {

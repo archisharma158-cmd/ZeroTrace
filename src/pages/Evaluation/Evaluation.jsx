@@ -83,18 +83,30 @@ function Evaluation() {
           // Store real evaluation in sessionStorage
           sessionStorage.setItem("zerotrace_evaluation", JSON.stringify(data));
 
-          // Save real evaluation to history
+          // Save real completed evaluation to history if valid
           try {
-            const history = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
-            history.unshift({
-              id: data.evaluation_id,
-              agent: agentName,
-              score: Math.round(data.reliability_score ?? 0),
-              threat: data.risk_level || "MEDIUM",
-              status: "PASSED",
-              date: new Date().toLocaleString()
-            });
-            localStorage.setItem("zerotrace_history", JSON.stringify(history.slice(0, 50)));
+            const rawHistory = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
+            const evalId = data.evaluation_id;
+            const evalScore = data.reliability_score !== undefined && data.reliability_score !== null
+              ? Math.round(Number(data.reliability_score))
+              : null;
+
+            if (evalId && evalScore !== null && !isNaN(evalScore)) {
+              // Deduplicate by evaluation_id
+              const withoutExisting = rawHistory.filter(item => item.id !== evalId);
+              const meaningfulAgent = (agentName && agentName.trim()) || "AI Agent";
+
+              withoutExisting.unshift({
+                id: evalId,
+                agent: meaningfulAgent,
+                score: evalScore,
+                threat: data.risk_level || "MEDIUM",
+                status: "PASSED",
+                date: new Date().toLocaleString()
+              });
+
+              localStorage.setItem("zerotrace_history", JSON.stringify(withoutExisting.slice(0, 50)));
+            }
           } catch {
             // Storage quota safe
           }
@@ -113,7 +125,7 @@ function Evaluation() {
 
     runEvaluation();
 
-    // 2. Drive progress animation smoothly up to 92-95% while waiting for backend
+    // 2. Drive progress animation smoothly matching real execution phases
     const interval = setInterval(() => {
       if (!isMounted) return;
 
@@ -127,8 +139,8 @@ function Evaluation() {
             return current;
           }
 
-          // Backend finished successfully! Advance rapidly to 100%
-          const next = Math.min(current + 10, 100);
+          // Backend finished successfully! Rapidly advance through Reliability Scoring to 100%
+          const next = Math.min(current + 8, 100);
           const stage = Math.min(
             Math.floor(next / (100 / stages.length)),
             stages.length - 1
@@ -143,21 +155,31 @@ function Evaluation() {
           return next;
         }
 
-        // Backend still running: increment smoothly up to 92%
-        if (current < 92) {
-          const next = current + 2;
+        // Pacing during execution (advances through intake, baseline, scenario gen, safety, and trace)
+        let increment = 0;
+        if (current < 25) {
+          increment = 1.0;
+        } else if (current < 55) {
+          increment = 0.6;
+        } else if (current < 72) {
+          increment = 0.35;
+        } else if (current < 84) {
+          increment = 0.15;
+        }
+
+        if (increment > 0) {
+          const next = Math.min(current + increment, 84);
           const stage = Math.min(
             Math.floor(next / (100 / stages.length)),
-            stages.length - 1
+            stages.length - 2 // Keep within stages 0..5 while processing scenarios
           );
           setActiveStage(stage);
           return next;
         }
 
-        // Hold at 92-95% while waiting for backend
         return current;
       });
-    }, 120);
+    }, 150);
 
     return () => {
       isMounted = false;

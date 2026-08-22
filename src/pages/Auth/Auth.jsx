@@ -107,19 +107,24 @@ function Auth() {
     sessionStorage.setItem("zerotrace_auth", JSON.stringify(userData));
     localStorage.setItem("zerotrace_auth", JSON.stringify(userData));
 
-    const existingHistory = JSON.parse(
-      localStorage.getItem("zerotrace_history") || "[]"
-    );
-    existingHistory.unshift({
-      id: "LOGIN-" + Date.now(),
-      type: "LOGIN",
-      user: userData.identifier,
-      timestamp: new Date().toISOString()
-    });
-    localStorage.setItem(
-      "zerotrace_history",
-      JSON.stringify(existingHistory.slice(0, 50))
-    );
+    // Store login session audit under zerotrace_sessions rather than evaluation history
+    try {
+      const existingSessions = JSON.parse(
+        localStorage.getItem("zerotrace_sessions") || "[]"
+      );
+      existingSessions.unshift({
+        id: "LOGIN-" + Date.now(),
+        type: "LOGIN",
+        user: userData.identifier,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem(
+        "zerotrace_sessions",
+        JSON.stringify(existingSessions.slice(0, 50))
+      );
+    } catch {
+      // Storage safe
+    }
 
     window.dispatchEvent(new Event("zerotrace-auth-changed"));
 

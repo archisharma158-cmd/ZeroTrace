@@ -30,6 +30,7 @@ import {
   Tooltip,
   Legend
 } from "recharts";
+import { getValidCompletedEvaluations } from "../../utils/evaluationValidation";
 import "./dashboard.css";
 
 const fallbackHistory = [
@@ -65,8 +66,9 @@ function Dashboard() {
       const saved = JSON.parse(
         localStorage.getItem("zerotrace_history") || "[]"
       );
+      const validCompleted = getValidCompletedEvaluations(saved);
 
-      return saved.length ? saved : fallbackHistory;
+      return validCompleted.length ? validCompleted : fallbackHistory;
     } catch {
       return fallbackHistory;
     }

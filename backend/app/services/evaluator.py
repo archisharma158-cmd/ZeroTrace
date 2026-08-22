@@ -74,7 +74,7 @@ def _get_gemini_client() -> genai.Client:
         _gemini_client = genai.Client(api_key=GEMINI_API_KEY)
     return _gemini_client
 
-_DEFAULT_GEMINI_MODELS = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash", "gemini-flash-latest"]
+_DEFAULT_GEMINI_MODELS = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite", "gemini-flash-latest"]
 
 def _get_available_gemini_models() -> List[str]:
     """Return cached available Gemini model names without blocking evaluation."""
@@ -97,7 +97,8 @@ async def prewarm_gemini_models():
             name = m.name
             if name.startswith("models/"):
                 name = name[len("models/"):]
-            discovered.append(name)
+            if "flash" in name or "pro" in name:
+                discovered.append(name)
         if discovered:
             _available_gemini_models = discovered
     except Exception as e:
@@ -149,7 +150,7 @@ async def evaluate_agent(
         models_to_try.append(env_model)
 
     available_models = _get_available_gemini_models()
-    fallbacks = ["gemini-3.7-flash", "gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest", "gemini-3.6-flash"]
+    fallbacks = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite", "gemini-flash-latest"]
     for f in fallbacks:
         if f in available_models and f not in models_to_try:
             models_to_try.append(f)
@@ -160,7 +161,7 @@ async def evaluate_agent(
                 models_to_try.append(m)
 
     if not models_to_try:
-        models_to_try = ["gemini-3.7-flash", "gemini-3.5-flash", "gemini-flash-latest"]
+        models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-flash-latest"]
 
     # 2. Iterate models sequentially
     last_error = None

@@ -10,12 +10,14 @@ import {
   RotateCcw,
   Bot
 } from "lucide-react";
+import { getValidCompletedEvaluations } from "../../utils/evaluationValidation";
 import "../../styles/history.css";
 
 export default function History() {
   const [history, setHistory] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
+      const saved = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
+      return getValidCompletedEvaluations(saved);
     } catch {
       return [];
     }
@@ -31,7 +33,7 @@ export default function History() {
     const handleStorageChange = () => {
       try {
         const saved = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
-        setHistory(saved);
+        setHistory(getValidCompletedEvaluations(saved));
       } catch {
         // Safe fallback
       }

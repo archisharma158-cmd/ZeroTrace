@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Mail,
@@ -10,6 +10,7 @@ import {
   LogOut,
   Activity
 } from "lucide-react";
+import { getValidCompletedEvaluations } from "../../utils/evaluationValidation";
 import "./profile.css";
 
 function Profile() {
@@ -23,8 +24,8 @@ function Profile() {
     );
   } catch {}
 
-  const history = JSON.parse(
-    localStorage.getItem("zerotrace_history") || "[]"
+  const history = getValidCompletedEvaluations(
+    JSON.parse(localStorage.getItem("zerotrace_history") || "[]")
   );
 
   const identifier =

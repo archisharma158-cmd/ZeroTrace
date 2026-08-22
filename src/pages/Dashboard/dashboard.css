@@ -1,10 +1,12 @@
 .zt-dashboard {
   position: relative;
-  z-index: 1;
   min-height: calc(100vh - 105px);
   padding: 70px 6%;
   color: #eef2ff;
-  background: transparent;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(139,92,246,.16), transparent 30%),
+    radial-gradient(circle at 15% 80%, rgba(0,210,255,.08), transparent 28%),
+    #070b1b;
 }
 
 /* HERO */

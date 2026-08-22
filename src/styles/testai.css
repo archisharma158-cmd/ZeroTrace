@@ -1,4 +1,4 @@
-﻿.zt-test-page {
+.zt-test-page {
   min-height: calc(100vh - 105px);
   background:
     radial-gradient(circle at 78% 18%, rgba(139, 92, 246, .15), transparent 30%),

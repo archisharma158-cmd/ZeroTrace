@@ -4,11 +4,12 @@
 
 .zt-history-page {
   position: relative;
-  z-index: 1;
   min-height: calc(100vh - 105px);
   padding: 65px 6% 90px;
   color: #f7f7ff;
-  background: transparent !important;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(139,92,246,.14), transparent 35%),
+    #080c1e;
 }
 
 .zt-history-container {

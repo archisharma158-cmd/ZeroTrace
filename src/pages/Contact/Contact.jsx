@@ -3,8 +3,8 @@ import { Code2, GraduationCap, BriefcaseBusiness, Mail, Send, Loader2 } from "lu
 import "../../styles/contact.css";
 
 const CONTACT_LINKS = {
-  email: "contact@zerotrace.ai",
-  github: "https://github.com/ZeroTrace",
+  email: "zerotrace347489@gmail.com",
+  github: "https://github.com/archisharma158-cmd/ZeroTrace",
   linkedin: "https://linkedin.com/company/zerotrace",
   university: "Quantum University, Roorkee"
 };
@@ -137,13 +137,43 @@ function Contact() {
       </section>
 
       <section className="contact-cards">
-        {cards.map(([label, Icon, key]) => (
-          <article key={key}>
-            <Icon />
-            <span>{label}</span>
-            <small>{CONTACT_LINKS[key]}</small>
-          </article>
-        ))}
+        {cards.map(([label, Icon, key]) => {
+          const isEmail = key === "email";
+          const isLink = key !== "university";
+          const href = isEmail ? `mailto:${CONTACT_LINKS[key]}` : CONTACT_LINKS[key];
+          const isExternal = !isEmail && isLink;
+          const ariaLabel = isEmail
+            ? "Email ZeroTrace"
+            : key === "github"
+            ? "Open ZeroTrace GitHub repository"
+            : key === "linkedin"
+            ? "Open ZeroTrace LinkedIn page"
+            : undefined;
+
+          return (
+            <article key={key}>
+              {isLink ? (
+                <a
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  aria-label={ariaLabel}
+                  style={{ display: "block", color: "inherit", textDecoration: "none" }}
+                >
+                  <Icon />
+                  <span>{label}</span>
+                  <small>{CONTACT_LINKS[key]}</small>
+                </a>
+              ) : (
+                <>
+                  <Icon />
+                  <span>{label}</span>
+                  <small>{CONTACT_LINKS[key]}</small>
+                </>
+              )}
+            </article>
+          );
+        })}
       </section>
 
       <section className="contact-layout">

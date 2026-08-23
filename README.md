@@ -1,29 +1,34 @@
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&amp;height=260&amp;color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&amp;text=ZeroTrace&amp;fontColor=FFFFFF&amp;fontSize=72&amp;fontAlignY=38&amp;desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&amp;descAlignY=58&amp;descSize=18&amp;animation=fadeIn"
-    width="100%"
+    src="src/assets/branding/zerotrace-main-logo.png"
     alt="ZeroTrace"
+    width="300"
   />
-</p>
-
-<p align="center">
-  <img src="src/assets/branding/zerotrace-main-logo.png" alt="ZeroTrace Logo" width="280" />
 </p>
 
 <h1 align="center">ZeroTrace</h1>
 
+<h3 align="center">
+  AI Agent Evaluation &amp; Reliability Engine
+</h3>
+
 <p align="center">
-  <strong>AI Agent Evaluation &amp; Reliability Engine</strong>
+  <strong>Break your AI before it breaks.</strong>
+</p>
+
+<p align="center">
+  ZeroTrace stress-tests autonomous AI agents through adversarial missions,<br/>
+  behavioral analysis, and failure simulation—turning every trace into measurable reliability evidence.
 </p>
 
 <p align="center">
   <a href="<LIVE_DEMO_URL>">
     <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&amp;logo=lightning&amp;logoColor=white" alt="Live Demo" />
   </a>
-  <a href="#-how-zerotrace-works">
+  <a href="#04--how-zerotrace-works">
     <img src="https://img.shields.io/badge/VIEW_ARCHITECTURE-8B5CF6?style=for-the-badge&amp;logo=diagramsdotnet&amp;logoColor=white" alt="Architecture" />
   </a>
-  <a href="#-getting-started">
+  <a href="#11--getting-started">
     <img src="https://img.shields.io/badge/RUN_LOCALLY-22D3EE?style=for-the-badge&amp;logo=github&amp;logoColor=070B1F" alt="Run Locally" />
   </a>
 </p>
@@ -41,38 +46,32 @@
   />
 </p>
 
-<h3 align="center">
-  Break your AI <span>before it breaks.</span>
-</h3>
-
-<p align="center">
-  ZeroTrace stress-tests autonomous AI agents through adversarial missions,<br/>
-  behavioral analysis, and failure simulation—turning every trace into measurable reliability evidence.
-</p>
-
 <p align="center">
   <strong>TRACE&nbsp;&nbsp;→&nbsp;&nbsp;TEST&nbsp;&nbsp;→&nbsp;&nbsp;EVALUATE&nbsp;&nbsp;→&nbsp;&nbsp;DIAGNOSE&nbsp;&nbsp;→&nbsp;&nbsp;PREDICT&nbsp;&nbsp;→&nbsp;&nbsp;IMPROVE</strong>
 </p>
 
 ---
 
-<p align="center">
-  <a href="#-the-problem">Problem</a>
-  &nbsp;•&nbsp;
-  <a href="#-introducing-zerotrace">Solution</a>
-  &nbsp;•&nbsp;
-  <a href="#-meet-trasey">Trasey</a>
-  &nbsp;•&nbsp;
-  <a href="#-how-zerotrace-works">Workflow</a>
-  &nbsp;•&nbsp;
-  <a href="#-failure-modes">Failure Modes</a>
-  &nbsp;•&nbsp;
-  <a href="#-reliability-report">Report</a>
-  &nbsp;•&nbsp;
-  <a href="#-getting-started">Setup</a>
-  &nbsp;•&nbsp;
-  <a href="#-meet-the-team">Team</a>
-</p>
+## 📑 Table of Contents
+
+- [01 / The Problem](#01--the-problem)
+- [02 / Introducing ZeroTrace](#02--introducing-zerotrace)
+- [03 / Meet Trasey](#03--meet-trasey)
+- [04 / How ZeroTrace Works](#04--how-zerotrace-works)
+- [05 / Reliability Intelligence](#05--reliability-intelligence)
+- [06 / Failure Modes](#06--failure-modes)
+- [07 / Reliability Report](#07--reliability-report)
+- [08 / Dashboard Preview](#08--dashboard-preview)
+- [09 / Technology Stack](#09--technology-stack)
+- [10 / Repository Structure](#10--repository-structure)
+- [11 / Getting Started](#11--getting-started)
+- [12 / Environment Variables](#12--environment-variables)
+- [13 / API Overview](#13--api-overview)
+- [14 / Why ZeroTrace Is Different](#14--why-zerotrace-is-different)
+- [15 / Roadmap](#15--roadmap)
+- [16 / Meet the Team](#16--meet-the-team)
+- [17 / Contributing](#17--contributing)
+- [18 / License](#18--license)
 
 ---
 <div align="center">
@@ -726,43 +725,49 @@ ZeroTrace treats an autonomous agent as an executing system—not merely a text 
 <table>
   <tr>
     <td align="center" width="33%">
-      <img src="./assets/developer-01.png" width="110" alt="Developer 01" />
-      <br/><br/>
-      <strong>&lt;DEVELOPER_01_NAME&gt;</strong>
-      <br/>
-      <sub>Architecture · Frontend · Integration · Repository</sub>
-      <br/><br/>
-      <a href="<DEVELOPER_01_GITHUB>">GitHub</a>
+      <a href="https://github.com/goyalparth61-netizen">
+        <img src="https://github.com/goyalparth61-netizen.png" width="120" alt="Parth Goyal" />
+      </a>
+      <br /><br />
+      <strong>Parth Goyal</strong>
+      <br /><br />
+      <sub>Backend • Database • Deployment • Documentation</sub>
+      <br /><br />
+      <a href="https://www.linkedin.com/in/parth-goyal-215231385/">LinkedIn</a>
       &nbsp;·&nbsp;
-      <a href="<DEVELOPER_01_LINKEDIN>">LinkedIn</a>
-      <br/>
-      <a href="mailto:<DEVELOPER_01_EMAIL>">Email</a>
+      <a href="https://github.com/goyalparth61-netizen">GitHub</a>
+      <br />
+      <a href="mailto:goyalparth61@gmail.com">goyalparth61@gmail.com</a>
     </td>
     <td align="center" width="33%">
-      <img src="./assets/developer-02.png" width="110" alt="Developer 02" />
-      <br/><br/>
-      <strong>&lt;DEVELOPER_02_NAME&gt;</strong>
-      <br/>
-      <sub>Backend · Database · Deployment · Documentation</sub>
-      <br/><br/>
-      <a href="<DEVELOPER_02_GITHUB>">GitHub</a>
+      <a href="https://github.com/archisharma158-cmd">
+        <img src="https://github.com/archisharma158-cmd.png" width="120" alt="Archi Sharma" />
+      </a>
+      <br /><br />
+      <strong>Archi Sharma</strong>
+      <br /><br />
+      <sub>Architecture • Frontend • Integration • Repository</sub>
+      <br /><br />
+      <a href="https://www.linkedin.com/in/archisharma158/">LinkedIn</a>
       &nbsp;·&nbsp;
-      <a href="<DEVELOPER_02_LINKEDIN>">LinkedIn</a>
-      <br/>
-      <a href="mailto:<DEVELOPER_02_EMAIL>">Email</a>
+      <a href="https://github.com/archisharma158-cmd">GitHub</a>
+      <br />
+      <a href="mailto:archisharma158@gmail.com">archisharma158@gmail.com</a>
     </td>
     <td align="center" width="33%">
-      <img src="./assets/developer-03.png" width="110" alt="Developer 03" />
-      <br/><br/>
-      <strong>&lt;DEVELOPER_03_NAME&gt;</strong>
-      <br/>
-      <sub>Testing · Repository Supervision · Branding · MVP Validation</sub>
-      <br/><br/>
-      <a href="<DEVELOPER_03_GITHUB>">GitHub</a>
+      <a href="https://github.com/annusharma14oct-ai">
+        <img src="https://github.com/annusharma14oct-ai.png" width="120" alt="Annu Sharma" />
+      </a>
+      <br /><br />
+      <strong>Annu Sharma</strong>
+      <br /><br />
+      <sub>Supervision • Testing • Branding • Product Validation</sub>
+      <br /><br />
+      <a href="https://www.linkedin.com/in/annu-sharma-41425b383/">LinkedIn</a>
       &nbsp;·&nbsp;
-      <a href="<DEVELOPER_03_LINKEDIN>">LinkedIn</a>
-      <br/>
-      <a href="mailto:<DEVELOPER_03_EMAIL>">Email</a>
+      <a href="https://github.com/annusharma14oct-ai">GitHub</a>
+      <br />
+      <a href="mailto:annusharma14oct@gmail.com">annusharma14oct@gmail.com</a>
     </td>
   </tr>
 </table>
@@ -811,8 +816,8 @@ See [`LICENSE`](./LICENSE) for complete terms.
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&amp;weight=600&amp;size=18&amp;duration=2800&amp;pause=900&amp;color=EC2B9A&amp;center=true&amp;vCenter=true&amp;repeat=true&amp;width=760&amp;height=45&amp;lines=Reliable+agents+are+engineered+through+evidence.;Test+the+behavior.+Trace+the+failure.+Improve+the+agent.;Don't+trust+the+demo.+Measure+what+happens+under+pressure."
-    alt="ZeroTrace final message"
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&amp;weight=600&amp;size=18&amp;pause=1000&amp;color=A855F7&amp;center=true&amp;vCenter=true&amp;width=900&amp;lines=Reliable+agents+are+tested+agents.;Failures+should+surface+before+deployment.;Every+trace+tells+a+story.;ZeroTrace+turns+that+story+into+evidence."
+    alt="ZeroTrace Closing Animation"
   />
 </p>
 
@@ -832,8 +837,12 @@ See [`LICENSE`](./LICENSE) for complete terms.
 </p>
 
 <p align="center">
+  <a href="#-table-of-contents">⬆ Back to Top</a>
+</p>
+
+<p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&amp;height=120&amp;section=footer&amp;color=0:EC2B9A,45:7C3AED,100:070B1F"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:080706,45:151122,70:7C3AED,100:EC4899&amp;height=160&amp;section=footer"
     width="100%"
     alt="ZeroTrace Footer"
   />

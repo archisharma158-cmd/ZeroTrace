@@ -1,96 +1,34 @@
 """
 ZeroTrace Central Email Service.
 
-Powered by Resend HTTP API for:
+Powered by Brevo Transactional Email HTTP API for:
 - Secure OTP verification emails
 - Contact team notifications
 - Contact visitor acknowledgement
 
-Operates over HTTPS (Port 443), fully compatible with cloud container runtimes
-such as Render Free where outbound SMTP ports are blocked.
+Operates over HTTPS (Port 443 via POST https://api.brevo.com/v3/smtp/email),
+fully compatible with cloud container runtimes such as Render where outbound SMTP ports are blocked.
 """
 
-import asyncio
 import html
 import logging
 from datetime import datetime, timezone
 from typing import Optional
 
-import resend
+import httpx
+
 from app.config import (
+    BREVO_API_KEY,
+    BREVO_SENDER_EMAIL,
+    BREVO_SENDER_NAME,
     CONTACT_RECEIVER_EMAIL,
-    EMAIL_FROM,
     OTP_EXPIRE_MINUTES,
-    RESEND_API_KEY,
 )
 from app.services.security import mask_email
 
 logger = logging.getLogger(__name__)
 
-# Configure Resend SDK globally if key is available
-if RESEND_API_KEY:
-    resend.api_key = RESEND_API_KEY
-else:
-    logger.warning("RESEND_API_KEY is not configured. Email delivery will fail until RESEND_API_KEY is provided.")
-
-
-def _send_resend_sync(
-    to_email: str,
-    subject: str,
-    html_content: str,
-    text_content: str,
-    reply_to: Optional[str] = None,
-) -> bool:
-    """
-    Synchronous email dispatch using Resend HTTP API.
-    Sends via HTTPS POST to Resend endpoints (no SMTP connection).
-    """
-    api_key = RESEND_API_KEY or resend.api_key
-    if not api_key:
-        logger.error(
-            "Resend email delivery aborted for %s: RESEND_API_KEY is not configured.",
-            mask_email(to_email),
-        )
-        return False
-
-    resend.api_key = api_key
-    sender = EMAIL_FROM or "onboarding@resend.dev"
-
-    params: resend.Emails.SendParams = {
-        "from": sender,
-        "to": [to_email],
-        "subject": subject,
-        "html": html_content,
-        "text": text_content,
-    }
-    if reply_to:
-        params["reply_to"] = reply_to
-
-    try:
-        response = resend.Emails.send(params)
-        email_id = getattr(response, "id", None) or (response.get("id") if isinstance(response, dict) else None)
-        logger.info(
-            "Email successfully dispatched via Resend to %s (id: %s, subject: '%s')",
-            mask_email(to_email),
-            email_id,
-            subject,
-        )
-        return True
-    except resend.exceptions.ResendError as exc:
-        logger.error(
-            "Resend API error sending email to %s: %s (type: %s)",
-            mask_email(to_email),
-            getattr(exc, "message", str(exc)),
-            type(exc).__name__,
-        )
-        return False
-    except Exception as exc:
-        logger.error(
-            "Unexpected error sending email via Resend to %s: %s",
-            mask_email(to_email),
-            type(exc).__name__,
-        )
-        return False
+BREVO_API_URL = "https://api.brevo.com/v3/smtp/email"
 
 
 async def send_email(
@@ -100,15 +38,88 @@ async def send_email(
     text_content: str,
     reply_to: Optional[str] = None,
 ) -> bool:
-    """Asynchronously send an email without blocking the FastAPI event loop."""
-    return await asyncio.to_thread(
-        _send_resend_sync,
-        to_email=to_email,
-        subject=subject,
-        html_content=html_content,
-        text_content=text_content,
-        reply_to=reply_to,
-    )
+    """
+    Asynchronously dispatch transactional email via Brevo HTTPS REST API.
+    Does not use SMTP. All outbound calls run over HTTPS/443.
+    """
+    if not BREVO_API_KEY or not BREVO_SENDER_EMAIL:
+        logger.error(
+            "Brevo email delivery aborted for %s: Brevo configuration missing.",
+            mask_email(to_email),
+        )
+        return False
+
+    sender_name = BREVO_SENDER_NAME or "ZeroTrace"
+    sender_email = BREVO_SENDER_EMAIL
+
+    headers = {
+        "api-key": BREVO_API_KEY,
+        "accept": "application/json",
+        "content-type": "application/json",
+    }
+
+    payload = {
+        "sender": {
+            "name": sender_name,
+            "email": sender_email,
+        },
+        "to": [
+            {
+                "email": to_email,
+            }
+        ],
+        "subject": subject,
+        "htmlContent": html_content,
+        "textContent": text_content,
+    }
+
+    if reply_to:
+        payload["replyTo"] = {
+            "email": reply_to,
+        }
+
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            response = await client.post(
+                BREVO_API_URL,
+                headers=headers,
+                json=payload,
+            )
+
+        if 200 <= response.status_code < 300:
+            logger.info(
+                "Brevo OTP email accepted for %s",
+                mask_email(to_email),
+            )
+            return True
+        else:
+            logger.error(
+                "Brevo OTP email failed for %s: HTTP %d",
+                mask_email(to_email),
+                response.status_code,
+            )
+            return False
+
+    except httpx.TimeoutException:
+        logger.error(
+            "Brevo email request timed out for %s",
+            mask_email(to_email),
+        )
+        return False
+    except httpx.RequestError as exc:
+        logger.error(
+            "Brevo email network error for %s: %s",
+            mask_email(to_email),
+            type(exc).__name__,
+        )
+        return False
+    except Exception as exc:
+        logger.error(
+            "Unexpected error sending Brevo email to %s: %s",
+            mask_email(to_email),
+            type(exc).__name__,
+        )
+        return False
 
 
 async def send_contact_team_notification(
@@ -294,7 +305,7 @@ async def send_otp_verification_email(
     otp_code: str,
 ) -> bool:
     """
-    Send branded 6-digit OTP verification email to the user via Resend HTTP API.
+    Send branded 6-digit OTP verification email to the user via Brevo HTTPS REST API.
     Zero external images, fully accessible, high-contrast monospace code block.
     """
     mail_subject = "Your ZeroTrace verification code"

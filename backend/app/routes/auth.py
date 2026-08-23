@@ -38,8 +38,8 @@ async def request_otp(
     2. Invalidate older OTPs for this email.
     3. Generate cryptographically secure 6-digit OTP & HMAC-SHA256 hash.
     4. Persist hashed OTP record immediately.
-    5. Deliver OTP email via Resend HTTP API.
-    6. Return success ONLY if Resend accepts the email; rollback on failure.
+    5. Deliver OTP email via Brevo HTTPS REST API.
+    6. Return success ONLY if Brevo accepts the email; rollback on failure.
     """
     client_ip = request.client.host if request.client else "unknown"
     norm_email = normalize_email(payload.email)
@@ -84,7 +84,7 @@ async def request_otp(
     }
     await otps_collection.insert_one(doc)
 
-    # Await email delivery via Resend HTTP API
+    # Await email delivery via Brevo HTTPS REST API
     email_sent = await send_otp_verification_email(norm_email, otp_code)
     if not email_sent:
         # Roll back stored OTP so no orphaned un-sent code remains

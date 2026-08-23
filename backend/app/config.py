@@ -29,11 +29,10 @@ FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173").strip().r
 # Security
 SECRET_KEY: str = os.getenv("SECRET_KEY", "zerotrace-secret-key-for-hmac-otp-2026")
 
-# Email Delivery — Resend HTTP API
-# Note: In test mode, onboarding@resend.dev sends to your registered Resend account email.
-# For production sending to arbitrary recipients, verify a custom domain in Resend.
-RESEND_API_KEY: str = os.getenv("RESEND_API_KEY", "").strip()
-EMAIL_FROM: str = os.getenv("EMAIL_FROM", "onboarding@resend.dev").strip()
+# Email Delivery — Brevo Transactional Email HTTP API (HTTPS POST to api.brevo.com/v3/smtp/email)
+BREVO_API_KEY: str = os.getenv("BREVO_API_KEY", "").strip()
+BREVO_SENDER_EMAIL: str = os.getenv("BREVO_SENDER_EMAIL", "").strip()
+BREVO_SENDER_NAME: str = os.getenv("BREVO_SENDER_NAME", "ZeroTrace").strip()
 CONTACT_RECEIVER_EMAIL: str = os.getenv("CONTACT_RECEIVER_EMAIL", "").strip()
 
 # OTP Settings

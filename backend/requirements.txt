@@ -7,4 +7,3 @@ httpx==0.28.1
 pymongo==4.17.0
 google-genai==2.18.1
 requests==2.34.2
-resend==2.39.0

@@ -89,6 +89,11 @@ class InMemoryCollectionFallback:
         return None
 
     async def insert_one(self, doc):
+        if "_id" not in doc:
+            doc["_id"] = bson.ObjectId()
+        oid = doc["_id"]
+        self._store[str(oid)] = doc
+
         if _should_try_mongo():
             try:
                 result = await self._real.insert_one(doc)
@@ -96,12 +101,6 @@ class InMemoryCollectionFallback:
                 return result
             except Exception as e:
                 _record_mongo_failure(e, "insert_one", self._name)
-
-        # In-memory insert
-        if "_id" not in doc:
-            doc["_id"] = bson.ObjectId()
-        oid = doc["_id"]
-        self._store[str(oid)] = doc
 
         class InsertOneResult:
             def __init__(self, inserted_id):
@@ -137,6 +136,24 @@ class InMemoryCollectionFallback:
                 doc[k] = v
 
     async def delete_one(self, filter_dict):
+        # In-memory delete
+        to_del = None
+        for doc_id, doc in self._store.items():
+            match = True
+            for k, v in filter_dict.items():
+                if k == "_id":
+                    if str(doc.get("_id")) != str(v):
+                        match = False
+                        break
+                elif doc.get(k) != v:
+                    match = False
+                    break
+            if match:
+                to_del = doc_id
+                break
+        if to_del:
+            self._store.pop(to_del, None)
+
         if _should_try_mongo():
             try:
                 result = await self._real.delete_one(filter_dict)
@@ -145,12 +162,24 @@ class InMemoryCollectionFallback:
             except Exception as e:
                 _record_mongo_failure(e, "delete_one", self._name)
 
-        # In-memory delete
-        doc = await self.find_one(filter_dict)
-        if doc and "_id" in doc:
-            self._store.pop(str(doc["_id"]), None)
-
     async def delete_many(self, filter_dict):
+        # In-memory delete_many
+        to_del = []
+        for doc_id, doc in self._store.items():
+            match = True
+            for k, v in filter_dict.items():
+                if k == "_id":
+                    if str(doc.get("_id")) != str(v):
+                        match = False
+                        break
+                elif doc.get(k) != v:
+                    match = False
+                    break
+            if match:
+                to_del.append(doc_id)
+        for doc_id in to_del:
+            self._store.pop(doc_id, None)
+
         if _should_try_mongo():
             try:
                 result = await self._real.delete_many(filter_dict)
@@ -158,19 +187,6 @@ class InMemoryCollectionFallback:
                 return result
             except Exception as e:
                 _record_mongo_failure(e, "delete_many", self._name)
-
-        # In-memory delete_many
-        to_del = []
-        for doc_id, doc in self._store.items():
-            match = True
-            for k, v in filter_dict.items():
-                if doc.get(k) != v:
-                    match = False
-                    break
-            if match:
-                to_del.append(doc_id)
-        for doc_id in to_del:
-            self._store.pop(doc_id, None)
 
 
 tasks_collection = InMemoryCollectionFallback("tasks", db["tasks"])

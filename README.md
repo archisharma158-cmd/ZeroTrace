@@ -22,7 +22,10 @@
 </p>
 
 <p align="center">
-  <a href="<LIVE_DEMO_URL>">
+  <a href="https://zero-trace-nine.vercel.app/">
+    <img src="https://img.shields.io/badge/LIVE%20DEMO-OPEN%20ZEROTRACE-EC4899?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" alt="ZeroTrace Live Demo" />
+  </a>
+  <a href="https://zero-trace-nine.vercel.app/">
     <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&amp;logo=lightning&amp;logoColor=white" alt="Live Demo" />
   </a>
   <a href="#04--how-zerotrace-works">
@@ -34,6 +37,9 @@
 </p>
 
 <p align="center">
+  <a href="https://zero-trace-nine.vercel.app/">
+    <img src="https://img.shields.io/badge/DEPLOYMENT-LIVE-10B981?style=flat-square&amp;logo=vercel&amp;logoColor=white" alt="Deployment Live" />
+  </a>
   <img src="https://img.shields.io/badge/TRASEY-AUTONOMOUS_AI_RELIABILITY_ENGINE-22D3EE?style=flat-square&amp;labelColor=070B1F" alt="Trasey AI Core" />
   <img src="https://img.shields.io/badge/STATUS-ONLINE-2DD4BF?style=flat-square&amp;labelColor=070B1F" alt="Status Online" />
   <img src="https://img.shields.io/badge/MODE-ADVERSARIAL-A855F7?style=flat-square&amp;labelColor=070B1F" alt="Adversarial Mode" />
@@ -52,32 +58,32 @@
 
 ---
 
-## 📑 Table of Contents
+## 🌐 Live Deployment
 
-- [01 / The Problem](#01--the-problem)
-- [02 / Introducing ZeroTrace](#02--introducing-zerotrace)
-- [03 / Meet Trasey](#03--meet-trasey)
-- [04 / How ZeroTrace Works](#04--how-zerotrace-works)
-- [05 / Reliability Intelligence](#05--reliability-intelligence)
-- [06 / Failure Modes](#06--failure-modes)
-- [07 / Reliability Report](#07--reliability-report)
-- [08 / Dashboard Preview](#08--dashboard-preview)
-- [09 / Technology Stack](#09--technology-stack)
-- [10 / Repository Structure](#10--repository-structure)
-- [11 / Getting Started](#11--getting-started)
-- [12 / Environment Variables](#12--environment-variables)
-- [13 / API Overview](#13--api-overview)
-- [14 / Why ZeroTrace Is Different](#14--why-zerotrace-is-different)
-- [15 / Roadmap](#15--roadmap)
-- [16 / Meet the Team](#16--meet-the-team)
-- [17 / Contributing](#17--contributing)
-- [18 / License](#18--license)
+ZeroTrace is live and available for hands-on evaluation directly in your browser.
+
+<p align="center">
+  <a href="https://zero-trace-nine.vercel.app/">
+    <img
+      src="https://img.shields.io/badge/OPEN%20ZEROTRACE-LIVE%20ON%20VERCEL-000000?style=for-the-badge&amp;logo=vercel&amp;logoColor=white"
+      alt="Open ZeroTrace Live"
+    />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://zero-trace-nine.vercel.app/">
+    <strong>https://zero-trace-nine.vercel.app/</strong>
+  </a>
+</p>
 
 ---
+
 <div align="center">
 
 ## 🧭 Navigate ZeroTrace
 
+[**Live Demo**](https://zero-trace-nine.vercel.app/) •
 [**Problem**](#01--the-problem) •
 [**ZeroTrace**](#02--introducing-zerotrace) •
 [**Trasey**](#03--meet-trasey) •
@@ -106,6 +112,7 @@
 
 <br>
 
+- [Live Deployment](#-live-deployment)
 - [01 / The Problem](#01--the-problem)
 - [02 / Introducing ZeroTrace](#02--introducing-zerotrace)
 - [03 / Meet Trasey](#03--meet-trasey)
@@ -440,6 +447,12 @@ ZeroTrace converts complex agent behavior into a report that developers can unde
   </tr>
 </table>
 
+<p align="center">
+  <a href="https://zero-trace-nine.vercel.app/">
+    <strong>→ Explore the live ZeroTrace dashboard</strong>
+  </a>
+</p>
+
 ---
 
 ## 09 / Technology Stack
@@ -505,6 +518,16 @@ ZeroTrace/
 ---
 
 ## 11 / Getting Started
+
+### Try ZeroTrace Online
+
+No local setup is required to explore the deployed application:
+
+**Live:** https://zero-trace-nine.vercel.app/
+
+### Run Locally
+
+Continue with the installation steps below if you want to run or develop ZeroTrace locally.
 
 ### Prerequisites
 
@@ -828,7 +851,7 @@ See [`LICENSE`](./LICENSE) for complete terms.
 </p>
 
 <p align="center">
-  <a href="<LIVE_DEMO_URL>">
+  <a href="https://zero-trace-nine.vercel.app/">
     <img src="https://img.shields.io/badge/LAUNCH_ZEROTRACE-EC2B9A?style=for-the-badge&amp;logo=rocket&amp;logoColor=white" alt="Launch ZeroTrace" />
   </a>
   <a href="<REPOSITORY_URL>/issues">

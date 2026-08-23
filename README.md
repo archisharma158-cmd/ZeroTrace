@@ -1,12 +1,29 @@
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:F472B6,35:EC4899,65:A855F7,100:312E81&amp;height=220&amp;section=header&amp;animation=fadeIn"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:EC4899,40:A855F7,75:6D28D9,100:1E1B4B&amp;height=230&amp;section=header&amp;text=ZeroTrace&amp;fontSize=62&amp;fontColor=FFFFFF&amp;fontAlignY=38&amp;animation=fadeIn&amp;desc=AI%20Agent%20Evaluation%20and%20Reliability%20Engine&amp;descSize=18&amp;descAlignY=58&amp;descAlign=50"
     width="100%"
-    alt="ZeroTrace Animated Header"
+    alt="ZeroTrace"
   />
 </p>
 
 <h1 align="center">ZeroTrace</h1>
+
+<h3 align="center">
+  Break your AI before it breaks.
+</h3>
+
+<p align="center">
+  ZeroTrace stress-tests autonomous AI agents through adversarial missions,<br />
+  behavioral analysis, and failure simulation—turning every trace into measurable reliability evidence.
+</p>
+
+<p align="center">
+  <img
+    src="logo.jpeg"
+    alt="ZeroTrace Logo"
+    width="280"
+  />
+</p>
 
 <h3 align="center">
   AI Agent Evaluation &amp; Reliability Engine
@@ -40,59 +57,80 @@
 
 ## 🌐 Live Deployment
 
-ZeroTrace is live and available for hands-on evaluation directly in your browser.
+<strong>
+  Experience ZeroTrace directly in your browser — no local setup required.
+</strong>
 
-<p align="center">
-  <a href="https://zero-trace-nine.vercel.app/">
-    <img
-      src="https://img.shields.io/badge/OPEN%20ZEROTRACE-LIVE%20ON%20VERCEL-000000?style=for-the-badge&amp;logo=vercel&amp;logoColor=white"
-      alt="Open ZeroTrace Live"
-    />
-  </a>
-</p>
+<br />
 
-<p align="center">
-  <a href="https://zero-trace-nine.vercel.app/">
-    <strong>https://zero-trace-nine.vercel.app/</strong>
-  </a>
-</p>
+### 🔗 Live URL
+
+**https://zero-trace-nine.vercel.app/**
+
+Test the ZeroTrace interface, explore the reliability dashboard, run agent evaluations, and inspect Trasey-powered reliability insights.
+
+<a href="https://zero-trace-nine.vercel.app/">
+  <strong>⚡ Open ZeroTrace →</strong>
+</a>
 
 ---
 
-<div align="center">
 
 ## 🧭 Navigate ZeroTrace
 
-[**Live Demo**](https://zero-trace-nine.vercel.app/) •
-[**Problem**](#01--the-problem) •
-[**ZeroTrace**](#02--introducing-zerotrace) •
-[**Trasey**](#03--meet-trasey) •
-[**Workflow**](#04--how-zerotrace-works) •
-[**Reliability**](#05--reliability-intelligence) •
-[**Failure Modes**](#06--failure-modes) •
-[**Report**](#07--reliability-report) •
-[**Dashboard**](#08--dashboard-preview)
+<a href="#01--the-problem"><strong>Problem</strong></a>
+&nbsp;•&nbsp;
+<a href="#02--introducing-zerotrace"><strong>ZeroTrace</strong></a>
+&nbsp;•&nbsp;
+<a href="#03--meet-trasey"><strong>Trasey</strong></a>
+&nbsp;•&nbsp;
+<a href="#04--how-zerotrace-works"><strong>Workflow</strong></a>
+&nbsp;•&nbsp;
+<a href="#05--reliability-intelligence"><strong>Reliability</strong></a>
+&nbsp;•&nbsp;
+<a href="#06--failure-modes"><strong>Failure Modes</strong></a>
+&nbsp;•&nbsp;
+<a href="#07--reliability-report"><strong>Report</strong></a>
+&nbsp;•&nbsp;
+<a href="#08--dashboard-preview"><strong>Dashboard</strong></a>
 
-[**Tech Stack**](#09--technology-stack) •
-[**Structure**](#10--repository-structure) •
-[**Setup**](#11--getting-started) •
-[**Environment**](#12--environment-variables) •
-[**API**](#13--api--backend) •
-[**Testing**](#14--testing) •
-[**Security**](#15--security) •
-[**Roadmap**](#16--roadmap) •
-[**Team**](#17--team)
+<br />
 
-</div>
+<a href="#09--technology-stack"><strong>Tech Stack</strong></a>
+&nbsp;•&nbsp;
+<a href="#10--repository-structure"><strong>Structure</strong></a>
+&nbsp;•&nbsp;
+<a href="#11--getting-started"><strong>Getting Started</strong></a>
+&nbsp;•&nbsp;
+<a href="#12--environment-variables"><strong>Environment</strong></a>
+&nbsp;•&nbsp;
+<a href="#13--api-overview"><strong>API</strong></a>
+&nbsp;•&nbsp;
+<a href="#14--why-zerotrace-is-different"><strong>Why ZeroTrace</strong></a>
+&nbsp;•&nbsp;
+<a href="#15--roadmap"><strong>Roadmap</strong></a>
+&nbsp;•&nbsp;
+<a href="#16--meet-the-team"><strong>Team</strong></a>
+&nbsp;•&nbsp;
+<a href="#17--contributing"><strong>Contributing</strong></a>
+&nbsp;•&nbsp;
+<a href="#18--license"><strong>License</strong></a>
+
+<br /><br />
+
+<a href="https://zero-trace-nine.vercel.app/">
+  <img
+    src="https://img.shields.io/badge/LIVE%20DEMO-OPEN%20ZEROTRACE-EC4899?style=for-the-badge&amp;logo=vercel&amp;logoColor=white"
+    alt="ZeroTrace Live Demo"
+  />
+</a>
+
+
 
 ---
 
-<details>
-<summary><strong>📑 Full Table of Contents</strong></summary>
+## 📑 Table of Contents
 
-<br>
-
-- [Live Deployment](#-live-deployment)
 - [01 / The Problem](#01--the-problem)
 - [02 / Introducing ZeroTrace](#02--introducing-zerotrace)
 - [03 / Meet Trasey](#03--meet-trasey)
@@ -105,15 +143,13 @@ ZeroTrace is live and available for hands-on evaluation directly in your browser
 - [10 / Repository Structure](#10--repository-structure)
 - [11 / Getting Started](#11--getting-started)
 - [12 / Environment Variables](#12--environment-variables)
-- [13 / API & Backend](#13--api--backend)
-- [14 / Testing](#14--testing)
-- [15 / Security](#15--security)
-- [16 / Roadmap](#16--roadmap)
-- [17 / Team](#17--team)
-- [18 / Contributing](#18--contributing)
-- [19 / License](#19--license)
+- [13 / API Overview](#13--api-overview)
+- [14 / Why ZeroTrace Is Different](#14--why-zerotrace-is-different)
+- [15 / Roadmap](#15--roadmap)
+- [16 / Meet the Team](#16--meet-the-team)
+- [17 / Contributing](#17--contributing)
+- [18 / License](#18--license)
 
-</details>
 
 ---
 

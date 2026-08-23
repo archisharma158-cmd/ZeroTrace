@@ -1,8 +1,8 @@
 <p align="center">
   <img
-    src="src/assets/branding/zerotrace-main-logo.png"
-    alt="ZeroTrace"
-    width="300"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;color=0:F472B6,35:EC4899,65:A855F7,100:312E81&amp;height=220&amp;section=header&amp;animation=fadeIn"
+    width="100%"
+    alt="ZeroTrace Animated Header"
   />
 </p>
 
@@ -14,26 +14,6 @@
 
 <p align="center">
   <strong>Break your AI before it breaks.</strong>
-</p>
-
-<p align="center">
-  ZeroTrace stress-tests autonomous AI agents through adversarial missions,<br/>
-  behavioral analysis, and failure simulation—turning every trace into measurable reliability evidence.
-</p>
-
-<p align="center">
-  <a href="https://zero-trace-nine.vercel.app/">
-    <img src="https://img.shields.io/badge/LIVE%20DEMO-OPEN%20ZEROTRACE-EC4899?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" alt="ZeroTrace Live Demo" />
-  </a>
-  <a href="https://zero-trace-nine.vercel.app/">
-    <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&amp;logo=lightning&amp;logoColor=white" alt="Live Demo" />
-  </a>
-  <a href="#04--how-zerotrace-works">
-    <img src="https://img.shields.io/badge/VIEW_ARCHITECTURE-8B5CF6?style=for-the-badge&amp;logo=diagramsdotnet&amp;logoColor=white" alt="Architecture" />
-  </a>
-  <a href="#11--getting-started">
-    <img src="https://img.shields.io/badge/RUN_LOCALLY-22D3EE?style=for-the-badge&amp;logo=github&amp;logoColor=070B1F" alt="Run Locally" />
-  </a>
 </p>
 
 <p align="center">

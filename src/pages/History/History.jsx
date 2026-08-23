@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Trash2,
   Clock,
@@ -8,12 +8,16 @@ import {
   Zap,
   ShieldCheck,
   RotateCcw,
-  Bot
+  Bot,
+  TrendingUp,
+  FileText,
+  Layers
 } from "lucide-react";
 import { getValidCompletedEvaluations } from "../../utils/evaluationValidation";
 import "../../styles/history.css";
 
 export default function History() {
+  const navigate = useNavigate();
   const [history, setHistory] = useState(() => {
     try {
       const saved = JSON.parse(localStorage.getItem("zerotrace_history") || "[]");
@@ -374,8 +378,34 @@ export default function History() {
                     </div>
                   </div>
 
-                  {/* Delete Action */}
+                  {/* Action Buttons */}
                   <div className="zt-card-actions">
+                    <button
+                      className="zt-action-link-btn mission-btn"
+                      onClick={() =>
+                        navigate(
+                          `/mission-control?taskId=${encodeURIComponent(item.taskId || item.id)}&agent=${encodeURIComponent(item.agent || "")}`
+                        )
+                      }
+                      title="Open Live Mission Control for this evaluation"
+                    >
+                      <TrendingUp size={14} />
+                      Mission Control
+                    </button>
+
+                    <button
+                      className="zt-action-link-btn report-btn"
+                      onClick={() =>
+                        navigate(
+                          `/report?taskId=${encodeURIComponent(item.taskId || item.id)}&agent=${encodeURIComponent(item.agent || "")}`
+                        )
+                      }
+                      title="View Report for this evaluation"
+                    >
+                      <FileText size={14} />
+                      Report
+                    </button>
+
                     <button
                       className="zt-delete-item-btn"
                       onClick={() => deleteItem(item.id)}

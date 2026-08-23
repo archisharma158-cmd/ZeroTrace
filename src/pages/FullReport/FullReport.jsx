@@ -18,33 +18,20 @@ const fallbackFailures = [
   ["TR-0050", "Failure Recovery", "Failure Recovery", "MEDIUM", 78]
 ];
 
+import { getStoredAuth, clearStoredAuth, setReturnUrl } from "../../utils/auth";
+
 function FullReport() {
   const navigate = useNavigate();
-  const [auth, setAuth] = useState(() => {
-    try {
-      const savedAuth = sessionStorage.getItem("zerotrace_auth");
-      return savedAuth ? JSON.parse(savedAuth) : null;
-    } catch {
-      return null;
-    }
-  });
+  const [auth, setAuth] = useState(() => getStoredAuth());
 
   useEffect(() => {
-    const savedAuth = sessionStorage.getItem("zerotrace_auth");
-    if (!savedAuth) {
+    const currentAuth = getStoredAuth();
+    if (!currentAuth || !currentAuth.authenticated) {
+      setReturnUrl("/full-report");
       navigate("/auth");
       return;
     }
-    try {
-      const parsed = JSON.parse(savedAuth);
-      if (!parsed.authenticated) {
-        navigate("/auth");
-        return;
-      }
-      setAuth(parsed);
-    } catch {
-      navigate("/auth");
-    }
+    setAuth(currentAuth);
   }, [navigate]);
 
   const evaluation = useMemo(() => {
@@ -165,8 +152,8 @@ function FullReport() {
   };
 
   const logout = () => {
-    sessionStorage.removeItem("zerotrace_auth");
-    navigate("/");
+    clearStoredAuth();
+    navigate("/auth");
   };
 
   if (!auth) {

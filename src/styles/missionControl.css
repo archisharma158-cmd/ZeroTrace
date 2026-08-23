@@ -1,0 +1,881 @@
+/* =========================================================
+   ZEROTRACE — LIVE MISSION CONTROL DASHBOARD STYLING
+   Cyberpunk / Holographic Telemetry Design System
+   ========================================================= */
+
+.zt-mission-page {
+  min-height: calc(100vh - 80px);
+  padding: 40px 6% 80px;
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(237, 62, 145, 0.1), transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(56, 189, 248, 0.08), transparent 50%),
+    #080c14;
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.zt-mission-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* =========================================================
+   1. MISSION HEADER
+   ========================================================= */
+.zt-mission-header-card {
+  background: linear-gradient(135deg, rgba(18, 27, 45, 0.85) 0%, rgba(13, 19, 34, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  padding: 32px 36px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.zt-mission-header-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.05));
+  pointer-events: none;
+}
+
+.zt-mission-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zt-mission-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.zt-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.zt-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: ztPulse 1.8s infinite;
+}
+
+@keyframes ztPulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 14px #10b981; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.zt-mission-eyebrow {
+  color: #38bdf8;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.zt-mission-h1 {
+  margin: 4px 0 6px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.15;
+}
+
+.zt-mission-h1 span {
+  background: linear-gradient(135deg, #c084fc 0%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.zt-mission-submeta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #94a3b8;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.zt-mission-submeta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zt-mission-score-meter {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 16px;
+  padding: 18px 28px;
+}
+
+.zt-meter-circle-val {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+}
+
+.zt-meter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zt-meter-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.zt-meter-threat {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* =========================================================
+   2. COMMAND CARDS (TOP TELEMETRY GRID)
+   ========================================================= */
+.zt-command-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+.zt-cmd-card {
+  background: rgba(15, 21, 35, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.zt-cmd-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.zt-cmd-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #94a3b8;
+}
+
+.zt-cmd-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.zt-cmd-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.zt-cmd-value {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: 'SF Mono', Monaco, Consolas, monospace;
+  line-height: 1;
+}
+
+.zt-cmd-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.zt-cmd-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.6s ease;
+}
+
+.zt-cmd-subtext {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================================================
+   3. SECTION LAYOUTS & CONTAINERS
+   ========================================================= */
+.zt-section-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.zt-section-title-bar h2 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.zt-section-title-bar h2 i {
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(180deg, #8b3ff0, #ed3e91);
+  border-radius: 2px;
+}
+
+.zt-section-subtitle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Two column layout */
+.zt-mission-two-col {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .zt-mission-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   4. SCENARIO EXECUTION FEED
+   ========================================================= */
+.zt-scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.zt-scenario-card {
+  background: rgba(15, 21, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 18px 22px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zt-scenario-card:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+  background: rgba(18, 25, 42, 0.85);
+}
+
+.zt-scenario-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.zt-scenario-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zt-scenario-num {
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 12px;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.zt-scenario-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.zt-scenario-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zt-type-pill {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+}
+
+.zt-verdict-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.zt-verdict-pill.pass {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+.zt-verdict-pill.warning {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+}
+
+.zt-verdict-pill.fail {
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fb7185;
+}
+
+.zt-scenario-body {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+  background: rgba(8, 12, 20, 0.5);
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.zt-scenario-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.zt-scenario-score-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zt-scenario-score-num {
+  font-family: 'SF Mono', Monaco, monospace;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f1f5f9;
+}
+
+/* =========================================================
+   5. MULTI-MODEL CONSENSUS
+   ========================================================= */
+.zt-consensus-panel {
+  background: rgba(15, 21, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.zt-consensus-meter-box {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.zt-consensus-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.zt-consensus-score-val {
+  font-size: 26px;
+  font-weight: 900;
+  color: #38bdf8;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.zt-models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.zt-model-card {
+  background: rgba(8, 12, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.zt-model-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.zt-model-status {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.zt-model-status.active { color: #34d399; }
+.zt-model-status.fallback { color: #fbbf24; }
+.zt-model-status.offline { color: #64748b; }
+
+.zt-model-score {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: 'SF Mono', Monaco, monospace;
+  color: #c084fc;
+}
+
+/* =========================================================
+   6. FAILURE SIGNAL MATRIX (8-SIGNAL GRID)
+   ========================================================= */
+.zt-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.zt-matrix-tile {
+  background: rgba(15, 21, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.zt-matrix-tile:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 28, 48, 0.8);
+}
+
+.zt-matrix-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.zt-matrix-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.zt-matrix-desc {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.zt-sev-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.zt-sev-badge.low {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+.zt-sev-badge.medium {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+}
+
+.zt-sev-badge.high {
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fb7185;
+}
+
+.zt-sev-badge.critical {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+/* =========================================================
+   7. TIMELINE & TRACE TERMINAL
+   ========================================================= */
+.zt-timeline-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  position: relative;
+}
+
+.zt-timeline-step {
+  background: rgba(15, 21, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.zt-timeline-step.completed {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.zt-step-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zt-step-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.zt-step-desc {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* TRASY Live Trace Terminal */
+.zt-trace-terminal {
+  background: #060911;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+  font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.zt-trace-line {
+  padding: 4px 0;
+  display: flex;
+  gap: 12px;
+  line-height: 1.6;
+}
+
+.zt-trace-ts {
+  color: #475569;
+  user-select: none;
+}
+
+.zt-trace-tag {
+  font-weight: 700;
+}
+
+.zt-trace-tag.trace { color: #38bdf8; }
+.zt-trace-tag.model { color: #c084fc; }
+.zt-trace-tag.risk { color: #f472b6; }
+.zt-trace-tag.consensus { color: #34d399; }
+.zt-trace-tag.report { color: #fbbf24; }
+
+.zt-trace-msg {
+  color: #cbd5e1;
+}
+
+/* =========================================================
+   8. CRITICAL FINDINGS & VULNERABILITIES
+   ========================================================= */
+.zt-findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zt-finding-card {
+  background: rgba(244, 63, 94, 0.05);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.zt-finding-icon {
+  color: #fb7185;
+  margin-top: 2px;
+}
+
+.zt-finding-text {
+  font-size: 14px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+.zt-findings-clean {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 12px;
+  padding: 24px 30px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #34d399;
+}
+
+.zt-findings-clean-text h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #f1f5f9;
+}
+
+.zt-findings-clean-text p {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* =========================================================
+   9. MISSION ACTIONS
+   ========================================================= */
+.zt-mission-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 24px 0;
+  flex-wrap: wrap;
+}
+
+.zt-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #8b3ff0 0%, #ed3e91 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35);
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.zt-btn-primary:hover {
+  box-shadow: 0 12px 35px rgba(237, 62, 145, 0.45);
+  transform: translateY(-2px);
+}
+
+.zt-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  background: rgba(15, 21, 35, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.zt-btn-secondary:hover {
+  background: rgba(25, 35, 58, 0.9);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   EMPTY STATE (POLISHED)
+   ========================================================= */
+.zt-mission-empty-card {
+  background: rgba(15, 21, 35, 0.85);
+  border: 1px dashed rgba(139, 92, 246, 0.35);
+  border-radius: 20px;
+  padding: 80px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 640px;
+  margin: 60px auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.zt-mission-empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  display: grid;
+  place-items: center;
+  color: #c084fc;
+}
+
+.zt-mission-empty-card h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.zt-mission-empty-card p {
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 460px;
+}
+
+/* =========================================================
+   RESPONSIVE OVERRIDES
+   ========================================================= */
+@media (max-width: 768px) {
+  .zt-mission-page {
+    padding: 24px 4% 60px;
+  }
+
+  .zt-mission-header-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+  }
+
+  .zt-mission-score-meter {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+
+  .zt-command-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .zt-matrix-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-mission-actions-bar {
+    justify-content: stretch;
+  }
+
+  .zt-btn-primary, .zt-btn-secondary {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .zt-command-grid {
+    grid-template-columns: 1fr;
+  }
+}

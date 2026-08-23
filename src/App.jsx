@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
+import ProtectedRoute from "./components/common/ProtectedRoute";
 import Landing from "./pages/Landing/Landing";
 import History from "./pages/History/History";
 import About from "./pages/About/About";
@@ -23,6 +24,7 @@ import "./styles/report.css";
 import "./styles/auth.css";
 import "./styles/fullReport.css";
 import "./styles/history.css";
+import "./styles/missionControl.css";
 
 function App() {
   return (
@@ -34,17 +36,43 @@ function App() {
           <Route path="/test-ai" element={<TestAI />} />
           <Route path="/trasy" element={<Trasy />} />
           <Route path="/team" element={<Team />} />
-        <Route path="/history" element={sessionStorage.getItem("zerotrace_auth") ? <History /> : <Navigate to="/auth" replace />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/license" element={<License />} />
+          <Route path="/auth" element={<Auth />} />
+
+          {/* Telemetry and Evaluation pages */}
           <Route path="/evaluation" element={<Evaluation />} />
           <Route path="/mission-control" element={<MissionControl />} />
           <Route path="/investigation" element={<Investigation />} />
           <Route path="/report" element={<Report />} />
           <Route path="/full-report" element={<FullReport />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
+
+          {/* Protected user pages */}
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>

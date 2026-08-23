@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { jsPDF } from "jspdf";
+import { isAuthenticated, setReturnUrl } from "../../utils/auth";
 import "./report.css";
 
 export default function Report() {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem("zerotrace_auth");
+  const isLoggedIn = isAuthenticated();
 
   const requireLogin = (action) => {
     if (!isLoggedIn) {
-      sessionStorage.setItem("zerotrace_return", "/report");
+      setReturnUrl("/report");
       navigate("/auth");
       return;
     }

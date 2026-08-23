@@ -191,6 +191,61 @@ async def evaluate_task(task_id: str):
     )
 
 
+@router.get("/evaluate/{task_id}/full", response_model=EvaluationResult)
+async def get_task_full_evaluation(task_id: str):
+    """Retrieve an existing computed full evaluation for a task."""
+    try:
+        oid = ObjectId(task_id)
+    except (InvalidId, Exception):
+        raise HTTPException(status_code=400, detail="Invalid task ID format.")
+
+    # 1. Check full_evaluations collection
+    existing_doc = await full_evaluations_collection.find_one({"task_id": task_id})
+    if not existing_doc:
+        # Fallback to standard evaluations
+        existing_doc = await evaluations_collection.find_one({"task_id": task_id})
+        if not existing_doc:
+            raise HTTPException(status_code=404, detail="Evaluation not found for this task.")
+
+    agreement_obj = None
+    if existing_doc.get("evaluator_agreement"):
+        agreement_obj = EvaluatorAgreement(
+            agreement_score=existing_doc["evaluator_agreement"].get("agreement_score", 0),
+            agreement_level=existing_doc["evaluator_agreement"].get("agreement_level", "MODERATE"),
+            metric_differences=existing_doc["evaluator_agreement"].get("metric_differences", {})
+        )
+
+    metrics_data = existing_doc.get("metrics", {})
+    metrics_obj = EvaluationMetrics(
+        correctness=metrics_data.get("correctness", 0),
+        relevance=metrics_data.get("relevance", 0),
+        completeness=metrics_data.get("completeness", 0),
+        consistency=metrics_data.get("consistency", 0),
+        hallucination_risk=metrics_data.get("hallucination_risk", 0),
+    )
+
+    return EvaluationResult(
+        evaluation_id=str(existing_doc["_id"]),
+        task_id=task_id,
+        output=existing_doc.get("output", ""),
+        reliability_score=existing_doc.get("reliability_score", 0.0),
+        risk_level=existing_doc.get("risk_level", "MEDIUM"),
+        failures=existing_doc.get("failures", []),
+        recommendations=existing_doc.get("recommendations", []),
+        metrics=metrics_obj,
+        trace=existing_doc.get("trace", []),
+        evaluators=existing_doc.get("evaluators", {
+            "gemini": {"status": "aggregated"},
+            "mistral": {"status": "aggregated"}
+        }),
+        evaluator_agreement=agreement_obj,
+        scenarios=existing_doc.get("scenarios"),
+        scenario_source=existing_doc.get("scenario_source"),
+        provider_status=existing_doc.get("provider_status"),
+        scenario_results=existing_doc.get("scenario_results")
+    )
+
+
 @router.post("/evaluate/{task_id}/full", response_model=EvaluationResult)
 async def evaluate_task_full(task_id: str):
     """

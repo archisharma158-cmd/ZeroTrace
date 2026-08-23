@@ -9,6 +9,7 @@ import {
   Loader2
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { setStoredAuth, getAndClearReturnUrl } from "../../utils/auth";
 
 const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
@@ -104,8 +105,7 @@ function Auth() {
   };
 
   const completeAuth = (userData) => {
-    sessionStorage.setItem("zerotrace_auth", JSON.stringify(userData));
-    localStorage.setItem("zerotrace_auth", JSON.stringify(userData));
+    setStoredAuth(userData);
 
     // Store login session audit under zerotrace_sessions rather than evaluation history
     try {
@@ -126,10 +126,7 @@ function Auth() {
       // Storage safe
     }
 
-    window.dispatchEvent(new Event("zerotrace-auth-changed"));
-
-    const returnUrl = sessionStorage.getItem("zerotrace_return") || "/dashboard";
-    sessionStorage.removeItem("zerotrace_return");
+    const returnUrl = getAndClearReturnUrl("/dashboard");
     navigate(returnUrl);
   };
 

@@ -80,8 +80,12 @@ function Evaluation() {
           backendResultRef.current = data;
           backendDoneRef.current = true;
 
-          // Store real evaluation in sessionStorage
+          // Store real evaluation in sessionStorage and localStorage
           sessionStorage.setItem("zerotrace_evaluation", JSON.stringify(data));
+          if (taskId) sessionStorage.setItem("zerotrace_taskId", taskId);
+          try {
+            localStorage.setItem("zerotrace_latest_evaluation", JSON.stringify(data));
+          } catch {}
 
           // Save real completed evaluation to history if valid
           try {
@@ -98,11 +102,14 @@ function Evaluation() {
 
               withoutExisting.unshift({
                 id: evalId,
+                taskId: taskId || evalId,
                 agent: meaningfulAgent,
                 score: evalScore,
                 threat: data.risk_level || "MEDIUM",
                 status: "PASSED",
-                date: new Date().toLocaleString()
+                date: new Date().toLocaleString(),
+                metrics: data.metrics,
+                scenarioCount: data.scenario_results?.length || data.scenarios?.length || 0
               });
 
               localStorage.setItem("zerotrace_history", JSON.stringify(withoutExisting.slice(0, 50)));
@@ -503,7 +510,11 @@ function Evaluation() {
 
               <button
                 type="button"
-                onClick={() => navigate("/mission-control")}
+                onClick={() =>
+                  navigate(
+                    `/mission-control?taskId=${encodeURIComponent(taskId || "")}&agent=${encodeURIComponent(agentName || "")}`
+                  )
+                }
               >
                 VIEW MISSION CONTROL
                 <TrendingUp size={16} />

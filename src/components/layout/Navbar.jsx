@@ -12,6 +12,7 @@ import {
   Settings,
   User
 } from "lucide-react";
+import { getStoredAuth, clearStoredAuth, setReturnUrl } from "../../utils/auth";
 import zerotraceLogo from "../../../logo.jpeg";
 import "../../styles/navbar.css";
 
@@ -20,30 +21,17 @@ function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
-  const getAuth = () => {
-    try {
-      return JSON.parse(
-        sessionStorage.getItem("zerotrace_auth") || "null"
-      );
-    } catch {
-      return null;
-    }
-  };
-
-  const [auth, setAuth] = useState(getAuth());
+  const [auth, setAuth] = useState(() => getStoredAuth());
 
   useEffect(() => {
-    const refreshAuth = () => setAuth(getAuth());
+    const refreshAuth = () => setAuth(getStoredAuth());
 
     window.addEventListener("storage", refreshAuth);
     window.addEventListener("zerotrace-auth-changed", refreshAuth);
 
     return () => {
       window.removeEventListener("storage", refreshAuth);
-      window.removeEventListener(
-        "zerotrace-auth-changed",
-        refreshAuth
-      );
+      window.removeEventListener("zerotrace-auth-changed", refreshAuth);
     };
   }, []);
 
@@ -80,26 +68,15 @@ function Navbar() {
     `zt-nav-link ${isActive ? "active" : ""}`;
 
   const logout = () => {
-    sessionStorage.removeItem("zerotrace_auth");
-    sessionStorage.removeItem("zerotrace_return");
-
+    clearStoredAuth();
     setAuth(null);
     setProfileOpen(false);
-
-    navigate("/");
-
-    window.dispatchEvent(
-      new Event("zerotrace-auth-changed")
-    );
+    navigate("/auth");
   };
 
   const openProtected = (path) => {
     if (!loggedIn) {
-      sessionStorage.setItem(
-        "zerotrace_return",
-        path
-      );
-
+      setReturnUrl(path);
       navigate("/auth");
       return;
     }

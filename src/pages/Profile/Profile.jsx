@@ -13,16 +13,11 @@ import {
 import { getValidCompletedEvaluations } from "../../utils/evaluationValidation";
 import "./profile.css";
 
+import { getStoredAuth, clearStoredAuth } from "../../utils/auth";
+
 function Profile() {
   const navigate = useNavigate();
-
-  let auth = {};
-
-  try {
-    auth = JSON.parse(
-      sessionStorage.getItem("zerotrace_auth") || "{}"
-    );
-  } catch {}
+  const auth = getStoredAuth() || {};
 
   const history = getValidCompletedEvaluations(
     JSON.parse(localStorage.getItem("zerotrace_history") || "[]")
@@ -35,14 +30,8 @@ function Profile() {
     identifier.charAt(0).toUpperCase();
 
   const logout = () => {
-    sessionStorage.removeItem("zerotrace_auth");
-    sessionStorage.removeItem("zerotrace_return");
-
-    navigate("/");
-
-    window.dispatchEvent(
-      new Event("zerotrace-auth-changed")
-    );
+    clearStoredAuth();
+    navigate("/auth");
   };
 
   return (

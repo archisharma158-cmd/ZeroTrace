@@ -75,6 +75,61 @@
 </p>
 
 ---
+<div align="center">
+
+## 🧭 Navigate ZeroTrace
+
+[**Problem**](#01--the-problem) •
+[**ZeroTrace**](#02--introducing-zerotrace) •
+[**Trasey**](#03--meet-trasey) •
+[**Workflow**](#04--how-zerotrace-works) •
+[**Reliability**](#05--reliability-intelligence) •
+[**Failure Modes**](#06--failure-modes) •
+[**Report**](#07--reliability-report) •
+[**Dashboard**](#08--dashboard-preview)
+
+[**Tech Stack**](#09--technology-stack) •
+[**Structure**](#10--repository-structure) •
+[**Setup**](#11--getting-started) •
+[**Environment**](#12--environment-variables) •
+[**API**](#13--api--backend) •
+[**Testing**](#14--testing) •
+[**Security**](#15--security) •
+[**Roadmap**](#16--roadmap) •
+[**Team**](#17--team)
+
+</div>
+
+---
+
+<details>
+<summary><strong>📑 Full Table of Contents</strong></summary>
+
+<br>
+
+- [01 / The Problem](#01--the-problem)
+- [02 / Introducing ZeroTrace](#02--introducing-zerotrace)
+- [03 / Meet Trasey](#03--meet-trasey)
+- [04 / How ZeroTrace Works](#04--how-zerotrace-works)
+- [05 / Reliability Intelligence](#05--reliability-intelligence)
+- [06 / Failure Modes](#06--failure-modes)
+- [07 / Reliability Report](#07--reliability-report)
+- [08 / Dashboard Preview](#08--dashboard-preview)
+- [09 / Technology Stack](#09--technology-stack)
+- [10 / Repository Structure](#10--repository-structure)
+- [11 / Getting Started](#11--getting-started)
+- [12 / Environment Variables](#12--environment-variables)
+- [13 / API & Backend](#13--api--backend)
+- [14 / Testing](#14--testing)
+- [15 / Security](#15--security)
+- [16 / Roadmap](#16--roadmap)
+- [17 / Team](#17--team)
+- [18 / Contributing](#18--contributing)
+- [19 / License](#19--license)
+
+</details>
+
+---
 
 ## 01 / The Problem
 

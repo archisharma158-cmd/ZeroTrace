@@ -1,6 +1,6 @@
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&text=ZeroTrace&fontColor=FFFFFF&fontSize=66&fontAlignY=38&desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&descAlignY=59&descSize=17&animation=fadeIn"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;height=230&amp;color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&amp;text=ZeroTrace&amp;fontColor=FFFFFF&amp;fontSize=66&amp;fontAlignY=38&amp;desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&amp;descAlignY=59&amp;descSize=17&amp;animation=fadeIn"
     width="100%"
     alt="ZeroTrace"
   />
@@ -12,25 +12,25 @@
 
 <p align="center">
   <a href="<LIVE_DEMO_URL>">
-    <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&logo=lightning&logoColor=white" alt="Live Demo" />
+    <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&amp;logo=lightning&amp;logoColor=white" alt="Live Demo" />
   </a>
   <a href="#-how-zerotrace-works">
-    <img src="https://img.shields.io/badge/VIEW_ARCHITECTURE-8B5CF6?style=for-the-badge&logo=diagramsdotnet&logoColor=white" alt="Architecture" />
+    <img src="https://img.shields.io/badge/VIEW_ARCHITECTURE-8B5CF6?style=for-the-badge&amp;logo=diagramsdotnet&amp;logoColor=white" alt="Architecture" />
   </a>
   <a href="#-getting-started">
-    <img src="https://img.shields.io/badge/RUN_LOCALLY-22D3EE?style=for-the-badge&logo=github&logoColor=070B1F" alt="Run Locally" />
+    <img src="https://img.shields.io/badge/RUN_LOCALLY-22D3EE?style=for-the-badge&amp;logo=github&amp;logoColor=070B1F" alt="Run Locally" />
   </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/TRASEY-AUTONOMOUS_AI_RELIABILITY_ENGINE-22D3EE?style=flat-square&labelColor=070B1F" alt="Trasey AI Core" />
-  <img src="https://img.shields.io/badge/STATUS-ONLINE-2DD4BF?style=flat-square&labelColor=070B1F" alt="Status Online" />
-  <img src="https://img.shields.io/badge/MODE-ADVERSARIAL-A855F7?style=flat-square&labelColor=070B1F" alt="Adversarial Mode" />
+  <img src="https://img.shields.io/badge/TRASEY-AUTONOMOUS_AI_RELIABILITY_ENGINE-22D3EE?style=flat-square&amp;labelColor=070B1F" alt="Trasey AI Core" />
+  <img src="https://img.shields.io/badge/STATUS-ONLINE-2DD4BF?style=flat-square&amp;labelColor=070B1F" alt="Status Online" />
+  <img src="https://img.shields.io/badge/MODE-ADVERSARIAL-A855F7?style=flat-square&amp;labelColor=070B1F" alt="Adversarial Mode" />
 </p>
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=19&duration=2300&pause=650&color=22D3EE&center=true&vCenter=true&repeat=true&width=720&height=45&lines=Connecting+autonomous+agent...;Generating+adversarial+missions...;Observing+complete+execution+trace...;Detecting+agent+failure+modes...;Converting+behavior+into+evidence...;Calculating+reliability+signals...;TRASEY+AI+CORE+%E2%80%A2+ONLINE"
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&amp;weight=600&amp;size=19&amp;duration=2300&amp;pause=650&amp;color=22D3EE&amp;center=true&amp;vCenter=true&amp;repeat=true&amp;width=720&amp;height=45&amp;lines=Connecting+autonomous+agent...;Generating+adversarial+missions...;Observing+complete+execution+trace...;Detecting+agent+failure+modes...;Converting+behavior+into+evidence...;Calculating+reliability+signals...;TRASEY+AI+CORE+%E2%80%A2+ONLINE"
     alt="ZeroTrace animated evaluation sequence"
   />
 </p>
@@ -320,7 +320,7 @@ ZeroTrace converts complex agent behavior into a report that developers can unde
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=1800&pause=450&color=A855F7&background=070B1F00&center=true&vCenter=true&multiline=false&repeat=true&width=720&height=45&lines=%24+zerotrace+evaluate+research-agent;%E2%97%88+Loading+agent+configuration...;%E2%97%88+Generating+adversarial+missions...;%E2%97%88+Tracing+tool+interactions...;%E2%9A%A0+Failure+detected+at+execution+step+07;%E2%97%86+Reliability+Score%3A+84%2F100;Trasey+%E2%86%92+Evaluation+complete."
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&amp;size=16&amp;duration=1800&amp;pause=450&amp;color=A855F7&amp;background=070B1F00&amp;center=true&amp;vCenter=true&amp;multiline=false&amp;repeat=true&amp;width=720&amp;height=45&amp;lines=%24+zerotrace+evaluate+research-agent;%E2%97%88+Loading+agent+configuration...;%E2%97%88+Generating+adversarial+missions...;%E2%97%88+Tracing+tool+interactions...;%E2%9A%A0+Failure+detected+at+execution+step+07;%E2%97%86+Reliability+Score%3A+84%2F100;Trasey+%E2%86%92+Evaluation+complete."
     alt="ZeroTrace terminal animation"
   />
 </p>
@@ -330,37 +330,62 @@ ZeroTrace converts complex agent behavior into a report that developers can unde
 ## 08 / Dashboard Preview
 
 <p align="center">
-  <img src="./assets/dashboard.png" width="900" alt="ZeroTrace Dashboard" />
+  <img
+    src="src/assets/screenshots/zerotrace_dashboard.png"
+    alt="ZeroTrace Dashboard"
+    width="900"
+  />
 </p>
 
 <table>
   <tr>
-    <td width="50%">
-      <img src="./assets/evaluation-run.png" alt="ZeroTrace Evaluation Run" />
+    <td width="50%" align="center">
+      <img
+        src="src/assets/screenshots/zerotrace_evaluation_run.png"
+        alt="ZeroTrace Evaluation Run"
+        width="100%"
+      />
+      <br />
+      <strong>Evaluation Run</strong>
     </td>
-    <td width="50%">
-      <img src="./assets/trace-visualization.png" alt="ZeroTrace Trace Visualization" />
+    <td width="50%" align="center">
+      <img
+        src="src/assets/screenshots/zerotrace_mission_controlls.png"
+        alt="ZeroTrace Trace Visualization"
+        width="100%"
+      />
+      <br />
+      <strong>Trace Visualization</strong>
     </td>
   </tr>
   <tr>
-    <td width="50%">
-      <img src="./assets/trasey-analysis.png" alt="Trasey Analysis" />
+    <td width="50%" align="center">
+      <img
+        src="src/assets/screenshots/zerotrace_history.png"
+        alt="Trasey Analysis"
+        width="100%"
+      />
+      <br />
+      <strong>Trasey Analysis</strong>
     </td>
-    <td width="50%">
-      <img src="./assets/reliability-report.png" alt="ZeroTrace Reliability Report" />
+    <td width="50%" align="center">
+      <img
+        src="src/assets/screenshots/zerotrace_evaluation_report.png"
+        alt="ZeroTrace Reliability Report"
+        width="100%"
+      />
+      <br />
+      <strong>Reliability Report</strong>
     </td>
   </tr>
 </table>
-
-> [!IMPORTANT]
-> These are image paths—not fake screenshots. Add genuine project screenshots to the `assets` folder using the filenames shown above.
 
 ---
 
 ## 09 / Technology Stack
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=react,vite,python,fastapi,git,github&theme=dark" alt="ZeroTrace Technology Stack" />
+  <img src="https://skillicons.dev/icons?i=react,vite,python,fastapi,git,github&amp;theme=dark" alt="ZeroTrace Technology Stack" />
 </p>
 
 | Layer | Technology |
@@ -725,7 +750,7 @@ See [`LICENSE`](./LICENSE) for complete terms.
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=2800&pause=900&color=EC2B9A&center=true&vCenter=true&repeat=true&width=760&height=45&lines=Reliable+agents+are+engineered+through+evidence.;Test+the+behavior.+Trace+the+failure.+Improve+the+agent.;Don't+trust+the+demo.+Measure+what+happens+under+pressure."
+    src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&amp;weight=600&amp;size=18&amp;duration=2800&amp;pause=900&amp;color=EC2B9A&amp;center=true&amp;vCenter=true&amp;repeat=true&amp;width=760&amp;height=45&amp;lines=Reliable+agents+are+engineered+through+evidence.;Test+the+behavior.+Trace+the+failure.+Improve+the+agent.;Don't+trust+the+demo.+Measure+what+happens+under+pressure."
     alt="ZeroTrace final message"
   />
 </p>
@@ -738,16 +763,16 @@ See [`LICENSE`](./LICENSE) for complete terms.
 
 <p align="center">
   <a href="<LIVE_DEMO_URL>">
-    <img src="https://img.shields.io/badge/LAUNCH_ZEROTRACE-EC2B9A?style=for-the-badge&logo=rocket&logoColor=white" alt="Launch ZeroTrace" />
+    <img src="https://img.shields.io/badge/LAUNCH_ZEROTRACE-EC2B9A?style=for-the-badge&amp;logo=rocket&amp;logoColor=white" alt="Launch ZeroTrace" />
   </a>
   <a href="<REPOSITORY_URL>/issues">
-    <img src="https://img.shields.io/badge/REPORT_AN_ISSUE-A855F7?style=for-the-badge&logo=github&logoColor=white" alt="Report Issue" />
+    <img src="https://img.shields.io/badge/REPORT_AN_ISSUE-A855F7?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Report Issue" />
   </a>
 </p>
 
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:EC2B9A,45:7C3AED,100:070B1F"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;height=120&amp;section=footer&amp;color=0:EC2B9A,45:7C3AED,100:070B1F"
     width="100%"
     alt="ZeroTrace Footer"
   />

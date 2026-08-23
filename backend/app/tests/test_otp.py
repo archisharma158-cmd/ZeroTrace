@@ -232,13 +232,13 @@ class TestOTPAuthentication(unittest.TestCase):
         self.assertEqual(new_resp.status_code, 200)
 
     @patch("app.routes.auth.send_otp_verification_email", new_callable=AsyncMock)
-    def test_email_sending_failure_returns_503(self, mock_email):
+    def test_email_sending_failure_returns_502_and_rolls_back(self, mock_email):
         mock_email.return_value = False
 
         email = "failmail@example.com"
         resp = self.client.post("/api/auth/request-otp", json={"email": email})
-        self.assertEqual(resp.status_code, 503)
-        self.assertIn("Unable to send verification code", resp.json()["detail"])
+        self.assertEqual(resp.status_code, 502)
+        self.assertIn("Failed to send verification email", resp.json()["detail"])
 
         # Confirm no orphaned valid OTP record was left in database
         async def check_no_otp():

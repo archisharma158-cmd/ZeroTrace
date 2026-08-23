@@ -1,78 +1,95 @@
 """
 ZeroTrace Central Email Service.
 
-Handles Gmail SMTP with STARTTLS for:
+Powered by Resend HTTP API for:
+- Secure OTP verification emails
 - Contact team notifications
 - Contact visitor acknowledgement
-- Secure OTP verification emails
+
+Operates over HTTPS (Port 443), fully compatible with cloud container runtimes
+such as Render Free where outbound SMTP ports are blocked.
 """
 
 import asyncio
 import html
 import logging
-import smtplib
 from datetime import datetime, timezone
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from typing import Optional
 
+import resend
 from app.config import (
     CONTACT_RECEIVER_EMAIL,
+    EMAIL_FROM,
     OTP_EXPIRE_MINUTES,
-    SMTP_APP_PASSWORD,
-    SMTP_EMAIL,
-    SMTP_HOST,
-    SMTP_PORT,
+    RESEND_API_KEY,
 )
+from app.services.security import mask_email
 
 logger = logging.getLogger(__name__)
 
+# Configure Resend SDK globally if key is available
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+else:
+    logger.warning("RESEND_API_KEY is not configured. Email delivery will fail until RESEND_API_KEY is provided.")
 
-def _send_smtp_sync(
+
+def _send_resend_sync(
     to_email: str,
     subject: str,
     html_content: str,
     text_content: str,
     reply_to: Optional[str] = None,
 ) -> bool:
-    """Synchronous SMTP email delivery using Gmail STARTTLS."""
-    if not SMTP_EMAIL or not SMTP_APP_PASSWORD:
-        logger.warning(
-            "SMTP credentials not fully configured (SMTP_EMAIL or SMTP_APP_PASSWORD missing). Email to %s skipped.",
-            to_email,
+    """
+    Synchronous email dispatch using Resend HTTP API.
+    Sends via HTTPS POST to Resend endpoints (no SMTP connection).
+    """
+    api_key = RESEND_API_KEY or resend.api_key
+    if not api_key:
+        logger.error(
+            "Resend email delivery aborted for %s: RESEND_API_KEY is not configured.",
+            mask_email(to_email),
         )
         return False
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = f"ZeroTrace <{SMTP_EMAIL}>"
-    msg["To"] = to_email
-    if reply_to:
-        msg["Reply-To"] = reply_to
+    resend.api_key = api_key
+    sender = EMAIL_FROM or "onboarding@resend.dev"
 
-    # Attach plain text fallback first, then HTML
-    part_text = MIMEText(text_content, "plain", "utf-8")
-    part_html = MIMEText(html_content, "html", "utf-8")
-    msg.attach(part_text)
-    msg.attach(part_html)
+    params: resend.Emails.SendParams = {
+        "from": sender,
+        "to": [to_email],
+        "subject": subject,
+        "html": html_content,
+        "text": text_content,
+    }
+    if reply_to:
+        params["reply_to"] = reply_to
 
     try:
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
-            server.ehlo()
-            server.starttls()
-            server.ehlo()
-            server.login(SMTP_EMAIL, SMTP_APP_PASSWORD)
-            server.sendmail(SMTP_EMAIL, [to_email], msg.as_string())
-        logger.info("Email successfully sent to %s with subject '%s'", to_email, subject)
+        response = resend.Emails.send(params)
+        email_id = getattr(response, "id", None) or (response.get("id") if isinstance(response, dict) else None)
+        logger.info(
+            "Email successfully dispatched via Resend to %s (id: %s, subject: '%s')",
+            mask_email(to_email),
+            email_id,
+            subject,
+        )
         return True
-    except smtplib.SMTPAuthenticationError:
-        logger.error("SMTP Authentication Error while attempting to send email to %s.", to_email)
-        return False
-    except smtplib.SMTPException as exc:
-        logger.error("SMTP Error sending email to %s: %s", to_email, type(exc).__name__)
+    except resend.exceptions.ResendError as exc:
+        logger.error(
+            "Resend API error sending email to %s: %s (type: %s)",
+            mask_email(to_email),
+            getattr(exc, "message", str(exc)),
+            type(exc).__name__,
+        )
         return False
     except Exception as exc:
-        logger.error("Unexpected error sending email to %s: %s", to_email, type(exc).__name__)
+        logger.error(
+            "Unexpected error sending email via Resend to %s: %s",
+            mask_email(to_email),
+            type(exc).__name__,
+        )
         return False
 
 
@@ -85,7 +102,7 @@ async def send_email(
 ) -> bool:
     """Asynchronously send an email without blocking the FastAPI event loop."""
     return await asyncio.to_thread(
-        _send_smtp_sync,
+        _send_resend_sync,
         to_email=to_email,
         subject=subject,
         html_content=html_content,
@@ -102,10 +119,7 @@ async def send_contact_team_notification(
     timestamp: Optional[str] = None,
 ) -> bool:
     """Send contact submission notification to the ZeroTrace team with Reply-To set to the visitor."""
-    target_email = CONTACT_RECEIVER_EMAIL or SMTP_EMAIL
-    if not target_email:
-        logger.warning("No receiver email configured for contact submission.")
-        return False
+    target_email = CONTACT_RECEIVER_EMAIL or "team@zerotrace.ai"
 
     ts = timestamp or datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     mail_subject = f"[ZeroTrace Contact] {subject}"
@@ -279,7 +293,10 @@ async def send_otp_verification_email(
     email: str,
     otp_code: str,
 ) -> bool:
-    """Send branded 6-digit OTP verification email to the user."""
+    """
+    Send branded 6-digit OTP verification email to the user via Resend HTTP API.
+    Zero external images, fully accessible, high-contrast monospace code block.
+    """
     mail_subject = "Your ZeroTrace verification code"
 
     text_content = f"""ZeroTrace — Verify Your Email

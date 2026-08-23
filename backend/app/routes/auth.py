@@ -3,7 +3,7 @@
 import logging
 import time
 from datetime import datetime, timezone
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Request, status
 
 from app.config import (
     OTP_EXPIRE_MINUTES,
@@ -17,6 +17,7 @@ from app.services.security import (
     check_rate_limit,
     generate_otp,
     hash_otp,
+    mask_email,
     normalize_email,
     verify_otp_hash,
 )
@@ -30,7 +31,6 @@ router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 async def request_otp(
     payload: OTPRequest,
     request: Request,
-    background_tasks: BackgroundTasks,
 ):
     """
     Request a 6-digit verification code:
@@ -38,7 +38,8 @@ async def request_otp(
     2. Invalidate older OTPs for this email.
     3. Generate cryptographically secure 6-digit OTP & HMAC-SHA256 hash.
     4. Persist hashed OTP record immediately.
-    5. Dispatch email delivery non-blockingly via background task.
+    5. Deliver OTP email via Resend HTTP API.
+    6. Return success ONLY if Resend accepts the email; rollback on failure.
     """
     client_ip = request.client.host if request.client else "unknown"
     norm_email = normalize_email(payload.email)
@@ -83,8 +84,16 @@ async def request_otp(
     }
     await otps_collection.insert_one(doc)
 
-    # Non-blocking async background email delivery
-    background_tasks.add_task(send_otp_verification_email, norm_email, otp_code)
+    # Await email delivery via Resend HTTP API
+    email_sent = await send_otp_verification_email(norm_email, otp_code)
+    if not email_sent:
+        # Roll back stored OTP so no orphaned un-sent code remains
+        await otps_collection.delete_many({"email": norm_email})
+        logger.error("OTP email delivery failed for %s", mask_email(norm_email))
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Failed to send verification email. Please try again later.",
+        )
 
     return {
         "success": True,

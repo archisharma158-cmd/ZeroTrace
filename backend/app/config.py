@@ -29,12 +29,12 @@ FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173").strip().r
 # Security
 SECRET_KEY: str = os.getenv("SECRET_KEY", "zerotrace-secret-key-for-hmac-otp-2026")
 
-# Email / SMTP
-SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
-SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
-SMTP_EMAIL: str = os.getenv("SMTP_EMAIL", "")
-SMTP_APP_PASSWORD: str = os.getenv("SMTP_APP_PASSWORD", "")
-CONTACT_RECEIVER_EMAIL: str = os.getenv("CONTACT_RECEIVER_EMAIL", "") or SMTP_EMAIL
+# Email Delivery — Resend HTTP API
+# Note: In test mode, onboarding@resend.dev sends to your registered Resend account email.
+# For production sending to arbitrary recipients, verify a custom domain in Resend.
+RESEND_API_KEY: str = os.getenv("RESEND_API_KEY", "").strip()
+EMAIL_FROM: str = os.getenv("EMAIL_FROM", "onboarding@resend.dev").strip()
+CONTACT_RECEIVER_EMAIL: str = os.getenv("CONTACT_RECEIVER_EMAIL", "").strip()
 
 # OTP Settings
 OTP_EXPIRE_MINUTES: int = int(os.getenv("OTP_EXPIRE_MINUTES", "5"))

@@ -22,7 +22,9 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Safely prewarm metadata in background without blocking startup."""
+    """Safely prewarm metadata in background and log startup diagnostics."""
+    logger.info(f"CORS allowed origins: {allowed_origins}")
+    logger.info(f"CORS allowed origin regex: {ALLOWED_ORIGIN_REGEX}")
     # Spawn background prewarm tasks
     asyncio.create_task(prewarm_gemini_models())
     asyncio.create_task(prewarm_mistral_models())
@@ -37,16 +39,30 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────────────
-_allowed_origins = [
+_default_origins = [
     "http://localhost:5173",
+    "http://127.0.0.1:5173",
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://zero-trace-nine.vercel.app",
 ]
-if FRONTEND_URL and FRONTEND_URL not in _allowed_origins:
-    _allowed_origins.append(FRONTEND_URL)
+
+# Parse FRONTEND_URL (handles comma-separated list or single URL, strips trailing slashes)
+_env_origins = [
+    origin.strip().rstrip("/")
+    for origin in FRONTEND_URL.split(",")
+    if origin.strip()
+] if FRONTEND_URL else []
+
+allowed_origins = list(dict.fromkeys(_default_origins + _env_origins))
+
+# Allow all Vercel preview/production deployments
+ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_allowed_origins,
+    allow_origins=allowed_origins,
+    allow_origin_regex=ALLOWED_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

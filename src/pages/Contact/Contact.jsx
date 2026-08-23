@@ -23,7 +23,7 @@ const faqs = [
   ["Where is the team based academically?", "Quantum University, Roorkee."]
 ];
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 function Contact() {
   const [formData, setFormData] = useState({

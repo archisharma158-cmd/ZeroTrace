@@ -24,7 +24,7 @@ MISTRAL_API_KEY: str = os.getenv("MISTRAL_API_KEY", "")
 MISTRAL_MODEL: str = os.getenv("MISTRAL_MODEL", "")
 
 # Frontend
-FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:5173").strip().rstrip("/")
 
 # Security
 SECRET_KEY: str = os.getenv("SECRET_KEY", "zerotrace-secret-key-for-hmac-otp-2026")

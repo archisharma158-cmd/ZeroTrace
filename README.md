@@ -7,6 +7,10 @@
 </p>
 
 <p align="center">
+  <img src="src/assets/branding/zerotrace-main-logo.png" alt="ZeroTrace Logo" width="220" />
+</p>
+
+<p align="center">
   <a href="<LIVE_DEMO_URL>">
     <img src="https://img.shields.io/badge/BREAK_MY_AI-EC2B9A?style=for-the-badge&logo=lightning&logoColor=white" alt="Live Demo" />
   </a>
@@ -113,6 +117,10 @@ RELIABILITY INTELLIGENCE
 
 ## 02 / Introducing ZeroTrace
 
+<p align="center">
+  <img src="src/assets/branding/zerotrace%20logo.jpeg" alt="ZeroTrace Branding" width="500" />
+</p>
+
 **ZeroTrace** is an AI-powered evaluation and reliability platform for autonomous AI agents.
 
 It generates realistic and adversarial scenarios, runs agents inside a controlled evaluation flow, observes their actions and tool interactions, detects failure modes, identifies root causes, calculates reliability signals, and generates developer-focused recommendations.
@@ -141,7 +149,7 @@ ZeroTrace asks more useful questions than “Was the final answer correct?”
 ## 03 / Meet Trasey
 
 <p align="center">
-  <img src="./assets/trasey.png" width="170" alt="Trasey AI Evaluator" />
+  <img src="src/assets/branding/trasy-logo.jpeg" alt="TRASY AI Agent" width="220" />
 </p>
 
 <h3 align="center">TRASEY — Autonomous AI Reliability Engine</h3>

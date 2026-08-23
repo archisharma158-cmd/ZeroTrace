@@ -1,13 +1,19 @@
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&amp;height=230&amp;color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&amp;text=ZeroTrace&amp;fontColor=FFFFFF&amp;fontSize=66&amp;fontAlignY=38&amp;desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&amp;descAlignY=59&amp;descSize=17&amp;animation=fadeIn"
+    src="https://capsule-render.vercel.app/api?type=waving&amp;height=260&amp;color=0:070B1F,35:15102F,70:7C3AED,100:EC2B9A&amp;text=ZeroTrace&amp;fontColor=FFFFFF&amp;fontSize=72&amp;fontAlignY=38&amp;desc=Making%20Autonomous%20AI%20Agents%20Reliable%2C%20Explainable%20%26%20Predictable&amp;descAlignY=58&amp;descSize=18&amp;animation=fadeIn"
     width="100%"
     alt="ZeroTrace"
   />
 </p>
 
 <p align="center">
-  <img src="src/assets/branding/zerotrace-main-logo.png" alt="ZeroTrace Logo" width="220" />
+  <img src="src/assets/branding/zerotrace-main-logo.png" alt="ZeroTrace Logo" width="280" />
+</p>
+
+<h1 align="center">ZeroTrace</h1>
+
+<p align="center">
+  <strong>AI Agent Evaluation &amp; Reliability Engine</strong>
 </p>
 
 <p align="center">

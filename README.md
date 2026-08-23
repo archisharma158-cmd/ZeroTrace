@@ -6,7 +6,15 @@
   />
 </p>
 
-<h1 align="center">ZeroTrace</h1>
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=45&duration=2500&pause=800&color=A855F7&center=true&vCenter=true&width=600&lines=ZeroTrace" alt="ZeroTrace" />
+</p>
+
+
+<p align="center">
+  <code>AI Agent Reliability • Evaluation • Failure Prediction</code>
+</p>
+
 
 <h3 align="center">
   Break your AI before it breaks.
@@ -54,8 +62,37 @@
 </p>
 
 ---
+<h2 align="left">🚀 Live Deployment</h2>
 
-## 🌐 Live Deployment
+<p align="left">
+  <strong>ZeroTrace is live and ready to explore.</strong>
+</p>
+
+<p align="left">
+  Run evaluations, analyze agent reliability, detect failure patterns, and experience the complete workflow directly from the deployed application.
+</p>
+
+<p align="left">
+  <a href="YOUR_LIVE_DEPLOYMENT_LINK">
+    <img src="https://img.shields.io/badge/EXPLORE%20ZEROTRACE-LAUNCH%20LIVE%20APP-A855F7?style=for-the-badge&logo=rocket&logoColor=white" alt="Launch ZeroTrace" />
+  </a>
+</p>
+
+<p align="left">
+  🟢 <strong>Deployment Status:</strong> Online
+  <br>
+  ⚡ <strong>Environment:</strong> Production
+  <br>
+  🧠 <strong>Platform:</strong> AI Agent Evaluation & Reliability Engine
+</p>
+
+<p align="left">
+  <sub>
+    Built to test autonomous agents before real-world failures happen.
+  </sub>
+</p>
+
+
 
 <strong>
   Experience ZeroTrace directly in your browser — no local setup required.
@@ -74,7 +111,6 @@ Test the ZeroTrace interface, explore the reliability dashboard, run agent evalu
 </a>
 
 ---
-
 
 ## 🧭 Navigate ZeroTrace
 
@@ -124,7 +160,6 @@ Test the ZeroTrace interface, explore the reliability dashboard, run agent evalu
     alt="ZeroTrace Live Demo"
   />
 </a>
-
 
 
 ---
